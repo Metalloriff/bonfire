@@ -87,8 +87,8 @@ func _on_host_button_pressed() -> void:
 	var err = peer.create_server(SERVER_PORT)
 	print("Created server ", ("Error %d" % err if err else ""))
 	%StatusText.text = "Listening on %s:%d" % [SERVER_URL, SERVER_PORT]
-	set_process(false)
-	AudioServer.set_bus_effect_enabled(mic_bus, 0, false)
+	# set_process(false)
+	# AudioServer.set_bus_effect_enabled(mic_bus, 0, false)
 	multiplayer.multiplayer_peer = peer
 
 func _on_connect_button_pressed() -> void:
