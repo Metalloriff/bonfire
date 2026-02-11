@@ -13,12 +13,17 @@ config_version=5
 config/name="Bonfire"
 run/main_scene="uid://qc22s0a0x25e"
 config/features=PackedStringArray("4.6", "Mobile")
+boot_splash/bg_color=Color(0.03529412, 0.03529412, 0.050980393, 1)
 config/icon="res://icon.svg"
 
 [audio]
 
 buses/default_bus_layout="uid://c7ef1of2fv173"
 driver/enable_input=true
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/StyleboxFancy/plugin.cfg")
 
 [physics]
 
@@ -28,3 +33,4 @@ driver/enable_input=true
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+environment/defaults/default_clear_color=Color(0.0488, 0.0488, 0.08, 1)

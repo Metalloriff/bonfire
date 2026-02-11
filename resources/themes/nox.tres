@@ -1,0 +1,37 @@
+[gd_resource type="Theme" format=3 uid="uid://3q7s11gs73j1"]
+
+[ext_resource type="Script" uid="uid://cjmmhbp1b5312" path="res://addons/StyleboxFancy/StyleBorder.gd" id="1_qlc1u"]
+[ext_resource type="FontFile" uid="uid://c8uh6gy0p20w3" path="res://resources/fonts/lexend/Lexend-Medium.ttf" id="1_ug2aw"]
+[ext_resource type="Script" uid="uid://bkl6g25jwb47h" path="res://addons/StyleboxFancy/StyleBoxFancy.gd" id="2_5gc66"]
+
+[sub_resource type="StyleBox" id="StyleBox_710he"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+script = ExtResource("2_5gc66")
+color = Color(0.0876, 0.0876, 0.12, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_curvature_top_left = 2.25
+corner_curvature_top_right = 2.25
+corner_curvature_bottom_right = 2.25
+corner_curvature_bottom_left = 2.25
+shadow_blur = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qlc1u"]
+bg_color = Color(0.047058824, 0.047058824, 0.078431375, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5gc66"]
+bg_color = Color(0.033499997, 0.035975005, 0.05, 1)
+
+[resource]
+default_font = ExtResource("1_ug2aw")
+Button/styles/normal = SubResource("StyleBox_710he")
+Panel/styles/panel = SubResource("StyleBoxFlat_qlc1u")
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_5gc66")
+VBoxContainer/constants/separation = 8

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://qc22s0a0x25e"]
 
 [ext_resource type="Script" uid="uid://dak56vrd1ox5o" path="res://interface/screens/main.gd" id="1_d1nne"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_tp7gj"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_d1nne"]
 
@@ -11,6 +12,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_tp7gj")
 script = ExtResource("1_d1nne")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1585560258]
@@ -62,6 +64,14 @@ size_flags_horizontal = 3
 max_value = 5.0
 step = 0.01
 value = 1.0
+
+[node name="UserList" type="VBoxContainer" parent="." unique_id=1188286998]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/ConnectButton" to="." method="_on_connect_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
