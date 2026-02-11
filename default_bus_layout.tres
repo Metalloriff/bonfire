@@ -2,7 +2,6 @@
 
 [sub_resource type="AudioEffectOpusChunked" id="AudioEffectOpusChunked_j3pel"]
 opusbitrate = 32000
-audiosamplerate = 48000
 resource_name = "OpusChunked"
 
 [resource]

@@ -104,7 +104,3 @@ func _on_connect_button_pressed() -> void:
 		%StatusText.text = "Failed to connect to %s:%d, reason: %s" % [%AddressField.text, SERVER_PORT, err]
 	%StatusText.text = "Connected to %s:%d" % [%AddressField.text, SERVER_PORT]
 	multiplayer.multiplayer_peer = peer
-
-func _on_sample_rate_box_value_changed(value: float) -> void:
-	var opus_chunked: AudioEffectOpusChunked = AudioServer.get_bus_effect(1, 0)
-	opus_chunked.audiosamplerate = int(value)

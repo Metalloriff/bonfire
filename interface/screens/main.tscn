@@ -48,14 +48,6 @@ unique_name_in_owner = true
 layout_mode = 2
 text = "Status: disconnected"
 
-[node name="SampleRateBox" type="SpinBox" parent="VBoxContainer" unique_id=1213163315]
-layout_mode = 2
-max_value = 9999999999.0
-value = 48000.0
-allow_greater = true
-update_on_text_changed = true
-prefix = "samplerate"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=533869401]
 layout_mode = 2
 
@@ -73,4 +65,3 @@ value = 1.0
 
 [connection signal="pressed" from="VBoxContainer/ConnectButton" to="." method="_on_connect_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
-[connection signal="value_changed" from="VBoxContainer/SampleRateBox" to="." method="_on_sample_rate_box_value_changed"]
