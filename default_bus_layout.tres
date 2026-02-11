@@ -1,6 +1,7 @@
 [gd_resource type="AudioBusLayout" format=3 uid="uid://c7ef1of2fv173"]
 
 [sub_resource type="AudioEffectOpusChunked" id="AudioEffectOpusChunked_j3pel"]
+opussamplerate = 44100
 resource_name = "OpusChunked"
 
 [resource]

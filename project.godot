@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [audio]
 
+buses/default_bus_layout="uid://c7ef1of2fv173"
 driver/enable_input=true
 
 [physics]
