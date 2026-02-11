@@ -56,6 +56,21 @@ allow_greater = true
 update_on_text_changed = true
 prefix = "samplerate"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=533869401]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=919730331]
+layout_mode = 2
+text = "Pitch "
+
+[node name="PitchSlider" type="HSlider" parent="VBoxContainer/HBoxContainer" unique_id=322649280]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 5.0
+step = 0.01
+value = 1.0
+
 [connection signal="pressed" from="VBoxContainer/ConnectButton" to="." method="_on_connect_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="value_changed" from="VBoxContainer/SampleRateBox" to="." method="_on_sample_rate_box_value_changed"]

@@ -10,6 +10,8 @@ var users: Dictionary = {}
 var packets_sent: int = 0
 var packets_received: int = 0
 
+@onready var mic_mix_rate: int = AudioServer.get_input_mix_rate()
+
 func _ready():
 	multiplayer.peer_connected.connect(_peer_connected)
 	multiplayer.peer_disconnected.connect(_peer_disconnected)
@@ -64,11 +66,12 @@ func _server_disconnected():
 	print("Server disconnected.")
 	
 @rpc("any_peer", "unreliable")
-func _voice_packet_received(packet):
+func _voice_packet_received(packet, pitch: float) -> void:
 	packets_received += 1
 	if (packets_received % 100) == 0:
 		print("Packets received: ", packets_received, " from id ", multiplayer.get_unique_id())
 	var sender_id = multiplayer.get_remote_sender_id()
+	users[sender_id].pitch_scale = pitch
 	users[sender_id].stream.push_opus_packet(packet, 0, 0)
 
 func _process(_delta):
@@ -76,7 +79,7 @@ func _process(_delta):
 		var packet = mic_capture.read_opus_packet(PackedByteArray())
 		mic_capture.drop_chunk()
 		if multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
-			_voice_packet_received.rpc(packet)
+			_voice_packet_received.rpc(packet, (mic_mix_rate / 44100.0) * %PitchSlider.value)
 			packets_sent += 1
 			if (packets_sent % 100) == 0:
 				print("Packets sent: ", packets_sent, " from id ", multiplayer.get_unique_id())
