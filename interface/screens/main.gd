@@ -16,6 +16,8 @@ func _ready():
 	multiplayer.connected_to_server.connect(_connected_to_server)
 	multiplayer.connection_failed.connect(_connection_failed)
 	multiplayer.server_disconnected.connect(_server_disconnected)
+
+	prints(AudioServer.get_mix_rate(), AudioServer.get_input_mix_rate())
 	
 	assert($AudioStreamPlayer.bus == "Microphone")
 	var mic_bus = AudioServer.get_bus_index("Microphone")
