@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://cf0bj5upnbrvh"]
+
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_ilkrf"]
+[ext_resource type="Script" uid="uid://cmp1brggjoun1" path="res://interface/screens/auth_portal.gd" id="2_11yo7"]
+
+[node name="AuthPortal" type="Control" unique_id=2098146816]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ilkrf")
+script = ExtResource("2_11yo7")
+
+[node name="Contents" type="VBoxContainer" parent="." unique_id=1193535830]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="Username" type="VBoxContainer" parent="Contents" unique_id=1191441619]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Contents/Username" unique_id=1667510782]
+layout_mode = 2
+text = "Username"
+
+[node name="LineEdit" type="LineEdit" parent="Contents/Username" unique_id=1488185156]
+layout_mode = 2
+placeholder_text = "Username"
+max_length = 32
+
+[node name="Error" type="Label" parent="Contents/Username" unique_id=592435309]
+visible = false
+modulate = Color(0.88, 0.21472001, 0.1672, 1)
+layout_mode = 2
+text = "Invalid username!"
+horizontal_alignment = 1
+
+[node name="Password" type="VBoxContainer" parent="Contents" unique_id=899069329]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Contents/Password" unique_id=1119565572]
+layout_mode = 2
+text = "Password"
+
+[node name="LineEdit" type="LineEdit" parent="Contents/Password" unique_id=1868956123]
+layout_mode = 2
+placeholder_text = "Password"
+max_length = 32
+secret = true
+
+[node name="Error" type="Label" parent="Contents/Password" unique_id=1787229792]
+visible = false
+modulate = Color(0.88, 0.21472001, 0.1672, 1)
+layout_mode = 2
+text = "Invalid password!"
+horizontal_alignment = 1
+
+[node name="PasswordConfirm" type="VBoxContainer" parent="Contents" unique_id=1283286526]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Contents/PasswordConfirm" unique_id=1436596201]
+layout_mode = 2
+text = "Confirm Password"
+
+[node name="LineEdit" type="LineEdit" parent="Contents/PasswordConfirm" unique_id=1899179132]
+layout_mode = 2
+placeholder_text = "Password"
+max_length = 32
+secret = true
+
+[node name="Error" type="Label" parent="Contents/PasswordConfirm" unique_id=1955694162]
+visible = false
+modulate = Color(0.88, 0.21472001, 0.1672, 1)
+layout_mode = 2
+text = "Passwords do not match!"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Contents" unique_id=1013330498]
+layout_mode = 2
+alignment = 1
+
+[node name="SubmitButton" type="Button" parent="Contents/HBoxContainer" unique_id=70700275]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Button_Important"
+text = "Create Local Account"
+
+[node name="HelpButton" type="Button" parent="Contents/HBoxContainer" unique_id=571571120]
+layout_mode = 2
+tooltip_text = "Bonfire does not rely on external servers for authentication.
+All of your data is stored locally, and as such, you are responsible for remembering login details."
+text = "?"
+
+[node name="Label" type="Label" parent="." unique_id=1650606551]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -61.0
+offset_top = 100.0
+offset_right = 61.0
+offset_bottom = 20.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 27
+text = "Create Account"
+
+[connection signal="pressed" from="Contents/HBoxContainer/SubmitButton" to="." method="_on_submit_button_pressed"]

@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://drp27xty170ji"]
+
+[ext_resource type="Script" uid="uid://ckfaqq7okjgpo" path="res://interface/headless_server.gd" id="1_qbopj"]
+
+[node name="HeadlessServer" type="Node" unique_id=2073220285]
+script = ExtResource("1_qbopj")

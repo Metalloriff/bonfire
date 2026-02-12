@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://tey3ufsxh7tx"]
+
+[ext_resource type="Texture2D" uid="uid://bvmdg22gaa36n" path="res://icon.svg" id="1_rnqc2"]
+
+[node name="ServerItem" type="Button" unique_id=1431780799]
+custom_minimum_size = Vector2(50, 50)
+
+[node name="Icon" type="TextureRect" parent="." unique_id=24456343]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_rnqc2")
+expand_mode = 5
+stretch_mode = 5

@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://cpfmxoix72vto"]
+
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_uhtjb"]
+[ext_resource type="Script" uid="uid://c564nkx6br8pl" path="res://interface/modals/join_server_modal.gd" id="2_qpq2g"]
+
+[node name="JoinServerModal" type="Control" unique_id=649999717]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_uhtjb")
+script = ExtResource("2_qpq2g")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1888075823]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.6392157)
+
+[node name="Modal" type="PanelContainer" parent="." unique_id=18995346]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_type_variation = &"PanelSolid"
+
+[node name="MarginContainer" type="MarginContainer" parent="Modal" unique_id=1793144273]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" unique_id=1119404681]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer" unique_id=539552084]
+layout_mode = 2
+text = "Join Server"
+horizontal_alignment = 1
+
+[node name="Address" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer" unique_id=766959584]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/Address" unique_id=1380149560]
+layout_mode = 2
+text = "Server Address"
+
+[node name="LineEdit" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/Address" unique_id=911344193]
+layout_mode = 2
+placeholder_text = "IP Address or Domain"
+max_length = 32
+
+[node name="Note" type="Label" parent="Modal/MarginContainer/VBoxContainer/Address" unique_id=850965506]
+modulate = Color(1, 1, 1, 0.60784316)
+layout_mode = 2
+text = "Note: If the server uses a different port,
+define it with ADDRESS:PORT."
+
+[node name="Error" type="Label" parent="Modal/MarginContainer/VBoxContainer/Address" unique_id=988105859]
+visible = false
+modulate = Color(0.88, 0.21472001, 0.1672, 1)
+layout_mode = 2
+text = "Can't connect!"
+horizontal_alignment = 1
+
+[node name="Success" type="Label" parent="Modal/MarginContainer/VBoxContainer/Address" unique_id=1061225184]
+visible = false
+modulate = Color(0.1672, 0.88, 0.4048001, 1)
+layout_mode = 2
+text = "Server found! Downloading initial data..."
+horizontal_alignment = 1
+
+[node name="PrivateProfileToggle" type="CheckButton" parent="Modal/MarginContainer/VBoxContainer" unique_id=1148467195]
+layout_mode = 2
+text = "Use private profile for this server"
+
+[node name="UniqueProfileSettings" type="Label" parent="Modal/MarginContainer/VBoxContainer" unique_id=1371827996]
+visible = false
+layout_mode = 2
+text = "Feature not yet implemented!"
+
+[node name="JoinButton" type="Button" parent="Modal/MarginContainer/VBoxContainer" unique_id=805936941]
+layout_mode = 2
+theme_type_variation = &"Button_Important"
+text = "Join Server"
+
+[connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/PrivateProfileToggle" to="." method="_on_private_profile_toggle_toggled"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
