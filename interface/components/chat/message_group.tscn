@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://co7krkjmk70k1"]
+
+[ext_resource type="Texture2D" uid="uid://bvmdg22gaa36n" path="res://icon.svg" id="1_7moij"]
+[ext_resource type="Script" uid="uid://dacvy1yl143aq" path="res://interface/components/chat/message_group.gd" id="1_ofoua"]
+[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="2_ofoua"]
+
+[node name="MessageGroup" type="HBoxContainer" unique_id=1012151890]
+offset_right = 1152.0
+offset_bottom = 206.0
+script = ExtResource("1_ofoua")
+
+[node name="Avatar" type="TextureRect" parent="." unique_id=1944460117]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("1_7moij")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Contents" type="VBoxContainer" parent="." unique_id=1087044631]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Username" type="Label" parent="Contents" unique_id=1863342250]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_ofoua")
+text = "Some Username"
+
+[node name="Messages" type="VBoxContainer" parent="Contents" unique_id=425668824]
+unique_name_in_owner = true
+layout_mode = 2

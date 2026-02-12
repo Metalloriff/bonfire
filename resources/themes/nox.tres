@@ -4,6 +4,29 @@
 [ext_resource type="FontFile" uid="uid://c8uh6gy0p20w3" path="res://resources/fonts/lexend/Lexend-Medium.ttf" id="1_ug2aw"]
 [ext_resource type="Script" uid="uid://bkl6g25jwb47h" path="res://addons/StyleboxFancy/StyleBoxFancy.gd" id="2_5gc66"]
 
+[sub_resource type="StyleBox" id="StyleBox_qlc1u"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+script = ExtResource("2_5gc66")
+color = Color(0.142, 0.142, 0.2, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_curvature_top_left = 2.25
+corner_curvature_top_right = 2.25
+corner_curvature_bottom_right = 2.25
+corner_curvature_bottom_left = 2.25
+expand_margin_left = 2.0
+expand_margin_top = 2.0
+expand_margin_right = 2.0
+expand_margin_bottom = 2.0
+shadow_blur = 0
+
 [sub_resource type="StyleBox" id="StyleBox_710he"]
 resource_local_to_scene = false
 resource_name = ""
@@ -23,6 +46,58 @@ corner_curvature_bottom_right = 2.25
 corner_curvature_bottom_left = 2.25
 shadow_blur = 0
 
+[sub_resource type="StyleBox" id="StyleBox_5gc66"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+script = ExtResource("2_5gc66")
+color = Color(0.022, 0.022, 0.04, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_curvature_top_left = 2.25
+corner_curvature_top_right = 2.25
+corner_curvature_bottom_right = 2.25
+corner_curvature_bottom_left = 2.25
+expand_margin_left = 1.0
+expand_margin_top = 1.0
+expand_margin_right = 1.0
+expand_margin_bottom = 1.0
+shadow_blur = 0
+
+[sub_resource type="Resource" id="Resource_qlc1u"]
+script = ExtResource("1_qlc1u")
+color = Color(0.88, 0.1672, 0.33351985, 1)
+width_left = 4
+width_top = 4
+width_right = 4
+width_bottom = 4
+metadata/_custom_type_script = "uid://cjmmhbp1b5312"
+
+[sub_resource type="StyleBox" id="StyleBox_eppvg"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+script = ExtResource("2_5gc66")
+color = Color(0.0876, 0.0876, 0.12, 1)
+borders = Array[ExtResource("1_qlc1u")]([SubResource("Resource_qlc1u")])
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_curvature_top_left = 2.25
+corner_curvature_top_right = 2.25
+corner_curvature_bottom_right = 2.25
+corner_curvature_bottom_left = 2.25
+shadow_blur = 0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qlc1u"]
 bg_color = Color(0.047058824, 0.047058824, 0.078431375, 1)
 
@@ -31,7 +106,11 @@ bg_color = Color(0.033499997, 0.035975005, 0.05, 1)
 
 [resource]
 default_font = ExtResource("1_ug2aw")
+Button/styles/focus = SubResource("StyleBox_qlc1u")
+Button/styles/hover = SubResource("StyleBox_qlc1u")
 Button/styles/normal = SubResource("StyleBox_710he")
+Button/styles/pressed = SubResource("StyleBox_5gc66")
+LineEdit/styles/normal = SubResource("StyleBox_eppvg")
 Panel/styles/panel = SubResource("StyleBoxFlat_qlc1u")
 PanelContainer/styles/panel = SubResource("StyleBoxFlat_5gc66")
 VBoxContainer/constants/separation = 8

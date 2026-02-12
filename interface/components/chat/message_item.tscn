@@ -1,42 +1,21 @@
-[gd_scene format=3 uid="uid://co7krkjmk70k1"]
+[gd_scene format=3 uid="uid://dctw7mxmv6jpa"]
 
 [ext_resource type="Texture2D" uid="uid://bvmdg22gaa36n" path="res://icon.svg" id="1_i3w1o"]
-[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="2_x5vcu"]
 
-[node name="MessageItem" type="HBoxContainer" unique_id=1012151890]
-offset_right = 1152.0
-offset_bottom = 206.0
+[node name="MessageItem" type="VBoxContainer" unique_id=73608036]
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1944460117]
-custom_minimum_size = Vector2(48, 48)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-texture = ExtResource("1_i3w1o")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1087044631]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Label" type="Label" parent="VBoxContainer" unique_id=1863342250]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("2_x5vcu")
-text = "Some Username"
-
-[node name="TextContents" type="VBoxContainer" parent="VBoxContainer" unique_id=271423683]
+[node name="TextContents" type="VBoxContainer" parent="." unique_id=426821435]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/TextContents" unique_id=2084513569]
+[node name="Label" type="Label" parent="TextContents" unique_id=1042899086]
 layout_mode = 2
 text = "This is some text and shit. Fuck you."
 
-[node name="MediaContents" type="GridContainer" parent="VBoxContainer" unique_id=396231766]
+[node name="MediaContents" type="GridContainer" parent="." unique_id=165452107]
 layout_mode = 2
 columns = 4
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/MediaContents" unique_id=2129893120]
+[node name="TextureRect" type="TextureRect" parent="MediaContents" unique_id=395695545]
 custom_minimum_size = Vector2(150, 150)
 layout_mode = 2
 texture = ExtResource("1_i3w1o")

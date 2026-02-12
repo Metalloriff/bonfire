@@ -1,4 +1,4 @@
-class_name MessageResource extends Resource
+class_name Message extends Resource
 
 @export var author_id: String
 @export var content: String
