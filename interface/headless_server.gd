@@ -80,6 +80,10 @@ func _ready() -> void:
 
 		server.com_node._receive_server_info.rpc_id(id, var_to_bytes_with_objects(server))
 		server.com_node._receive_voice_chat_participants.rpc_id(id, server.com_node.voice_chat_participants)
+
+		await Lib.seconds(5.0)
+		
+		send_api_message("test", {}, id)
 	)
 
 	peer.peer_disconnected.connect(func(id):
@@ -105,7 +109,7 @@ func _packet_received(peer_id: int, packet: PackedByteArray) -> void:
 	if not "endpoint" in message:
 		return
 
-	server.handle_api_message(message.endpoint, message, peer_id)
+	server._handle_api_message_server(message.endpoint, message, peer_id)
 
 func _process(_delta: float) -> void:
 	if not multiplayer.multiplayer_peer:
@@ -136,3 +140,13 @@ func get_config_entry(key: String) -> Variant:
 		default_object = default_object[part]
 	
 	return default_object if return_default else object
+
+static func send_api_message(endpoint: String, data: Dictionary, peer_id: int = 0) -> void:
+	if not is_instance_valid(instance):
+		return
+	if not is_headless_server:
+		return
+	
+	data.endpoint = endpoint
+
+	instance.multiplayer.send_bytes(var_to_bytes(data), peer_id)

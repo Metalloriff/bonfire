@@ -54,6 +54,19 @@ func _init(address: String, port: int, is_server: bool = false) -> void:
 	else:
 		local_multiplayer.multiplayer_peer = peer
 
+		local_multiplayer.peer_packet.connect(func(peer_id: int, packet: PackedByteArray) -> void:
+			var message: Dictionary = bytes_to_var(packet)
+
+			if peer_id != 1:
+				prints("api request send from non-authority peer", peer_id)
+				return
+
+			if not "endpoint" in message:
+				return
+			
+			server._handle_api_message_client(message.endpoint, message, peer_id)
+		)
+
 func _process(delta: float) -> void:
 	connected_time += delta
 
@@ -120,14 +133,14 @@ func _receive_voice_chat_participants(participants: Dictionary) -> void:
 			if not channel_id in participants or not peer_id in participants[channel_id]:
 				VoiceChat.user_left.emit(channel_id, peer_id)
 
-	voice_chat_participants = participants
+	voice_chat_participants.clear()
 	ChannelList.instance.queue_redraw()
 
 @rpc("authority", "call_remote")
 func _update_online_users(users: Dictionary) -> void:
 	while not is_instance_valid(server):
 		await Lib.seconds(0.1)
-		prints("server is null")
+	
 	prints("received new online users", users)
 	server.online_users.clear()
 

@@ -217,9 +217,9 @@ func _ready() -> void:
 		var output: Array
 		var exit_code: int = OS.execute("git", ["rev-parse", "--short", "HEAD"], output)
 		
-		if exit_code == 0:
-			var build_version: String = output[0].split("\n")[0]
+		# if exit_code == 0:
+		# 	var build_version: String = output[0].split("\n")[0]
 			
-			if ProjectSettings.get_setting("application/config/version") != build_version:
-				ProjectSettings.set_setting("application/config/version", build_version)
-				ProjectSettings.save()
+		# 	if ProjectSettings.get_setting("application/config/version") != build_version:
+		# 		ProjectSettings.set_setting("application/config/version", build_version)
+		# 		ProjectSettings.save()

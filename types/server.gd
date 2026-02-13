@@ -61,7 +61,7 @@ func send_api_message(endpoint: String, data: Dictionary) -> void:
 	data.endpoint = endpoint
 	com_node.local_multiplayer.send_bytes(var_to_bytes(data))
 
-func handle_api_message(endpoint: String, data: Dictionary, peer_id: int) -> void:
+func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int) -> void:
 	if not HeadlessServer.is_headless_server:
 		return
 	
@@ -95,4 +95,8 @@ func handle_api_message(endpoint: String, data: Dictionary, peer_id: int) -> voi
 				save_to_disk()
 
 			com_node._update_online_users.rpc(online_users)
+			HeadlessServer.send_api_message("update_online_users", online_users, peer_id)
 			prints("sending new online users", online_users)
+
+func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int) -> void:
+	prints("client request received", endpoint, data, id, name)

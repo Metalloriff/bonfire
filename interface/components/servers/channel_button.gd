@@ -12,7 +12,13 @@ func _draw() -> void:
 			var user_item: PackedScene = preload("res://interface/components/user/user_item.tscn")
 			_button.icon = preload("res://icons/call.png")
 
+			if not is_instance_valid(channel.server.com_node):
+				prints("server com node not valid")
+				return
+
 			$VoiceMembers.show()
+			prints("waht is happening", channel.server.com_node.voice_chat_participants)
+			prints(channel.server.name, VoiceChat.active_channel.server.name)
 			$VoiceMembers.title = "Participants (%d)" % (len(channel.server.com_node.voice_chat_participants[channel.id]) if channel.id in channel.server.com_node.voice_chat_participants else 0)
 			$VoiceMembers.folded = VoiceChat.active_channel != channel
 
@@ -21,6 +27,7 @@ func _draw() -> void:
 				child.free()
 				
 			if channel.id in channel.server.com_node.voice_chat_participants:
+				prints("channel", channel.id, channel.server.com_node.voice_chat_participants[channel.id])
 				for user_id in channel.server.com_node.voice_chat_participants[channel.id]:
 					var user: User = channel.server.get_user_by_peer_id(user_id)
 					if not is_instance_valid(user):

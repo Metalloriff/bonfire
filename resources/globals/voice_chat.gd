@@ -72,17 +72,17 @@ func _user_leave_request(channel_id: String) -> void:
 		return
 
 	var server: Server = HeadlessServer.instance.server
-	var user_connection_id: int = multiplayer.get_remote_sender_id()
+	var peer_id: int = multiplayer.get_remote_sender_id()
 	var channel: Channel = server.get_channel(channel_id)
 
 	if not is_instance_valid(channel):
-		push_error("User (%s) attempted to leave invalid channel with ID '%s'" % [user_connection_id, channel_id])
+		push_error("User (%s) attempted to leave invalid channel with ID '%s'" % [peer_id, channel_id])
 		return
 	
 	if not channel.id in server.com_node.voice_chat_participants:
 		server.com_node.voice_chat_participants[channel.id] = []
-	if user_connection_id in server.com_node.voice_chat_participants[channel.id]:
-		server.com_node.voice_chat_participants[channel.id].erase(user_connection_id)
+	if peer_id in server.com_node.voice_chat_participants[channel.id]:
+		server.com_node.voice_chat_participants[channel.id].erase(peer_id)
 	server.com_node._sync_voice_chat_participants()
 
 @rpc("any_peer")
@@ -93,19 +93,19 @@ func _user_join_request(channel_id: String) -> void:
 	prints("user is attempting to join channel", channel_id, multiplayer.get_remote_sender_id())
 
 	var server: Server = HeadlessServer.instance.server
-	var user_connection_id: int = multiplayer.get_remote_sender_id()
+	var peer_id: int = multiplayer.get_remote_sender_id()
 	var channel: Channel = server.get_channel(channel_id)
 
 	if not is_instance_valid(channel):
-		push_error("User (%s) attempted to join invalid channel with ID '%s'" % [user_connection_id, channel_id])
+		push_error("User (%s) attempted to join invalid channel with ID '%s'" % [peer_id, channel_id])
 		return
 	
 	if not channel.id in server.com_node.voice_chat_participants:
 		server.com_node.voice_chat_participants[channel.id] = []
-	if user_connection_id in server.com_node.voice_chat_participants[channel.id]:
+	if peer_id in server.com_node.voice_chat_participants[channel.id]:
 		return
 
-	server.com_node.voice_chat_participants[channel.id].append(user_connection_id)
+	server.com_node.voice_chat_participants[channel.id].append(peer_id)
 	server.com_node._sync_voice_chat_participants()
 
 func _create_user(id: int) -> Node:
