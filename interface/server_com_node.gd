@@ -67,10 +67,19 @@ func _process(delta: float) -> void:
 
 @rpc("authority", "call_remote")
 func _receive_server_info(server_info: PackedByteArray) -> void:
-	server = bytes_to_var_with_objects(server_info)
+	var new_server_data: Server = bytes_to_var_with_objects(server_info)
+
+	if not is_instance_valid(server):
+		server = new_server_data
+		Server.instances[server.id] = server
+	
 	server.address = _address
 	server.port = _port
-	Server.instances[server.id] = server
+
+	for property in new_server_data.get_property_list():
+		if property.name in server:
+			server.set(property.name, new_server_data.get(property.name))
+
 	server.cache()
 
 	for channel in server.channels:
