@@ -7,6 +7,11 @@ static var selected_server: Server:
 			selected_server = new
 			instance.server_selected.emit(selected_server)
 
+			ChannelList.instance.queue_redraw()
+			ChatFrame.instance.queue_redraw()
+
+			MemberList.instance.server = selected_server
+
 signal server_selected(server: Server)
 
 func _ready() -> void:

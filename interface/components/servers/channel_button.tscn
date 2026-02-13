@@ -24,5 +24,6 @@ title = "Participants (3)"
 [node name="List" type="VBoxContainer" parent="VoiceMembers" unique_id=1005580929]
 visible = false
 layout_mode = 2
+theme_override_constants/separation = 0
 
 [connection signal="pressed" from="Button" to="." method="_on_pressed"]

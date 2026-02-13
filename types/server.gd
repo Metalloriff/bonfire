@@ -37,7 +37,8 @@ func save_to_disk() -> void:
 	FS.mkdir(HeadlessServer.instance.server_data_path)
 	ResourceSaver.save(self , "%s/server.res" % HeadlessServer.instance.server_data_path)
 	
-	com_node._receive_server_info.rpc(var_to_bytes_with_objects(self ))
+	if is_instance_valid(com_node):
+		com_node._receive_server_info.rpc(var_to_bytes_with_objects(self ))
 
 func get_channel(id: String) -> Channel:
 	for channel in channels:
@@ -77,11 +78,21 @@ func handle_api_message(endpoint: String, data: Dictionary, peer_id: int) -> voi
 			online_users[peer_id] = user_id
 
 			# TODO check for changes before saving to disk
-			var user: User = User.new()
-			user.id = user_id
-			user.name = data.username
-			users.append(user)
-			save_to_disk()
+			var existing_user: User = get_user(user_id)
+			if is_instance_valid(existing_user):
+				var user_updated: bool
+				if existing_user.name != data.username:
+					existing_user.name = data.username
+					user_updated = true
+
+				if user_updated:
+					save_to_disk()
+			else:
+				var user: User = User.new()
+				user.id = user_id
+				user.name = data.username
+				users.append(user)
+				save_to_disk()
 
 			com_node._patch_online_users.rpc({
 				peer_id: user_id

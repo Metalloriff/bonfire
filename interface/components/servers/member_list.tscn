@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://bln4u7aj8h827"]
+
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_51rgp"]
+[ext_resource type="Script" uid="uid://ce042bivukrgs" path="res://interface/components/servers/member_list.gd" id="2_q5bel"]
+
+[node name="MemberList" type="VBoxContainer" unique_id=756092059]
+offset_right = 400.0
+offset_bottom = 800.0
+theme = ExtResource("1_51rgp")
+theme_override_constants/separation = 0
+script = ExtResource("2_q5bel")

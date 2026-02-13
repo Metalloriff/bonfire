@@ -9,10 +9,12 @@ func _draw() -> void:
 		Channel.Type.TEXT:
 			_button.icon = preload("res://icons/chat.png")
 		Channel.Type.VOICE:
+			var user_item: PackedScene = preload("res://interface/components/user/user_item.tscn")
 			_button.icon = preload("res://icons/call.png")
 
 			$VoiceMembers.show()
 			$VoiceMembers.title = "Participants (%d)" % (len(channel.server.com_node.voice_chat_participants[channel.id]) if channel.id in channel.server.com_node.voice_chat_participants else 0)
+			$VoiceMembers.folded = VoiceChat.active_channel != channel
 
 			var list: VBoxContainer = $VoiceMembers/List
 			for child in list.get_children():
@@ -25,9 +27,10 @@ func _draw() -> void:
 						print("user %s not found" % user_id)
 						continue
 					
-					var label: Label = Label.new()
-					label.text = user.name
-					list.add_child(label)
+					var control: Control = user_item.instantiate()
+					control.server = channel.server
+					control.user = user
+					list.add_child(control)
 		Channel.Type.MEDIA:
 			_button.icon = preload("res://icons/photoSizeSelectActual.png")
 	
