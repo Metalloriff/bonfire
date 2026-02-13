@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Bonfire"
-config/version="13b34b5"
+config/version="376b1f6"
 run/main_scene="uid://cf0bj5upnbrvh"
 config/features=PackedStringArray("4.6", "Mobile")
 boot_splash/bg_color=Color(0.03529412, 0.03529412, 0.050980393, 1)
@@ -28,6 +28,7 @@ FS="*uid://dmcymm7t3ixl"
 YAML="*uid://iygjiljy04uf"
 ServerCom="*uid://cd501xn21n02m"
 Lib="*uid://c5uufs22002k1"
+VoiceChat="*uid://ca462bqbnh1q0"
 
 [display]
 

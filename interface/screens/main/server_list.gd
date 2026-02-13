@@ -17,9 +17,10 @@ func _draw():
 		var control: Button = load("res://interface/components/servers/server_item.tscn").instantiate()
 
 		control.tooltip_text = server.name
+		control.server = Server.get_server(server.id)
 
 		control.pressed.connect(func() -> void:
-			prints("pressed", server.name, server.id)
+			App.selected_server = Server.get_server(server.id)
 		)
 
 		add_child(control)

@@ -1,0 +1,15 @@
+[gd_scene format=3 uid="uid://ca462bqbnh1q0"]
+
+[ext_resource type="Script" uid="uid://bfl1o0u57lb63" path="res://resources/globals/voice_chat.gd" id="1_xsmps"]
+
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_xsmps"]
+
+[node name="VoiceChat" type="Node" unique_id=24903059]
+script = ExtResource("1_xsmps")
+
+[node name="Input" type="AudioStreamPlayer" parent="." unique_id=745363137]
+stream = SubResource("AudioStreamMicrophone_xsmps")
+autoplay = true
+bus = &"Microphone"
+
+[node name="Outputs" type="Node" parent="." unique_id=1645769263]
