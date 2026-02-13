@@ -141,7 +141,7 @@ func _update_online_users(users: Dictionary) -> void:
 	while not is_instance_valid(server):
 		await Lib.seconds(0.1)
 	
-	prints("received new online users", users)
+	prints("received new online users", users, "for server", server.id, server.name)
 	server.online_users.clear()
 
 	for peer_id in users:

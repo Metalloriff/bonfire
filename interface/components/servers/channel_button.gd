@@ -18,7 +18,7 @@ func _draw() -> void:
 
 			$VoiceMembers.show()
 			prints("waht is happening", channel.server.com_node.voice_chat_participants)
-			prints(channel.server.name, VoiceChat.active_channel.server.name)
+			prints(channel.server.name, VoiceChat.active_channel.server.name if VoiceChat.active_channel else "null")
 			$VoiceMembers.title = "Participants (%d)" % (len(channel.server.com_node.voice_chat_participants[channel.id]) if channel.id in channel.server.com_node.voice_chat_participants else 0)
 			$VoiceMembers.folded = VoiceChat.active_channel != channel
 
