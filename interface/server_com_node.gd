@@ -125,6 +125,9 @@ func _receive_voice_chat_participants(participants: Dictionary) -> void:
 
 @rpc("authority", "call_remote")
 func _update_online_users(users: Dictionary) -> void:
+	while not is_instance_valid(server):
+		await Lib.seconds(0.1)
+		prints("server is null")
 	prints("received new online users", users)
 	server.online_users.clear()
 
