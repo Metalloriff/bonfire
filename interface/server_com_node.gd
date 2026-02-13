@@ -124,6 +124,9 @@ func _receive_voice_chat_participants(participants: Dictionary) -> void:
 	ChannelList.instance.queue_redraw()
 
 @rpc("authority", "call_remote")
-func _patch_online_users(users: Dictionary) -> void:
+func _update_online_users(users: Dictionary) -> void:
+	prints("received new online users", users)
+	server.online_users.clear()
+
 	for peer_id in users:
 		server.online_users[peer_id] = users[peer_id]

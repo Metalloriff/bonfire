@@ -94,7 +94,5 @@ func handle_api_message(endpoint: String, data: Dictionary, peer_id: int) -> voi
 				users.append(user)
 				save_to_disk()
 
-			com_node._patch_online_users.rpc({
-				peer_id: user_id
-			})
-			com_node._patch_online_users.rpc_id(peer_id, online_users)
+			com_node._update_online_users.rpc(online_users)
+			prints("sending new online users", online_users)
