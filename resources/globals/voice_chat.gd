@@ -177,5 +177,5 @@ func _process(_delta: float) -> void:
 		var volume := mic_capture.chunk_max(true, true)
 		mic_capture.drop_chunk()
 
-		if volume > 0.05:
+		if volume > 0.05 or true:
 			_upstream_packets.rpc_id(1, active_channel.id, packet, mic_mix_rate / 44100.0)
