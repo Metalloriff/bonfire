@@ -106,7 +106,11 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				return
 			
 			var channel: Channel = get_channel(data.channel_id)
-			var message: Message = Message.new(user_id, data.content)
+			var user: User = get_user_by_peer_id(peer_id)
+			if not is_instance_valid(user):
+				prints("user", peer_id, "tried to send message to channel", data.channel_id, "but is not online")
+				return
+			var message: Message = Message.new(user.id, data.content)
 			
 			channel._commit_message(message)
 		"fetch_messages":
