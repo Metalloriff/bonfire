@@ -107,7 +107,7 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 
 	match endpoint:
 		"update_online_users":
-			prints("received new online users", users, "for server", id, name)
+			prints("received new online users", data.online_users, "for server", id, name)
 			online_users = data.online_users
 			
 			MemberList.instance.queue_redraw()
