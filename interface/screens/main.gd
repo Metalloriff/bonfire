@@ -17,9 +17,9 @@ signal server_selected(server: Server)
 func _ready() -> void:
 	instance = self
 
-	for server_resource_path: String in FS.get_files("user://servers"):
+	for server_resource_path: String in DirAccess.get_files_at("user://servers"):
 		var server: Server = load("user://servers/%s" % server_resource_path)
-		ServerComNode.new(server.address, server.port)
+		ServerComNode.new(server.id)
 
 func _on_join_server_pressed() -> void:
 	get_tree().current_scene.add_child(load("res://interface/modals/join_server_modal.tscn").instantiate())

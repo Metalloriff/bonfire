@@ -8,31 +8,25 @@ var local_multiplayer: MultiplayerAPI
 var server: Server
 var connected_time: float
 
-var _address: String
-var _port: int
+var address: String
+var port: int
 var _has_authenticated: bool
 
-func _init(address: String, port: int, is_server: bool = false) -> void:
-	self._address = address
-	self._port = port
-
-	if not address:
-		push_error("Server address cannot be empty!")
-		error = true
-		return
-	
-	id = address.sha256_text()
+func _init(server_id: String) -> void:
+	id = server_id
 	name = id
-
-	if not port:
-		push_error("Server port cannot be 0!")
-		error = true
-		return
 	
-	var peer = ENetMultiplayerPeer.new()
+	var peer := ENetMultiplayerPeer.new()
 
-	if not is_server:
-		var err = peer.create_client(address, port)
+	if not HeadlessServer.is_headless_server:
+		var cached_server: Server = Server.get_server(server_id)
+		address = cached_server.address
+		port = cached_server.port
+
+		assert(!!address, "Server address cannot be empty!")
+		assert(port != 0, "Server port cannot be 0!")
+
+		var err := peer.create_client(address, port)
 		
 		if err != OK:
 			push_error("Failed to connect to %s:%d!" % [address, port])
@@ -49,7 +43,7 @@ func _init(address: String, port: int, is_server: bool = false) -> void:
 	local_multiplayer = MultiplayerAPI.create_default_interface()
 	get_tree().set_multiplayer(local_multiplayer, "/root/ServerCom/%s" % id)
 	
-	if is_server:
+	if HeadlessServer.is_headless_server:
 		local_multiplayer.multiplayer_peer = get_tree().root.multiplayer.multiplayer_peer
 	else:
 		local_multiplayer.multiplayer_peer = peer
@@ -86,8 +80,8 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 		server = new_server_data
 		Server.instances[server.id] = server
 	
-	server.address = _address
-	server.port = _port
+	server.address = address
+	server.port = port
 
 	for property in new_server_data.get_property_list():
 		if property.name in server:
@@ -121,7 +115,7 @@ func _sync_voice_chat_participants() -> void:
 
 @rpc("authority", "call_remote")
 func _receive_voice_chat_participants(participants: Dictionary) -> void:
-	prints("received new voice chat participants", participants)
+	prints("received new voice chat participants", server.name, participants)
 
 	for channel_id in participants:
 		for peer_id in participants[channel_id]:

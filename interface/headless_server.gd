@@ -97,14 +97,12 @@ func _ready() -> void:
 	multiplayer.multiplayer_peer = peer
 	multiplayer.peer_packet.connect(_packet_received)
 
-	server.com_node = ServerComNode.new("localhost", get_config_entry("network.port"), true)
-
-	# create valid address coms
-	for address: String in get_config_entry("network.valid_addresses"):
-		ServerComNode.new(address, get_config_entry("network.port"), true)
+	server.com_node = ServerComNode.new(server.id)
 
 func _packet_received(peer_id: int, packet: PackedByteArray) -> void:
 	var message: Dictionary = bytes_to_var(packet)
+
+	prints("whe4oathoweituioawseoitujawset", message)
 
 	if not "endpoint" in message:
 		return

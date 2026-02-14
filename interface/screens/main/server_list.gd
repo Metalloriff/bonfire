@@ -12,7 +12,7 @@ func _draw():
 		
 		child.free()
 	
-	for server_resource_path: String in FS.get_files("user://servers"):
+	for server_resource_path: String in DirAccess.get_files_at("user://servers"):
 		var server: Server = load("user://servers/%s" % server_resource_path)
 		var control: Button = load("res://interface/components/servers/server_item.tscn").instantiate()
 

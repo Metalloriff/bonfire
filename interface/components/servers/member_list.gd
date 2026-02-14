@@ -27,7 +27,9 @@ func _draw() -> void:
 	for user in offline_users:
 		if user.id in online_users_list_flat:
 			online_users.append(user)
-			offline_users.erase(user)
+	
+	for user in online_users:
+		offline_users.erase(user)
 	
 	if len(online_users):
 		_create_divider("Online")

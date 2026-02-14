@@ -11,3 +11,5 @@ var server: Server
 func _draw() -> void:
 	%Username.text = user.name
 	%StatusIndicator.visible = is_instance_valid(server) and user.id in server.online_users.values()
+
+	tooltip_text = user.id

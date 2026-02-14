@@ -23,8 +23,16 @@ func _on_join_button_pressed() -> void:
 		%Address/Error.show()
 		%Address/Error.text = "You must provide a server address."
 		return
+	
+	prints("sending handshake request to", address, port)
+	var server_id: String = await ServerHandshake.instance.handshake(address, port)
 
-	var server_node: ServerComNode = ServerComNode.new(address, port)
+	if not server_id:
+		%Address/Error.show()
+		%Address/Error.text = "Failed to connect to %s:%d!" % [address, port]
+		return
+
+	var server_node: ServerComNode = ServerComNode.new(server_id)
 	if server_node.error:
 		%Address/Error.show()
 		%Address/Error.text = "Failed to connect to %s:%d!" % [address, port]
@@ -43,4 +51,5 @@ func _on_join_button_pressed() -> void:
 			server_node.queue_free()
 			return
 
+	ServerList.instance.queue_redraw.call_deferred()
 	queue_free()

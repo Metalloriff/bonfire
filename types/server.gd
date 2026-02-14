@@ -7,10 +7,11 @@ static func get_server(server_id: String) -> Server:
 
 @export var id: String = Lib.create_uid(32)
 @export var name: String = "Invalid Server"
-@export var address: String
-@export var port: int
 @export var channels: Array[Channel] = []
 @export var users: Array[User] = []
+
+@export var address: String
+@export var port: int
 
 var online_users: Dictionary[int, String] = {}
 
@@ -66,6 +67,8 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 		return
 	
 	match endpoint:
+		"handshake":
+			HeadlessServer.instance.multiplayer.send_bytes(var_to_bytes(id), peer_id)
 		"authenticate":
 			if not "username" in data or not "password_hash" in data:
 				return
