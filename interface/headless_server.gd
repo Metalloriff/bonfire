@@ -69,6 +69,10 @@ func _ready() -> void:
 		server.channels.append(general_voice_channel)
 
 		server.save_to_disk()
+	
+	for channel in server.channels:
+		channel.server = server
+		channel._initialize_messages_database()
 
 	var peer = ENetMultiplayerPeer.new()
 	var err = peer.create_server(get_config_entry("network.port"))

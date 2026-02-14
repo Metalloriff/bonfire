@@ -187,16 +187,6 @@ func _process(_delta: float) -> void:
 	if not is_instance_valid(active_channel):
 		return
 	
-	var l: float = AudioServer.get_bus_peak_volume_left_db(mic_bus, 0)
-	var r: float = AudioServer.get_bus_peak_volume_right_db(mic_bus, 0)
-
-	prints("l", l, "r", r)
-
-	if l > 0.0:
-		prints("left peak", l)
-	if r > 0.0:
-		prints("right peak", r)
-	
 	while mic_capture.chunk_available():
 		var packet := mic_capture.read_opus_packet(PackedByteArray())
 		var volume := mic_capture.chunk_max(true, true)

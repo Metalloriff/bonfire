@@ -6,8 +6,8 @@
 [ext_resource type="Script" uid="uid://cbepodpajiqbp" path="res://interface/screens/main/server_list.gd" id="3_t6rgs"]
 [ext_resource type="Script" uid="uid://d1srepb6fakhm" path="res://interface/screens/main/channel_list.gd" id="5_s7lbp"]
 [ext_resource type="PackedScene" uid="uid://rml5ntcrb5cg" path="res://interface/components/servers/channel_button.tscn" id="6_br7lb"]
-[ext_resource type="Texture2D" uid="uid://281yk0xge6fj" path="res://icons/send.png" id="6_s7lbp"]
 [ext_resource type="Script" uid="uid://ckln06vm8xqkx" path="res://interface/screens/main/chat_frame.gd" id="7_sqj8o"]
+[ext_resource type="PackedScene" uid="uid://cqljlwc8jrffj" path="res://interface/components/servers/text_area.tscn" id="9_3x0ov"]
 [ext_resource type="PackedScene" uid="uid://bln4u7aj8h827" path="res://interface/components/servers/member_list.tscn" id="9_aes4q"]
 
 [node name="Main" type="Control" unique_id=1465277677]
@@ -86,23 +86,8 @@ layout_mode = 2
 size_flags_vertical = 3
 script = ExtResource("7_sqj8o")
 
-[node name="TextArea" type="HBoxContainer" parent="MarginContainer/HSplitContainer/ChatContainer" unique_id=1332585564]
+[node name="TextArea" parent="MarginContainer/HSplitContainer/ChatContainer" unique_id=100155648 instance=ExtResource("9_3x0ov")]
 layout_mode = 2
-
-[node name="TextEdit" type="TextEdit" parent="MarginContainer/HSplitContainer/ChatContainer/TextArea" unique_id=474035255]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-size_flags_horizontal = 3
-placeholder_text = "Send a message..."
-wrap_mode = 1
-scroll_fit_content_height = true
-caret_blink = true
-
-[node name="Button" type="Button" parent="MarginContainer/HSplitContainer/ChatContainer/TextArea" unique_id=1047465467]
-custom_minimum_size = Vector2(40, 0)
-layout_mode = 2
-icon = ExtResource("6_s7lbp")
-expand_icon = true
 
 [node name="Members" type="PanelContainer" parent="MarginContainer/HSplitContainer" unique_id=284275065]
 layout_mode = 2

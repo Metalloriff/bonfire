@@ -99,6 +99,30 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				save_to_disk()
 			
 			HeadlessServer.instance._sync_online_users()
+		"send_message":
+			if not "channel_id" in data or not "content" in data:
+				return
+			if len(data.content) > 4000:
+				return
+			
+			var channel: Channel = get_channel(data.channel_id)
+			var message: Message = Message.new(user_id, data.content)
+			
+			channel._commit_message(message)
+		"fetch_messages":
+			if not "channel_id" in data or not "limit" in data or not "offset" in data:
+				return
+			
+			if data.limit > 100:
+				return
+			
+			var channel: Channel = get_channel(data.channel_id)
+			var messages: Array[Dictionary] = channel._load_messages_from_db(data.limit, data.offset)
+
+			HeadlessServer.send_api_message("fetch_messages_response", {
+				channel_id = data.channel_id,
+				messages = messages
+			})
 
 func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int) -> void:
 	if HeadlessServer.is_headless_server:
@@ -127,3 +151,27 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 
 			voice_chat_participants = data.participants
 			ChannelList.instance.queue_redraw()
+		"fetch_messages_response":
+			if not "channel_id" in data or not "messages" in data:
+				return
+			
+			var channel: Channel = get_channel(data.channel_id)
+			if not channel.messages_loading:
+				return
+			
+			channel.messages_loading = false
+			channel.messages_loaded = true
+			
+			for message in data.messages:
+				channel.messages.append(Message.new().deserialize(message))
+			
+			ChatFrame.instance.queue_redraw()
+		"new_message":
+			if not "channel_id" in data or not "message" in data:
+				return
+			
+			var channel: Channel = get_channel(data.channel_id)
+			channel.messages.append(Message.new().deserialize(data.message))
+
+			if ChatFrame.instance.selected_channel.id == data.channel_id:
+				ChatFrame.instance.queue_redraw()

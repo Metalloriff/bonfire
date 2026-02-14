@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://b4s34lrwl1b8p"]
+
+[ext_resource type="Script" uid="uid://vprruou7kxmy" path="res://interface/screens/text_chat_screen.gd" id="1_xwaak"]
+
+[node name="TextChat" type="ScrollContainer" unique_id=467820522]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xwaak")
+
+[node name="List" type="VBoxContainer" parent="." unique_id=106950461]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NoMessagesLabel" type="Label" parent="List" unique_id=297632405]
+modulate = Color(1, 1, 1, 0.38431373)
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "
+
+No message here."
+horizontal_alignment = 1

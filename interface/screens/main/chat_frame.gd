@@ -29,7 +29,9 @@ func _draw() -> void:
 	
 	match selected_channel.type:
 		Channel.Type.TEXT:
-			pass
+			var control = load("res://interface/screens/text_chat_screen.tscn").instantiate()
+			control.channel = selected_channel
+			add_child(control)
 		Channel.Type.VOICE:
 			var control = load("res://interface/screens/voice_chat_screen.tscn").instantiate()
 			control.channel = selected_channel
