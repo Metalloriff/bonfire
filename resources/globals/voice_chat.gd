@@ -65,6 +65,15 @@ func connect_to_channel(channel: Channel) -> void:
 	get_tree().set_multiplayer(channel.server.com_node.local_multiplayer, "/root/VoiceChat")
 	_user_join_request.rpc_id(1, channel.id)
 
+	while not channel.id in channel.server.voice_chat_participants or not multiplayer.get_unique_id() in channel.server.voice_chat_participants[channel.id]:
+		await Lib.frame
+	
+	for user_id in channel.server.voice_chat_participants[channel.id]:
+		if user_id == multiplayer.get_unique_id():
+			continue
+		
+		_create_peer(user_id)
+
 func disconnect_from_channel() -> void:
 	_user_leave_request.rpc_id(1, active_channel.id)
 
