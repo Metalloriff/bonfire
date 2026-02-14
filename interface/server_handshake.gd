@@ -39,6 +39,7 @@ func handshake(ip_address: String, port: int) -> String:
 	server_cache_item.id = server_id
 	server_cache_item.address = ip_address
 	server_cache_item.port = port
+	FS.mkdir("user://servers")
 	ResourceSaver.save(server_cache_item, "user://servers/%s.res" % server_id)
 
 	return server_id
