@@ -80,10 +80,6 @@ func _ready() -> void:
 
 		server.com_node._receive_server_info.rpc_id(id, var_to_bytes_with_objects(server))
 		server.com_node._receive_voice_chat_participants.rpc_id(id, server.com_node.voice_chat_participants)
-
-		await Lib.seconds(5.0)
-		
-		send_api_message("test", {}, id)
 	)
 
 	peer.peer_disconnected.connect(func(id):
