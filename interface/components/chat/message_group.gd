@@ -17,7 +17,7 @@ func _draw() -> void:
 		if message in _added_messages:
 			continue
 		_added_messages.append(message)
-		
+
 		var message_label: Label = Label.new()
 		message_label.text = message.content
 		_messages_container_node.add_child(message_label)

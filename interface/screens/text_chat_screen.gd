@@ -6,6 +6,8 @@ var message_group_scene: PackedScene = preload("res://interface/components/chat/
 @onready var list: VBoxContainer = $List
 @onready var no_messages_label: Label = $List/NoMessagesLabel
 
+var _processed_messages: Array[Message] = []
+
 func _draw() -> void:
 	if not is_instance_valid(channel):
 		print("Invalid channel for text chat screen")
@@ -23,6 +25,10 @@ func _draw() -> void:
 		message_group.queue_redraw.call_deferred()
 
 	for message in channel.messages:
+		if message in _processed_messages:
+			continue
+		_processed_messages.append(message)
+		
 		if not last_message or message.author_id != last_message.author_id:
 			message_group = message_group_scene.instantiate()
 			message_group.author = channel.server.get_user(message.author_id)
