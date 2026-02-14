@@ -23,6 +23,8 @@ func _ready() -> void:
 	mic_capture = AudioServer.get_bus_effect(mic_bus, 0)
 
 	user_joined.connect(func(channel_id: String, user_id: int) -> void:
+		prints("user joined", channel_id, user_id, "is server", HeadlessServer.is_headless_server)
+
 		if user_id == multiplayer.get_unique_id():
 			return
 

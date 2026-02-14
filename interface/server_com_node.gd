@@ -138,3 +138,5 @@ func _update_online_users(users: Dictionary) -> void:
 
 	for peer_id in users:
 		server.online_users[peer_id] = users[peer_id]
+	
+	MemberList.instance.queue_redraw()
