@@ -19,7 +19,8 @@ func _draw() -> void:
 
 	no_messages_label.visible = not channel.messages.size()
 
-	message_group.queue_redraw.call_deferred()
+	if is_instance_valid(message_group):
+		message_group.queue_redraw.call_deferred()
 
 	for message in channel.messages:
 		if not last_message or message.author_id != last_message.author_id:
