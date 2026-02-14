@@ -14,6 +14,7 @@ static func get_server(server_id: String) -> Server:
 @export var port: int
 
 var online_users: Dictionary[int, String] = {}
+var voice_chat_participants: Dictionary = {}
 
 var user_id: String:
 	get:
@@ -111,3 +112,18 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			online_users = data.online_users
 			
 			MemberList.instance.queue_redraw()
+		"update_voice_chat_participants":
+			prints("received new voice chat participants", name, data.participants)
+
+			for channel_id in data.participants:
+				for pid in data.participants[channel_id]:
+					if not channel_id in voice_chat_participants or not pid in voice_chat_participants[channel_id]:
+						VoiceChat.user_joined.emit(channel_id, pid)
+			
+			for channel_id in voice_chat_participants:
+				for pid in voice_chat_participants[channel_id]:
+					if not channel_id in data.participants or not pid in data.participants[channel_id]:
+						VoiceChat.user_left.emit(channel_id, pid)
+
+			voice_chat_participants = data.participants
+			ChannelList.instance.queue_redraw()

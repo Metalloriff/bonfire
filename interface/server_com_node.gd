@@ -105,25 +105,3 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 		})
 
 		_has_authenticated = true
-
-var voice_chat_participants: Dictionary = {}
-func _sync_voice_chat_participants() -> void:
-	for peer_id in HeadlessServer.instance.multiplayer.get_peers():
-		HeadlessServer.instance.multiplayer.rpc(peer_id, self , "_receive_voice_chat_participants", [voice_chat_participants])
-
-@rpc("authority", "call_remote")
-func _receive_voice_chat_participants(participants: Dictionary) -> void:
-	prints("received new voice chat participants", server.name, participants)
-
-	for channel_id in participants:
-		for peer_id in participants[channel_id]:
-			if not channel_id in voice_chat_participants or not peer_id in voice_chat_participants[channel_id]:
-				VoiceChat.user_joined.emit(channel_id, peer_id)
-	
-	for channel_id in voice_chat_participants:
-		for peer_id in voice_chat_participants[channel_id]:
-			if not channel_id in participants or not peer_id in participants[channel_id]:
-				VoiceChat.user_left.emit(channel_id, peer_id)
-
-	voice_chat_participants = participants
-	ChannelList.instance.queue_redraw()

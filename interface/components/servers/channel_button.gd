@@ -17,18 +17,18 @@ func _draw() -> void:
 				return
 
 			$VoiceMembers.show()
-			prints("waht is happening", channel.server.com_node.voice_chat_participants)
+			prints("waht is happening", channel.server.voice_chat_participants)
 			prints(channel.server.name, VoiceChat.active_channel.server.name if VoiceChat.active_channel else "null")
-			$VoiceMembers.title = "Participants (%d)" % (len(channel.server.com_node.voice_chat_participants[channel.id]) if channel.id in channel.server.com_node.voice_chat_participants else 0)
+			$VoiceMembers.title = "Participants (%d)" % (len(channel.server.voice_chat_participants[channel.id]) if channel.id in channel.server.voice_chat_participants else 0)
 			$VoiceMembers.folded = VoiceChat.active_channel != channel
 
 			var list: VBoxContainer = $VoiceMembers/List
 			for child in list.get_children():
 				child.free()
 				
-			if channel.id in channel.server.com_node.voice_chat_participants:
-				prints("channel", channel.id, channel.server.com_node.voice_chat_participants[channel.id])
-				for user_id in channel.server.com_node.voice_chat_participants[channel.id]:
+			if channel.id in channel.server.voice_chat_participants:
+				prints("channel", channel.id, channel.server.voice_chat_participants[channel.id])
+				for user_id in channel.server.voice_chat_participants[channel.id]:
 					var user: User = channel.server.get_user_by_peer_id(user_id)
 					if not is_instance_valid(user):
 						print("user %s not found" % user_id)

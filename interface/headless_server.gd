@@ -79,7 +79,9 @@ func _ready() -> void:
 		await get_tree().process_frame
 
 		server.com_node._receive_server_info.rpc_id(id, var_to_bytes_with_objects(server))
-		server.com_node._receive_voice_chat_participants.rpc_id(id, server.com_node.voice_chat_participants)
+		send_api_message("update_voice_chat_participants", {
+			participants = server.voice_chat_participants
+		}, id)
 	)
 
 	peer.peer_disconnected.connect(func(id):

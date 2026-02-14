@@ -57,7 +57,7 @@ func connect_to_channel(channel: Channel) -> void:
 	if channel.type != Channel.Type.VOICE:
 		return
 	
-	if active_channel == channel or channel.id in channel.server.com_node.voice_chat_participants and multiplayer.get_unique_id() in channel.server.com_node.voice_chat_participants[channel.id]:
+	if active_channel == channel or channel.id in channel.server.voice_chat_participants and multiplayer.get_unique_id() in channel.server.voice_chat_participants[channel.id]:
 		return
 	
 	active_channel = channel
@@ -81,11 +81,13 @@ func _user_leave_request(channel_id: String) -> void:
 		push_error("User (%s) attempted to leave invalid channel with ID '%s'" % [peer_id, channel_id])
 		return
 	
-	if not channel.id in server.com_node.voice_chat_participants:
-		server.com_node.voice_chat_participants[channel.id] = []
-	if peer_id in server.com_node.voice_chat_participants[channel.id]:
-		server.com_node.voice_chat_participants[channel.id].erase(peer_id)
-	server.com_node._sync_voice_chat_participants()
+	if not channel.id in server.voice_chat_participants:
+		server.voice_chat_participants[channel.id] = []
+	if peer_id in server.voice_chat_participants[channel.id]:
+		server.voice_chat_participants[channel.id].erase(peer_id)
+	HeadlessServer.send_api_message("update_voice_chat_participants", {
+		participants = server.voice_chat_participants
+	})
 
 @rpc("any_peer")
 func _user_join_request(channel_id: String) -> void:
@@ -102,13 +104,15 @@ func _user_join_request(channel_id: String) -> void:
 		push_error("User (%s) attempted to join invalid channel with ID '%s'" % [peer_id, channel_id])
 		return
 	
-	if not channel.id in server.com_node.voice_chat_participants:
-		server.com_node.voice_chat_participants[channel.id] = []
-	if peer_id in server.com_node.voice_chat_participants[channel.id]:
+	if not channel.id in server.voice_chat_participants:
+		server.voice_chat_participants[channel.id] = []
+	if peer_id in server.voice_chat_participants[channel.id]:
 		return
 
-	server.com_node.voice_chat_participants[channel.id].append(peer_id)
-	server.com_node._sync_voice_chat_participants()
+	server.voice_chat_participants[channel.id].append(peer_id)
+	HeadlessServer.send_api_message("update_voice_chat_participants", {
+		participants = server.voice_chat_participants
+	})
 
 func _create_user(id: int) -> Node:
 	var user = AudioStreamPlayer.new()
@@ -141,14 +145,14 @@ func _remove_peer(id: int) -> void:
 
 @rpc("any_peer", "call_remote", "unreliable") # TODO remove pitch
 func _upstream_packets(channel_id: String, packet, pitch: float) -> void:
-	if not channel_id in HeadlessServer.instance.server.com_node.voice_chat_participants:
+	if not channel_id in HeadlessServer.instance.server.voice_chat_participants:
 		return
 	
 	var sender_id := multiplayer.get_remote_sender_id()
-	if not sender_id in HeadlessServer.instance.server.com_node.voice_chat_participants[channel_id]:
+	if not sender_id in HeadlessServer.instance.server.voice_chat_participants[channel_id]:
 		return
 	
-	for participant_id in HeadlessServer.instance.server.com_node.voice_chat_participants[channel_id]:
+	for participant_id in HeadlessServer.instance.server.voice_chat_participants[channel_id]:
 		if participant_id == sender_id:
 			continue
 		
