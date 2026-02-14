@@ -127,16 +127,3 @@ func _receive_voice_chat_participants(participants: Dictionary) -> void:
 
 	voice_chat_participants = participants
 	ChannelList.instance.queue_redraw()
-
-@rpc("authority", "call_remote", "reliable")
-func _update_online_users(users: Dictionary) -> void:
-	while not is_instance_valid(server):
-		await Lib.seconds(0.1)
-	
-	prints("received new online users", users, "for server", server.id, server.name)
-	server.online_users.clear()
-
-	for peer_id in users:
-		server.online_users[peer_id] = users[peer_id]
-	
-	MemberList.instance.queue_redraw()

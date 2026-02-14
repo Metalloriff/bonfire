@@ -84,7 +84,7 @@ func _ready() -> void:
 
 	peer.peer_disconnected.connect(func(id):
 		server.online_users.erase(id)
-		server.com_node._update_online_users.rpc(server.online_users)
+		_sync_online_users()
 	)
 	
 	if err != OK:
@@ -135,6 +135,11 @@ func get_config_entry(key: String) -> Variant:
 		default_object = default_object[part]
 	
 	return default_object if return_default else object
+
+func _sync_online_users() -> void:
+	send_api_message("update_online_users", {
+		online_users = server.online_users
+	})
 
 static func send_api_message(endpoint: String, data: Dictionary, peer_id: int = 0) -> void:
 	if not is_instance_valid(instance):
