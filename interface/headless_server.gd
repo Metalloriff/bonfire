@@ -84,6 +84,7 @@ func _ready() -> void:
 
 	peer.peer_disconnected.connect(func(id):
 		server.online_users.erase(id)
+		server.com_node._update_online_users.rpc(server.online_users)
 	)
 	
 	if err != OK:
