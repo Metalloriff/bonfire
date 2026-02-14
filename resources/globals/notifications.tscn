@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://d238v2kglk6eb"]
+
+[ext_resource type="Script" uid="uid://bdcf0d7c1mh30" path="res://resources/globals/notifications.gd" id="1_2mj15"]
+[ext_resource type="AudioStream" uid="uid://d1exu6umvqbqq" path="res://sounds/aero/ping.wav" id="1_48368"]
+[ext_resource type="AudioStream" uid="uid://bwe4cffflm802" path="res://sounds/aero/ping_important.wav" id="2_2mj15"]
+[ext_resource type="AudioStream" uid="uid://by2jlhs6u7yq2" path="res://sounds/aero/vc_member_join.wav" id="3_ow1ny"]
+[ext_resource type="AudioStream" uid="uid://b0xeswt5m1q02" path="res://sounds/aero/vc_member_leave.wav" id="4_usgdf"]
+
+[node name="Notifications" type="Node" unique_id=176648701]
+script = ExtResource("1_2mj15")
+
+[node name="Sounds" type="Node" parent="." unique_id=754019952]
+
+[node name="ping" type="AudioStreamPlayer" parent="Sounds" unique_id=292800763]
+stream = ExtResource("1_48368")
+max_polyphony = 3
+
+[node name="ping_important" type="AudioStreamPlayer" parent="Sounds" unique_id=905626796]
+stream = ExtResource("2_2mj15")
+max_polyphony = 3
+
+[node name="vc_member_join" type="AudioStreamPlayer" parent="Sounds" unique_id=1566632351]
+stream = ExtResource("3_ow1ny")
+
+[node name="vc_member_leave" type="AudioStreamPlayer" parent="Sounds" unique_id=2024156184]
+stream = ExtResource("4_usgdf")

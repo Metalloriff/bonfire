@@ -17,8 +17,6 @@ func _draw() -> void:
 				return
 
 			$VoiceMembers.show()
-			prints("waht is happening", channel.server.voice_chat_participants)
-			prints(channel.server.name, VoiceChat.active_channel.server.name if VoiceChat.active_channel else "null")
 			$VoiceMembers.title = "Participants (%d)" % (len(channel.server.voice_chat_participants[channel.id]) if channel.id in channel.server.voice_chat_participants else 0)
 			$VoiceMembers.folded = VoiceChat.active_channel != channel
 
@@ -44,5 +42,4 @@ func _draw() -> void:
 	_button.text = channel.name
 
 func _on_pressed() -> void:
-	prints("pressed", channel.name, channel.id)
 	ChatFrame.instance.selected_channel = channel

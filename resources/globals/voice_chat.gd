@@ -1,6 +1,7 @@
 extends Node
 
 var active_channel: Channel
+var muted: bool
 
 signal user_joined(channel_id: String, user_id: int)
 signal user_left(channel_id: String, user_id: int)
@@ -39,7 +40,7 @@ func _ready() -> void:
 
 	user_left.connect(func(channel_id: String, user_id: int) -> void:
 		if user_id == multiplayer.get_unique_id():
-			active_channel = null
+			set_deferred("active_channel", null)
 			users.clear()
 			user_bus_indices.clear()
 			get_tree().set_multiplayer(null, "/root/VoiceChat")
@@ -192,5 +193,7 @@ func _process(_delta: float) -> void:
 		var volume := mic_capture.chunk_max(true, true)
 		mic_capture.drop_chunk()
 
-		if volume > 0.05 or true:
+		# if volume > 0.05 or true:
+		
+		if not muted:
 			_upstream_packets.rpc_id(1, active_channel.id, packet, mic_mix_rate / 44100.0)

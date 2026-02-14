@@ -6,6 +6,8 @@ enum Type {
 	MEDIA,
 }
 
+signal message_received(message: Message)
+
 @export var id: String = Lib.create_uid(32)
 @export var name: String = "Invalid Channel"
 @export var type: int = Type.TEXT

@@ -175,7 +175,12 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 				return
 			
 			var channel: Channel = get_channel(data.channel_id)
-			channel.messages.append(Message.new().deserialize(data.message))
+			var message: Message = Message.new().deserialize(data.message)
+
+			channel.messages.append(message)
+			channel.message_received.emit(message)
 
 			if ChatFrame.instance.selected_channel.id == data.channel_id:
 				ChatFrame.instance.queue_redraw()
+
+				Notifications.play_sound("ping")

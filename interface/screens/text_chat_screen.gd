@@ -18,6 +18,7 @@ func _draw() -> void:
 	
 	var message_group: MessageGroupNode = list.get_child(-1) if list.get_child_count() > 1 else null
 	var last_message: Message = message_group.messages[-1] if message_group else null
+	var new_message_count: int = 0
 
 	no_messages_label.visible = not channel.messages.size()
 
@@ -27,7 +28,9 @@ func _draw() -> void:
 	for message in channel.messages:
 		if message in _processed_messages:
 			continue
+		
 		_processed_messages.append(message)
+		new_message_count += 1
 		
 		if not last_message or message.author_id != last_message.author_id:
 			message_group = message_group_scene.instantiate()
@@ -36,3 +39,7 @@ func _draw() -> void:
 		message_group.messages.append(message)
 
 		last_message = message
+	
+	if new_message_count > 0:
+		await Lib.frame
+		scroll_vertical = size.y

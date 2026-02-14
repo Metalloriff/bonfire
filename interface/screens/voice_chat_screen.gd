@@ -1,12 +1,28 @@
-extends Control
+extends VSplitContainer
 
-var channel: Channel
+var channel: Channel:
+	set(new):
+		if channel != new:
+			if is_instance_valid(channel) and channel.message_received.is_connected(_message_received):
+				channel.message_received.disconnect(_message_received)
+			
+			channel = new
+			$TextChatContainer/TextChat.channel = new
+
+			if is_instance_valid(channel):
+				channel.message_received.connect(_message_received)
+
+var unread_message_count: int = 0
 
 func _ready() -> void:
 	if is_instance_valid(VoiceChat.active_channel) and VoiceChat.active_channel == channel:
 		_fade_in_focus(0.0)
 	else:
 		_fade_out_focus(0.0)
+
+func _message_received(message: Message) -> void:
+	unread_message_count += 1
+	queue_redraw()
 
 func _draw() -> void:
 	if is_instance_valid(VoiceChat.active_channel) and VoiceChat.active_channel == channel:
@@ -17,9 +33,23 @@ func _draw() -> void:
 	%OutOfCallControls.visible = not is_instance_valid(VoiceChat.active_channel) or VoiceChat.active_channel != channel
 	%InCallControls.visible = is_instance_valid(VoiceChat.active_channel) and VoiceChat.active_channel == channel
 
+	$TextChatContainer/TextChat.queue_redraw()
+	
+	if $TextChatContainer.size.y > 50:
+		unread_message_count = 0
+		%NewMessagesButton.text = "Close Chat"
+		%NewMessagesButton.visible = true
+	else:
+		%NewMessagesButton.text = "%d new messages" % unread_message_count
+		%NewMessagesButton.visible = unread_message_count > 0
+	
+	%MuteButton.theme_type_variation = &"Button_Red" if VoiceChat.muted else &""
+	%MuteButton.icon = preload("res://icons/micOff.png") if VoiceChat.muted else preload("res://icons/mic.png")
+	%MuteButton.text = "Unmute" if VoiceChat.muted else "Mute"
+
 func _fade_out_focus(tween_time: float = 0.5) -> void:
-	var tiles: HFlowContainer = $UserTiles
-	var notice: Label = $Notice
+	var tiles: HFlowContainer = $VC/UserTiles
+	var notice: Label = $VC/Notice
 
 	var tween := create_tween().set_parallel().set_ease(Tween.EASE_IN)
 
@@ -29,8 +59,8 @@ func _fade_out_focus(tween_time: float = 0.5) -> void:
 	tween.tween_property(notice, "scale", Vector2.ONE * 1.0, tween_time)
 
 func _fade_in_focus(tween_time: float = 0.5) -> void:
-	var tiles: HFlowContainer = $UserTiles
-	var notice: Label = $Notice
+	var tiles: HFlowContainer = $VC/UserTiles
+	var notice: Label = $VC/Notice
 
 	var tween := create_tween().set_parallel().set_ease(Tween.EASE_IN)
 
@@ -45,3 +75,13 @@ func _on_join_call_button_pressed() -> void:
 
 func _on_end_call_button_pressed() -> void:
 	VoiceChat.disconnect_from_channel()
+
+func _on_new_messages_button_pressed() -> void:
+	split_offsets[0] = 0 if split_offsets[0] < 0 else -500
+
+func _on_dragged(offset: int) -> void:
+	$TextChatContainer/TextChat.set_deferred(&"scroll_vertical", 999999.0)
+
+func _on_mute_button_pressed() -> void:
+	VoiceChat.muted = not VoiceChat.muted
+	queue_redraw()

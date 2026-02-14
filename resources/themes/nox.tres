@@ -199,6 +199,26 @@ expand_margin_right = 1.0
 expand_margin_bottom = 1.0
 shadow_blur = 0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_710he"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.042399995, 0.05305333, 0.08, 0.35686275)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0.49600002, 0.59226674, 0.8, 0.08235294)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_psdgn"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0, 0, 0, 0.35686275)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0.49600002, 0.59226674, 0.8, 0.08235294)
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qlc1u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5gc66"]
@@ -338,6 +358,10 @@ Button_Red/base_type = &"Button"
 Button_Red/styles/hover = SubResource("StyleBox_qv602")
 Button_Red/styles/normal = SubResource("StyleBox_eja14")
 Button_Red/styles/pressed = SubResource("StyleBox_d5rib")
+Button_Translucent/base_type = &"Button"
+Button_Translucent/styles/hover = SubResource("StyleBoxFlat_710he")
+Button_Translucent/styles/normal = SubResource("StyleBoxFlat_psdgn")
+Button_Translucent/styles/pressed = SubResource("StyleBoxFlat_psdgn")
 CheckButton/styles/focus = SubResource("StyleBoxEmpty_qlc1u")
 CheckButton/styles/hover = SubResource("StyleBoxEmpty_5gc66")
 CheckButton/styles/normal = SubResource("StyleBoxEmpty_710he")

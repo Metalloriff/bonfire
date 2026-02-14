@@ -1,15 +1,19 @@
 [gd_scene format=3 uid="uid://rml5ntcrb5cg"]
 
 [ext_resource type="Texture2D" uid="uid://fvt2vky3bg7n" path="res://icons/chat.png" id="1_tj6h4"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_xtd3y"]
 [ext_resource type="Script" uid="uid://ww8nm1fm52qb" path="res://interface/components/servers/channel_button.gd" id="2_u22o2"]
 
 [node name="ChannelItem" type="VBoxContainer" unique_id=1828171145]
 offset_right = 40.0
 offset_bottom = 40.0
+theme = ExtResource("1_xtd3y")
+theme_override_constants/separation = 0
 script = ExtResource("2_u22o2")
 
 [node name="Button" type="Button" parent="." unique_id=434751000]
 layout_mode = 2
+theme_type_variation = &"Button_Translucent"
 text = "General"
 icon = ExtResource("1_tj6h4")
 alignment = 0

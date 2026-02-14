@@ -4,10 +4,12 @@
 [ext_resource type="Script" uid="uid://d11qnwg4a3kmy" path="res://interface/screens/voice_chat_screen.gd" id="2_xxmmj"]
 [ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="3_7kqkq"]
 [ext_resource type="Texture2D" uid="uid://cqvkn7ao3bg82" path="res://icons/call.png" id="4_rbrwj"]
+[ext_resource type="Texture2D" uid="uid://b8uy64f5vck0j" path="res://icons/mic.png" id="5_hbfhw"]
 [ext_resource type="Texture2D" uid="uid://b3q1vxouvgx7o" path="res://icons/callEnd.png" id="5_xxmmj"]
+[ext_resource type="PackedScene" uid="uid://b4s34lrwl1b8p" path="res://interface/screens/text_chat_screen.tscn" id="6_7kqkq"]
+[ext_resource type="Texture2D" uid="uid://ddmnv7581yobe" path="res://icons/chatBubble.png" id="6_rbrwj"]
 
-[node name="VoiceChatScreen" type="Control" unique_id=579116319]
-layout_mode = 3
+[node name="VoiceChatScreen" type="VSplitContainer" unique_id=218865083]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -16,7 +18,11 @@ grow_vertical = 2
 theme = ExtResource("1_0g7jh")
 script = ExtResource("2_xxmmj")
 
-[node name="UserTiles" type="HFlowContainer" parent="." unique_id=581171952]
+[node name="VC" type="Control" parent="." unique_id=579116319]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="UserTiles" type="HFlowContainer" parent="VC" unique_id=581171952]
 modulate = Color(1, 1, 1, 0.2509804)
 layout_mode = 1
 anchors_preset = -1
@@ -29,117 +35,117 @@ scale = Vector2(0.85, 0.85)
 pivot_offset_ratio = Vector2(0.5, 0.5)
 alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="UserTiles" unique_id=111569172]
+[node name="PanelContainer" type="PanelContainer" parent="VC/UserTiles" unique_id=111569172]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserTiles/PanelContainer" unique_id=1883156431]
+[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer" unique_id=1883156431]
 layout_mode = 2
 texture = ExtResource("3_7kqkq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PanelContainer2" type="PanelContainer" parent="UserTiles" unique_id=7240295]
+[node name="PanelContainer2" type="PanelContainer" parent="VC/UserTiles" unique_id=7240295]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserTiles/PanelContainer2" unique_id=873496474]
+[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer2" unique_id=873496474]
 layout_mode = 2
 texture = ExtResource("3_7kqkq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PanelContainer3" type="PanelContainer" parent="UserTiles" unique_id=2082450757]
+[node name="PanelContainer3" type="PanelContainer" parent="VC/UserTiles" unique_id=2082450757]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserTiles/PanelContainer3" unique_id=352023009]
+[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer3" unique_id=352023009]
 layout_mode = 2
 texture = ExtResource("3_7kqkq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PanelContainer4" type="PanelContainer" parent="UserTiles" unique_id=1686423527]
+[node name="PanelContainer4" type="PanelContainer" parent="VC/UserTiles" unique_id=1686423527]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserTiles/PanelContainer4" unique_id=2121147633]
+[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer4" unique_id=2121147633]
 layout_mode = 2
 texture = ExtResource("3_7kqkq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PanelContainer5" type="PanelContainer" parent="UserTiles" unique_id=347877771]
+[node name="PanelContainer5" type="PanelContainer" parent="VC/UserTiles" unique_id=347877771]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserTiles/PanelContainer5" unique_id=503602328]
+[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer5" unique_id=503602328]
 layout_mode = 2
 texture = ExtResource("3_7kqkq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PanelContainer6" type="PanelContainer" parent="UserTiles" unique_id=511310680]
+[node name="PanelContainer6" type="PanelContainer" parent="VC/UserTiles" unique_id=511310680]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserTiles/PanelContainer6" unique_id=1622169397]
+[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer6" unique_id=1622169397]
 layout_mode = 2
 texture = ExtResource("3_7kqkq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PanelContainer7" type="PanelContainer" parent="UserTiles" unique_id=1581491242]
+[node name="PanelContainer7" type="PanelContainer" parent="VC/UserTiles" unique_id=1581491242]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserTiles/PanelContainer7" unique_id=1690769014]
+[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer7" unique_id=1690769014]
 layout_mode = 2
 texture = ExtResource("3_7kqkq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PanelContainer8" type="PanelContainer" parent="UserTiles" unique_id=1266310783]
+[node name="PanelContainer8" type="PanelContainer" parent="VC/UserTiles" unique_id=1266310783]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserTiles/PanelContainer8" unique_id=344930404]
+[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer8" unique_id=344930404]
 layout_mode = 2
 texture = ExtResource("3_7kqkq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PanelContainer9" type="PanelContainer" parent="UserTiles" unique_id=696563916]
+[node name="PanelContainer9" type="PanelContainer" parent="VC/UserTiles" unique_id=696563916]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserTiles/PanelContainer9" unique_id=1677775429]
+[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer9" unique_id=1677775429]
 layout_mode = 2
 texture = ExtResource("3_7kqkq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PanelContainer10" type="PanelContainer" parent="UserTiles" unique_id=616103853]
+[node name="PanelContainer10" type="PanelContainer" parent="VC/UserTiles" unique_id=616103853]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserTiles/PanelContainer10" unique_id=1798732592]
+[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer10" unique_id=1798732592]
 layout_mode = 2
 texture = ExtResource("3_7kqkq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="PanelContainer11" type="PanelContainer" parent="UserTiles" unique_id=294446399]
+[node name="PanelContainer11" type="PanelContainer" parent="VC/UserTiles" unique_id=294446399]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="UserTiles/PanelContainer11" unique_id=1060358110]
+[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer11" unique_id=1060358110]
 layout_mode = 2
 texture = ExtResource("3_7kqkq")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="Notice" type="Label" parent="." unique_id=1399972638]
+[node name="Notice" type="Label" parent="VC" unique_id=1399972638]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -156,21 +162,22 @@ pivot_offset_ratio = Vector2(0.5, 0.5)
 theme_override_font_sizes/font_size = 64
 text = "You are not connected."
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1567533992]
+[node name="HBoxContainer" type="HBoxContainer" parent="VC" unique_id=1567533992]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.935
+anchor_top = 1.0
 anchor_right = 0.5
-anchor_bottom = 0.95
+anchor_bottom = 1.0
+offset_bottom = -55.0
 grow_horizontal = 2
 grow_vertical = 0
 
-[node name="OutOfCallControls" type="HBoxContainer" parent="HBoxContainer" unique_id=1310671910]
+[node name="OutOfCallControls" type="HBoxContainer" parent="VC/HBoxContainer" unique_id=1310671910]
 unique_name_in_owner = true
 layout_mode = 2
 
-[node name="JoinCallButton" type="Button" parent="HBoxContainer/OutOfCallControls" unique_id=630491178]
+[node name="JoinCallButton" type="Button" parent="VC/HBoxContainer/OutOfCallControls" unique_id=630491178]
 custom_minimum_size = Vector2(175, 0)
 layout_mode = 2
 theme_type_variation = &"Button_Important"
@@ -179,12 +186,25 @@ text = "Join Call"
 icon = ExtResource("4_rbrwj")
 expand_icon = true
 
-[node name="InCallControls" type="HBoxContainer" parent="HBoxContainer" unique_id=345056581]
+[node name="Control" type="Control" parent="VC/HBoxContainer/OutOfCallControls" unique_id=774997606]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="MuteButton" type="Button" parent="VC/HBoxContainer/OutOfCallControls" unique_id=604767880]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Mute"
+icon = ExtResource("5_hbfhw")
+expand_icon = true
+
+[node name="InCallControls" type="HBoxContainer" parent="VC/HBoxContainer" unique_id=345056581]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="EndCallButton" type="Button" parent="HBoxContainer/InCallControls" unique_id=1913842695]
+[node name="EndCallButton" type="Button" parent="VC/HBoxContainer/InCallControls" unique_id=1913842695]
 custom_minimum_size = Vector2(175, 0)
 layout_mode = 2
 theme_type_variation = &"Button_Red"
@@ -193,5 +213,32 @@ text = "Leave Call"
 icon = ExtResource("5_xxmmj")
 expand_icon = true
 
-[connection signal="pressed" from="HBoxContainer/OutOfCallControls/JoinCallButton" to="." method="_on_join_call_button_pressed"]
-[connection signal="pressed" from="HBoxContainer/InCallControls/EndCallButton" to="." method="_on_end_call_button_pressed"]
+[node name="NewMessagesButton" type="Button" parent="VC" unique_id=907758725]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -10.0
+offset_top = -20.0
+offset_right = 10.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "0 new messages"
+icon = ExtResource("6_rbrwj")
+expand_icon = true
+
+[node name="TextChatContainer" type="PanelContainer" parent="." unique_id=432048335]
+layout_mode = 2
+
+[node name="TextChat" parent="TextChatContainer" unique_id=467820522 instance=ExtResource("6_7kqkq")]
+layout_mode = 2
+
+[connection signal="dragged" from="." to="." method="_on_dragged"]
+[connection signal="pressed" from="VC/HBoxContainer/OutOfCallControls/JoinCallButton" to="." method="_on_join_call_button_pressed"]
+[connection signal="pressed" from="VC/HBoxContainer/OutOfCallControls/MuteButton" to="." method="_on_mute_button_pressed"]
+[connection signal="pressed" from="VC/HBoxContainer/InCallControls/EndCallButton" to="." method="_on_end_call_button_pressed"]
+[connection signal="pressed" from="VC/NewMessagesButton" to="." method="_on_new_messages_button_pressed"]
