@@ -27,6 +27,8 @@ func _on_join_button_pressed() -> void:
 	prints("sending handshake request to", address, port)
 	var server_id: String = await ServerHandshake.instance.handshake(address, port)
 
+	prints("server id", server_id)
+
 	if not server_id:
 		%Address/Error.show()
 		%Address/Error.text = "Failed to connect to %s:%d!" % [address, port]
