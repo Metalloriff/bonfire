@@ -32,18 +32,16 @@ func _ready() -> void:
 		AudioServer.set_bus_effect_enabled(mic_bus, 0, not new_value)
 	)
 
-	Settings.make_setting_link_method("voice", "input_device", func(new_value: int) -> void:
-		var devices := AudioServer.get_input_device_list()
-		AudioServer.input_device = devices[new_value] if len(devices) > new_value else devices[0]
+	Settings.make_setting_link_method("voice", "input_device", func(new_device: String) -> void:
+		AudioServer.input_device = new_device
 	)
 
 	Settings.make_setting_link_method("voice", "input_device_volume", func(new_value: int) -> void:
 		$Input.volume_linear = float(new_value) / 100.0
 	)
 
-	Settings.make_setting_link_method("voice", "output_device", func(new_value: int) -> void:
-		var devices := AudioServer.get_output_device_list()
-		AudioServer.output_device = devices[new_value] if len(devices) > new_value else devices[0]
+	Settings.make_setting_link_method("voice", "output_device", func(new_device: String) -> void:
+		AudioServer.output_device = new_device
 	)
 
 	Settings.make_setting_link_method("voice", "output_device_volume", func(new_value: int) -> void:
