@@ -11,12 +11,16 @@ var connected_time: float
 var address: String
 var port: int
 var _has_authenticated: bool
+var _connection_timeout: float
+var _connection_tries: int
+var _connection_try_delay: float = 5.0
+var _peer: ENetMultiplayerPeer
 
 func _init(server_id: String) -> void:
 	id = server_id
 	name = id
 	
-	var peer := ENetMultiplayerPeer.new()
+	_peer = ENetMultiplayerPeer.new()
 
 	if not HeadlessServer.is_headless_server:
 		var cached_server: Server = Server.get_server(server_id)
@@ -26,14 +30,14 @@ func _init(server_id: String) -> void:
 		assert(!!address, "Server address cannot be empty!")
 		assert(port != 0, "Server port cannot be 0!")
 
-		var err := peer.create_client(address, port)
+		var err := _peer.create_client(address, port)
 		
 		if err != OK:
 			push_error("Failed to connect to %s:%d!" % [address, port])
 			error = true
 			return
 		
-		peer.peer_disconnected.connect(func(id):
+		_peer.peer_disconnected.connect(func(id):
 			server.online_users.erase(id)
 		)
 	
@@ -46,7 +50,7 @@ func _init(server_id: String) -> void:
 	if HeadlessServer.is_headless_server:
 		local_multiplayer.multiplayer_peer = get_tree().root.multiplayer.multiplayer_peer
 	else:
-		local_multiplayer.multiplayer_peer = peer
+		local_multiplayer.multiplayer_peer = _peer
 
 		local_multiplayer.peer_packet.connect(func(peer_id: int, packet: PackedByteArray) -> void:
 			var message: Dictionary = bytes_to_var(packet)
@@ -70,12 +74,19 @@ func _process(delta: float) -> void:
 	connected_time += delta
 
 	if local_multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
-		if connected_time > 30.0:
-			prints(name, "Connection to server timed out!")
-			error = true
-			connected_time = 0.0
-			return
-		return
+		_connection_timeout += delta
+
+		if _connection_timeout > _connection_try_delay:
+			_peer.create_client(address, port)
+			_connection_timeout = 0.0
+			_connection_tries += 1
+
+			if _connection_tries > 24:
+				_connection_try_delay = 30.0
+	else:
+		_connection_timeout = 0.0
+		_connection_tries = 0
+		_connection_try_delay = 5.0
 
 @rpc("authority", "call_remote")
 func _receive_server_info(server_info: PackedByteArray) -> void:

@@ -92,14 +92,20 @@ layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer" unique_id=1366381619]
 layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="Avatar" type="TextureRect" parent="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1217910208]
+[node name="AvatarContainer" type="PanelContainer" parent="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1370698232]
+clip_children = 1
+layout_mode = 2
+theme_type_variation = &"CircleMask"
+
+[node name="Avatar" type="TextureRect" parent="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/AvatarContainer" unique_id=1217910208]
 layout_mode = 2
 texture = ExtResource("6_3x0ov")
 expand_mode = 3
 stretch_mode = 6
 
-[node name="Label" type="Label" parent="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1758461276]
+[node name="Username" type="Label" parent="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1758461276]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Username"
