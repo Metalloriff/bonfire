@@ -18,6 +18,10 @@ func _draw() -> void:
 			continue
 		_added_messages.append(message)
 
-		var message_label: Label = Label.new()
+		var message_label: RichTextLabel = RichTextLabel.new()
 		message_label.text = message.content
+		message_label.fit_content = true
+		message_label.selection_enabled = true
+		message_label.bbcode_enabled = true
+		message_label.context_menu_enabled = true
 		_messages_container_node.add_child(message_label)
