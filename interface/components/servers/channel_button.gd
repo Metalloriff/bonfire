@@ -18,7 +18,8 @@ func _draw() -> void:
 
 			$VoiceMembers.show()
 			$VoiceMembers.title = "Participants (%d)" % (len(channel.server.voice_chat_participants[channel.id]) if channel.id in channel.server.voice_chat_participants else 0)
-			$VoiceMembers.folded = VoiceChat.active_channel != channel
+			if VoiceChat.active_channel == channel:
+				$VoiceMembers.folded = false
 
 			var list: VBoxContainer = $VoiceMembers/List
 			for child in list.get_children():

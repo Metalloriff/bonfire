@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://brk34k7vjmah2" path="res://settings/icons/reset.png" id="4_11qxb"]
 [ext_resource type="Script" uid="uid://cg3y0rs5boe34" path="res://settings/project_settings_manager.gd" id="4_a11k5"]
 [ext_resource type="Script" uid="uid://7owmd7f3jvpl" path="res://addons/awesome_input_icons/classes/InputIconTextureRect.gd" id="6_5wv7n"]
+[ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="6_cj201"]
 [ext_resource type="Script" uid="uid://j4k5urgovvep" path="res://settings/input_picker_modal.gd" id="7_0svtd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hc83s"]
@@ -224,6 +225,32 @@ layout_mode = 2
 text = "Pick File"
 
 [node name="FileDialog" type="FileDialog" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/FileItem" unique_id=902975490]
+title = "Open a File"
+initial_position = 5
+size = Vector2i(876, 660)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="AvatarItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=1258622813]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/AvatarItem" unique_id=432637695]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Example Avatar Item"
+
+[node name="TextureRect" type="TextureRect" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/AvatarItem" unique_id=1432539102]
+layout_mode = 2
+texture = ExtResource("6_cj201")
+expand_mode = 3
+
+[node name="Button" type="Button" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/AvatarItem" unique_id=733545884]
+layout_mode = 2
+text = "Pick File"
+
+[node name="FileDialog" type="FileDialog" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/AvatarItem" unique_id=1608617543]
 title = "Open a File"
 initial_position = 5
 size = Vector2i(876, 660)

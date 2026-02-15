@@ -16,6 +16,7 @@ signal interface_updated
 @onready var color_item: HBoxContainer = _inst(%ColorItem)
 @onready var str_item: HBoxContainer = _inst(%StrItem)
 @onready var file_item: HBoxContainer = _inst(%FileItem)
+@onready var avatar_item: HBoxContainer = _inst(%AvatarItem)
 @onready var bind_item: HBoxContainer = _inst(%BindItem)
 @onready var note_item: RichTextLabel = _inst(%NoteItem)
 
@@ -234,8 +235,8 @@ func _build_interface() -> void:
 					
 					field.text_changed.connect(func(new_value: String) -> void: _handle_value_change(category, property, new_value, field.get_parent()))
 					field.text = value
-				"file":
-					var field := _create_field(category_node, file_item, property, setting)
+				"file", "avatar":
+					var field := _create_field(category_node, file_item if setting.type == "file" else avatar_item, property, setting)
 					var dialog: FileDialog = field.get_node("FileDialog")
 					
 					if "filter" in setting:
@@ -244,7 +245,14 @@ func _build_interface() -> void:
 					
 					field.get_node("Button").pressed.connect(func() -> void: dialog.popup())
 					
-					dialog.file_selected.connect(func(file: String) -> void: _handle_value_change(category, property, file, field))
+					dialog.file_selected.connect(func(file: String) -> void:
+						_handle_value_change(category, property, file, field)
+
+						if FileAccess.file_exists(file):
+							var image: Image = Image.load_from_file(file)
+							var texture: ImageTexture = ImageTexture.create_from_image(image)
+							field.get_node("TextureRect").texture = texture
+					)
 					if value: dialog.current_path = value
 				"bind":
 					var field := _create_field(category_node, bind_item, property, setting)

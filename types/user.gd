@@ -13,11 +13,16 @@ const PROPERTIES: Array[String] = [
 
 @export var member_join_date_time: String = "Invalid Date"
 
-func save() -> void:
-	if not HeadlessServer.is_headless_server:
-		return
+# func save() -> void:
+# 	assert(HeadlessServer.is_headless_server, "Cannot save user as a client")
 	
-	var USERS_PATH: String = "%s/users" % HeadlessServer.instance.server_data_path
-	FS.mkdir(USERS_PATH)
+# 	var USERS_PATH: String = "%s/users" % HeadlessServer.instance.server_data_path
+# 	FS.mkdir(USERS_PATH)
 
-	ResourceSaver.save(self , "%s/%s.res" % [USERS_PATH, id])
+# 	ResourceSaver.save(self , "%s/%s.res" % [USERS_PATH, id])
+
+# static func load_from_disk(user_id: String) -> User:
+# 	assert(HeadlessServer.is_headless_server, "Cannot load user from disk as a client")
+	
+# 	var path: String = "%s/users/%s.res" % [HeadlessServer.instance.server_data_path, user_id]
+# 	return load(path) if FileAccess.file_exists(path) else null

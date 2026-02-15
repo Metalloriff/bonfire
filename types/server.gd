@@ -32,25 +32,25 @@ func cache() -> void:
 	FS.mkdir("user://servers")
 	ResourceSaver.save(self , "user://servers/%s.res" % id)
 
-func save_to_disk() -> void:
+func save_to_disk(sync_to_clients: bool = true) -> void:
 	if not HeadlessServer.is_headless_server:
 		return
 	
 	FS.mkdir(HeadlessServer.instance.server_data_path)
 	ResourceSaver.save(self , "%s/server.res" % HeadlessServer.instance.server_data_path)
 	
-	if is_instance_valid(com_node):
+	if is_instance_valid(com_node) and sync_to_clients:
 		com_node._receive_server_info.rpc(var_to_bytes_with_objects(self ))
 
-func get_channel(id: String) -> Channel:
+func get_channel(cid: String) -> Channel:
 	for channel in channels:
-		if channel.id == id:
+		if channel.id == cid:
 			return channel
 	return null
 
-func get_user(id: String) -> User:
+func get_user(uid: String) -> User:
 	for user in users:
-		if user.id == id:
+		if user.id == uid:
 			return user
 	return null
 
@@ -85,9 +85,6 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			var existing_user: User = get_user(user_id)
 			if is_instance_valid(existing_user):
 				var user_updated: bool
-				if existing_user.name != data.username:
-					existing_user.name = data.username
-					user_updated = true
 
 				if user_updated:
 					save_to_disk()
@@ -127,6 +124,36 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				channel_id = data.channel_id,
 				messages = messages
 			})
+		"receive_user_profile_update":
+			assert("user_id" in data, "No user_id provided for user profile update")
+
+			var user: User = get_user(data.user_id)
+
+			if "avatar_data" in data and "avatar_extension" in data:
+				var image: Image = Image.new()
+				image.load_png_from_buffer(data.avatar_data)
+				user.avatar = ImageTexture.create_from_image(image)
+
+				prints("what the ffffuck?", user.avatar)
+
+			if "profile" in data:
+				for key in data.profile:
+					if key in user:
+						user[key] = data.profile[key]
+			
+			var existing_user_index: int = users.find_custom(func(u: User) -> bool: return u.id == user.id)
+			if existing_user_index != -1:
+				users[existing_user_index] = user
+			else:
+				users.append(user)
+
+			HeadlessServer.send_api_message("receive_user_profile", {
+				user_id = data.user_id,
+				bytes = var_to_bytes_with_objects(user)
+			})
+
+			save_to_disk(false)
+			
 
 func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int) -> void:
 	if HeadlessServer.is_headless_server:
@@ -182,3 +209,17 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 				ChatFrame.instance.queue_redraw()
 
 				Notifications.play_sound("ping")
+		"receive_user_profile":
+			prints("received user profile update with size", data.bytes.size())
+
+			var user: User = bytes_to_var_with_objects(data.bytes)
+			var existing_user: User = get_user(data.user_id)
+
+			if is_instance_valid(existing_user):
+				for property in user.get_property_list():
+					if property.name in existing_user:
+						prints("new prop", property.name, user.get(property.name))
+						existing_user.set(property.name, user.get(property.name))
+				return
+			
+			users.append(user)

@@ -6,8 +6,8 @@ var user: User:
 		if user != new:
 			user = new
 
-			if is_instance_valid(user):
-				$Avatar.texture = user.avatar
+			if is_instance_valid(user) and is_instance_valid(user.avatar):
+				%Avatar.texture = user.avatar
 var channel: Channel
 
 @onready var volume_indicator: ProgressBar = %VolumeIndicator

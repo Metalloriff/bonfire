@@ -32,10 +32,6 @@ func _ready() -> void:
 		AudioServer.set_bus_effect_enabled(mic_bus, 0, not new_value)
 	)
 
-	Settings.make_setting_link_method("voice", "input_device", func(new_device: String) -> void:
-		AudioServer.input_device = new_device
-	)
-
 	Settings.make_setting_link_method("voice", "input_device_volume", func(new_value: int) -> void:
 		$Input.volume_linear = float(new_value) / 100.0
 	)
@@ -216,7 +212,7 @@ func _downstream_packets(channel_id: String, user_id: int, packet, pitch: float,
 	users[user_id].stream.push_opus_packet(packet, 0, 0)
 	users[user_id].set_meta("speaking_activity_level", speaking_activity_level)
 	users[user_id].set_meta("activity_level", activity_level)
-	users[user_id].volume_linear = Settings.get_value("voice", "output_device_volume") / 100.0
+	users[user_id].volume_linear = (Settings.get_value("voice", "output_device_volume") / 100.0) * speaking_activity_level
 
 func _process(_delta: float) -> void:
 	if HeadlessServer.is_headless_server:
@@ -233,6 +229,8 @@ func _process(_delta: float) -> void:
 
 		local_activity_level = activity_level
 		local_speaking_activity_level = speaking_activity_level
+
+		$Input.volume_linear = (Settings.get_value("voice", "input_device_volume") / 100.0) if not muted else 0.0
 
 		# if volume > 0.05 or true:
 		

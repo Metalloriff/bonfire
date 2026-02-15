@@ -78,7 +78,7 @@ func _ready() -> void:
 	var err = peer.create_server(get_config_entry("network.port"))
 
 	peer.peer_connected.connect(func(id):
-		print("Peer connected with ID ", id)
+		prints("Peer connected with ID", id)
 
 		await get_tree().process_frame
 
@@ -89,6 +89,8 @@ func _ready() -> void:
 	)
 
 	peer.peer_disconnected.connect(func(id):
+		prints("Peer disconnected with ID", id)
+
 		server.online_users.erase(id)
 		_sync_online_users()
 
@@ -114,8 +116,6 @@ func _ready() -> void:
 
 func _packet_received(peer_id: int, packet: PackedByteArray) -> void:
 	var message: Dictionary = bytes_to_var(packet)
-
-	prints("whe4oathoweituioawseoitujawset", message)
 
 	if not "endpoint" in message:
 		return

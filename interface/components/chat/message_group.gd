@@ -33,6 +33,4 @@ func _process_message_content(content: String) -> String:
 	regex.compile("https?:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)")
 	content = regex.sub(content, "[url=$0]$0[/url]", true)
 
-	prints("wtf?", content)
-
 	return content

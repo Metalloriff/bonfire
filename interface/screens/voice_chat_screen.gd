@@ -55,9 +55,14 @@ func _draw() -> void:
 		if user_tiles.has_node(str(peer_id)):
 			continue
 		
+		var timeout: float = 0.0
+		while not is_instance_valid(channel.server.get_user_by_peer_id(peer_id)) and timeout < 3.0:
+			timeout += await Lib.frame_with_delta()
+		
 		var user_tile: Control = load("res://interface/components/user/user_voice_chat_square.tscn").instantiate()
 		user_tile.peer_id = peer_id
 		user_tile.user = channel.server.get_user_by_peer_id(peer_id)
+		print("what in the flippity fuck", user_tile.user.avatar)
 		user_tile.channel = channel
 		user_tiles.add_child(user_tile)
 		user_tile.name = str(peer_id)

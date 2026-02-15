@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://ixawsv1y0ysj"]
 
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_ap2c3"]
 [ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="1_iuvpg"]
 [ext_resource type="Script" uid="uid://dsusus0ol80qb" path="res://interface/components/user/user_item.gd" id="1_jklbg"]
 
@@ -15,16 +16,28 @@ corner_radius_bottom_right = 99
 corner_radius_bottom_left = 99
 
 [node name="UserItem" type="PanelContainer" unique_id=808789305]
+theme = ExtResource("1_ap2c3")
 script = ExtResource("1_jklbg")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=311615247]
 layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=2118751654]
 layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="Avatar" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=1063923846]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer" unique_id=1882106383]
+clip_children = 1
+layout_mode = 2
+theme_type_variation = &"CircleMask"
+
+[node name="Avatar" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer" unique_id=1063923846]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 texture = ExtResource("1_iuvpg")
 expand_mode = 3
