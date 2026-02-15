@@ -5,6 +5,8 @@
 [ext_resource type="AudioStream" uid="uid://bwe4cffflm802" path="res://sounds/aero/ping_important.wav" id="2_2mj15"]
 [ext_resource type="AudioStream" uid="uid://by2jlhs6u7yq2" path="res://sounds/aero/vc_member_join.wav" id="3_ow1ny"]
 [ext_resource type="AudioStream" uid="uid://b0xeswt5m1q02" path="res://sounds/aero/vc_member_leave.wav" id="4_usgdf"]
+[ext_resource type="AudioStream" uid="uid://dppy5j82xta1f" path="res://sounds/aero/mute.wav" id="6_usgdf"]
+[ext_resource type="AudioStream" uid="uid://cx5wbbyj0qseu" path="res://sounds/aero/unmute.wav" id="7_tv5b0"]
 
 [node name="Notifications" type="Node" unique_id=176648701]
 script = ExtResource("1_2mj15")
@@ -13,14 +15,26 @@ script = ExtResource("1_2mj15")
 
 [node name="ping" type="AudioStreamPlayer" parent="Sounds" unique_id=292800763]
 stream = ExtResource("1_48368")
+volume_db = -6.0
 max_polyphony = 3
 
 [node name="ping_important" type="AudioStreamPlayer" parent="Sounds" unique_id=905626796]
 stream = ExtResource("2_2mj15")
+volume_db = -6.0
 max_polyphony = 3
 
 [node name="vc_member_join" type="AudioStreamPlayer" parent="Sounds" unique_id=1566632351]
 stream = ExtResource("3_ow1ny")
+volume_db = -6.0
 
 [node name="vc_member_leave" type="AudioStreamPlayer" parent="Sounds" unique_id=2024156184]
 stream = ExtResource("4_usgdf")
+volume_db = -6.0
+
+[node name="mute" type="AudioStreamPlayer" parent="Sounds" unique_id=1204805962]
+stream = ExtResource("6_usgdf")
+volume_db = -6.0
+
+[node name="unmute" type="AudioStreamPlayer" parent="Sounds" unique_id=1824263701]
+stream = ExtResource("7_tv5b0")
+volume_db = -6.0

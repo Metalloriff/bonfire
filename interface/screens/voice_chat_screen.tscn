@@ -186,19 +186,6 @@ text = "Join Call"
 icon = ExtResource("4_rbrwj")
 expand_icon = true
 
-[node name="Control" type="Control" parent="VC/HBoxContainer/OutOfCallControls" unique_id=774997606]
-custom_minimum_size = Vector2(10, 0)
-layout_mode = 2
-
-[node name="MuteButton" type="Button" parent="VC/HBoxContainer/OutOfCallControls" unique_id=604767880]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(140, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "Mute"
-icon = ExtResource("5_hbfhw")
-expand_icon = true
-
 [node name="InCallControls" type="HBoxContainer" parent="VC/HBoxContainer" unique_id=345056581]
 unique_name_in_owner = true
 visible = false
@@ -211,6 +198,19 @@ theme_type_variation = &"Button_Red"
 theme_override_font_sizes/font_size = 22
 text = "Leave Call"
 icon = ExtResource("5_xxmmj")
+expand_icon = true
+
+[node name="Control" type="Control" parent="VC/HBoxContainer/InCallControls" unique_id=774997606]
+custom_minimum_size = Vector2(10, 0)
+layout_mode = 2
+
+[node name="MuteButton" type="Button" parent="VC/HBoxContainer/InCallControls" unique_id=604767880]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(140, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "Mute"
+icon = ExtResource("5_hbfhw")
 expand_icon = true
 
 [node name="NewMessagesButton" type="Button" parent="VC" unique_id=907758725]
@@ -239,6 +239,6 @@ layout_mode = 2
 
 [connection signal="dragged" from="." to="." method="_on_dragged"]
 [connection signal="pressed" from="VC/HBoxContainer/OutOfCallControls/JoinCallButton" to="." method="_on_join_call_button_pressed"]
-[connection signal="pressed" from="VC/HBoxContainer/OutOfCallControls/MuteButton" to="." method="_on_mute_button_pressed"]
 [connection signal="pressed" from="VC/HBoxContainer/InCallControls/EndCallButton" to="." method="_on_end_call_button_pressed"]
+[connection signal="pressed" from="VC/HBoxContainer/InCallControls/MuteButton" to="." method="_on_mute_button_pressed"]
 [connection signal="pressed" from="VC/NewMessagesButton" to="." method="_on_new_messages_button_pressed"]

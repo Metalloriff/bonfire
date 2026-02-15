@@ -1,7 +1,12 @@
 extends Node
 
 var active_channel: Channel
-var muted: bool
+var muted: bool:
+	set(new):
+		if muted != new:
+			muted = new
+
+			Notifications.play_sound("mute" if muted else "unmute")
 
 signal user_joined(channel_id: String, user_id: int)
 signal user_left(channel_id: String, user_id: int)
