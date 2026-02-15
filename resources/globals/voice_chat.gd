@@ -66,6 +66,10 @@ func connect_to_channel(channel: Channel) -> void:
 	if active_channel == channel or channel.id in channel.server.voice_chat_participants and multiplayer.get_unique_id() in channel.server.voice_chat_participants[channel.id]:
 		return
 	
+	if is_instance_valid(active_channel):
+		disconnect_from_channel()
+		await Lib.frame
+	
 	active_channel = channel
 
 	get_tree().set_multiplayer(channel.server.com_node.local_multiplayer, "/root/VoiceChat")
