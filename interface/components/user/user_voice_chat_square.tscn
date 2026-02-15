@@ -1,9 +1,13 @@
 [gd_scene format=3 uid="uid://b7wpacwxxot0o"]
 
 [ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="1_6btdq"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_exw2m"]
+[ext_resource type="Script" uid="uid://cltarrncimdb4" path="res://interface/components/user/user_voice_chat_square.gd" id="2_3ljpa"]
 
 [node name="UserVoiceChatSquare" type="PanelContainer" unique_id=678362775]
 custom_minimum_size = Vector2(200, 200)
+theme = ExtResource("1_exw2m")
+script = ExtResource("2_3ljpa")
 
 [node name="Avatar" type="TextureRect" parent="." unique_id=1912762179]
 layout_mode = 2
@@ -15,6 +19,7 @@ stretch_mode = 6
 layout_mode = 2
 
 [node name="VolumeIndicator" type="ProgressBar" parent="MarginContainer" unique_id=365457035]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 1

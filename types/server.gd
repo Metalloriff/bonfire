@@ -141,8 +141,6 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			
 			MemberList.instance.queue_redraw()
 		"update_voice_chat_participants":
-			prints("received new voice chat participants", name, data.participants)
-
 			for channel_id in data.participants:
 				for pid in data.participants[channel_id]:
 					if not channel_id in voice_chat_participants or not pid in voice_chat_participants[channel_id]:

@@ -49,7 +49,9 @@ func _draw() -> void:
 	%MuteButton.icon = preload("res://icons/micOff.png") if VoiceChat.muted else preload("res://icons/mic.png")
 	%MuteButton.text = "Unmute" if VoiceChat.muted else "Mute"
 
-	for peer_id: int in VoiceChat.users:
+	var vc_participants: Array = channel.server.voice_chat_participants[channel.id] if channel.id in channel.server.voice_chat_participants else []
+
+	for peer_id: int in vc_participants:
 		if user_tiles.has_node(str(peer_id)):
 			continue
 		
@@ -58,9 +60,10 @@ func _draw() -> void:
 		user_tile.user = channel.server.get_user_by_peer_id(peer_id)
 		user_tile.channel = channel
 		user_tiles.add_child(user_tile)
+		user_tile.name = str(peer_id)
 	
 	for user_tile in user_tiles.get_children():
-		if not int(user_tile.name) in VoiceChat.users:
+		if not int(user_tile.name) in vc_participants:
 			user_tile.queue_free()
 
 func _fade_out_focus(tween_time: float = 0.5) -> void:

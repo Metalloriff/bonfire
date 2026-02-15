@@ -7,6 +7,7 @@ var muted: bool:
 			muted = new
 
 			Notifications.play_sound("mute" if muted else "unmute")
+var local_activity_level: float
 
 signal user_joined(channel_id: String, user_id: int)
 signal user_left(channel_id: String, user_id: int)
@@ -30,6 +31,9 @@ func _ready() -> void:
 
 	user_joined.connect(func(channel_id: String, user_id: int) -> void:
 		prints("user joined", channel_id, user_id, "is server", HeadlessServer.is_headless_server)
+
+		if active_channel and active_channel.id == channel_id:
+			ChatFrame.instance.queue_redraw()
 
 		if user_id == multiplayer.get_unique_id():
 			return
@@ -202,6 +206,8 @@ func _process(_delta: float) -> void:
 		var packet := mic_capture.read_opus_packet(PackedByteArray())
 		var activity_level := mic_capture.chunk_max(true, true)
 		mic_capture.drop_chunk()
+
+		local_activity_level = activity_level
 
 		# if volume > 0.05 or true:
 		
