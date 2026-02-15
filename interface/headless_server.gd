@@ -91,6 +91,16 @@ func _ready() -> void:
 	peer.peer_disconnected.connect(func(id):
 		server.online_users.erase(id)
 		_sync_online_users()
+
+		for channel_id in server.voice_chat_participants:
+			if id in server.voice_chat_participants[channel_id]:
+				server.voice_chat_participants[channel_id].erase(id)
+			if len(server.voice_chat_participants[channel_id]) == 0:
+				server.voice_chat_participants.erase(channel_id)
+		
+		send_api_message("update_voice_chat_participants", {
+			participants = server.voice_chat_participants
+		})
 	)
 	
 	if err != OK:

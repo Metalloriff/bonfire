@@ -31,7 +31,7 @@ func _ready() -> void:
 		AudioServer.set_bus_effect_enabled(mic_bus, 0, not new_value)
 	)
 
-	mic_capture = AudioServer.get_bus_effect(mic_bus, 1)
+	mic_capture = AudioServer.get_bus_effect(mic_bus, AudioServer.get_bus_effect_count(mic_bus) - 1)
 
 	user_joined.connect(func(channel_id: String, user_id: int) -> void:
 		prints("user joined", channel_id, user_id, "is server", HeadlessServer.is_headless_server)
@@ -177,7 +177,7 @@ func _remove_peer(id: int) -> void:
 	user_bus_indices.erase(id)
 
 @rpc("any_peer", "call_remote", "unreliable") # TODO remove pitch
-func _upstream_packets(channel_id: String, packet, pitch: float, activity_level: float = 0.0) -> void:
+func _upstream_packets(channel_id: String, packet, pitch: float, activity_level: float = 0.0, speaking_activity_level: float = 0.0) -> void:
 	if not channel_id in HeadlessServer.instance.server.voice_chat_participants:
 		return
 	
@@ -189,10 +189,10 @@ func _upstream_packets(channel_id: String, packet, pitch: float, activity_level:
 		if participant_id == sender_id:
 			continue
 		
-		_downstream_packets.rpc_id(participant_id, channel_id, sender_id, packet, pitch, activity_level)
+		_downstream_packets.rpc_id(participant_id, channel_id, sender_id, packet, pitch, activity_level, speaking_activity_level)
 
 @rpc("authority", "call_remote", "unreliable")
-func _downstream_packets(channel_id: String, user_id: int, packet, pitch: float, activity_level: float = 0.0) -> void:
+func _downstream_packets(channel_id: String, user_id: int, packet, pitch: float, activity_level: float = 0.0, speaking_activity_level: float = 0.0) -> void:
 	if not user_id in users:
 		print("invalid user found: %s" % user_id)
 		return
@@ -201,7 +201,9 @@ func _downstream_packets(channel_id: String, user_id: int, packet, pitch: float,
 	
 	users[user_id].pitch_scale = pitch
 	users[user_id].stream.push_opus_packet(packet, 0, 0)
+	users[user_id].set_meta("speaking_activity_level", speaking_activity_level)
 	users[user_id].set_meta("activity_level", activity_level)
+	users[user_id].volume_linear = speaking_activity_level
 
 func _process(_delta: float) -> void:
 	if HeadlessServer.is_headless_server:
@@ -212,6 +214,7 @@ func _process(_delta: float) -> void:
 	
 	while mic_capture.chunk_available():
 		var packet := mic_capture.read_opus_packet(PackedByteArray())
+		var speaking_activity_level: float = mic_capture.denoise_resampled_chunk()
 		var activity_level := mic_capture.chunk_max(true, true)
 		mic_capture.drop_chunk()
 
@@ -220,4 +223,4 @@ func _process(_delta: float) -> void:
 		# if volume > 0.05 or true:
 		
 		if not muted:
-			_upstream_packets.rpc_id(1, active_channel.id, packet, mic_mix_rate / 44100.0, activity_level)
+			_upstream_packets.rpc_id(1, active_channel.id, packet, mic_mix_rate / 44100.0, activity_level, speaking_activity_level)

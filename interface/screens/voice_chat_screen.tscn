@@ -76,6 +76,7 @@ theme_override_font_sizes/font_size = 22
 text = "Join Call"
 icon = ExtResource("4_rbrwj")
 expand_icon = true
+metadata/avoid_press_sound = true
 
 [node name="InCallControls" type="HBoxContainer" parent="VC/HBoxContainer" unique_id=345056581]
 unique_name_in_owner = true
@@ -90,6 +91,7 @@ theme_override_font_sizes/font_size = 22
 text = "Leave Call"
 icon = ExtResource("5_xxmmj")
 expand_icon = true
+metadata/avoid_press_sound = true
 
 [node name="Control" type="Control" parent="VC/HBoxContainer/InCallControls" unique_id=774997606]
 custom_minimum_size = Vector2(10, 0)

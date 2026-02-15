@@ -7,6 +7,8 @@
 [ext_resource type="AudioStream" uid="uid://b0xeswt5m1q02" path="res://sounds/aero/vc_member_leave.wav" id="4_usgdf"]
 [ext_resource type="AudioStream" uid="uid://dppy5j82xta1f" path="res://sounds/aero/mute.wav" id="6_usgdf"]
 [ext_resource type="AudioStream" uid="uid://cx5wbbyj0qseu" path="res://sounds/aero/unmute.wav" id="7_tv5b0"]
+[ext_resource type="AudioStream" uid="uid://b1i0es0tioa1c" path="res://sounds/aero/ui_hover.wav" id="8_twn8h"]
+[ext_resource type="AudioStream" uid="uid://bk17tkmtdlapw" path="res://sounds/aero/ui_press.wav" id="9_eh87y"]
 
 [node name="Notifications" type="Node" unique_id=176648701]
 script = ExtResource("1_2mj15")
@@ -38,3 +40,11 @@ volume_db = -6.0
 [node name="unmute" type="AudioStreamPlayer" parent="Sounds" unique_id=1824263701]
 stream = ExtResource("7_tv5b0")
 volume_db = -6.0
+
+[node name="ui_hover" type="AudioStreamPlayer" parent="Sounds" unique_id=1102596255]
+stream = ExtResource("8_twn8h")
+volume_db = -12.0
+
+[node name="ui_press" type="AudioStreamPlayer" parent="Sounds" unique_id=1020549902]
+stream = ExtResource("9_eh87y")
+volume_db = -10.0

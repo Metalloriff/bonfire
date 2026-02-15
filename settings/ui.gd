@@ -206,9 +206,18 @@ func _build_interface() -> void:
 					
 					slider.value = value
 					spinbox.set_value_no_signal(value)
-				"enum":
+				"enum", "audioin", "audioout":
 					var option: OptionButton = _create_field(category_node, enum_item, property, setting).get_node("OptionButton")
 					var enum_items: PackedStringArray = setting.enum_items if "enum_items" in setting else []
+
+					if setting.type == "audioin":
+						enum_items = AudioServer.get_input_device_list()
+						if not value:
+							value = enum_items.find(AudioServer.input_device)
+					elif setting.type == "audioout":
+						enum_items = AudioServer.get_output_device_list()
+						if not value:
+							value = enum_items.find(AudioServer.output_device)
 					
 					for item in enum_items:
 						option.add_item(" ".join(item.split("_")).capitalize())
