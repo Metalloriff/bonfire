@@ -8,6 +8,7 @@ var muted: bool:
 
 			Notifications.play_sound("mute" if muted else "unmute")
 var local_activity_level: float
+var local_speaking_activity_level: float
 
 signal user_joined(channel_id: String, user_id: int)
 signal user_left(channel_id: String, user_id: int)
@@ -219,6 +220,7 @@ func _process(_delta: float) -> void:
 		mic_capture.drop_chunk()
 
 		local_activity_level = activity_level
+		local_speaking_activity_level = speaking_activity_level
 
 		# if volume > 0.05 or true:
 		

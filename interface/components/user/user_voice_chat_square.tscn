@@ -3,6 +3,37 @@
 [ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="1_6btdq"]
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_exw2m"]
 [ext_resource type="Script" uid="uid://cltarrncimdb4" path="res://interface/components/user/user_voice_chat_square.gd" id="2_3ljpa"]
+[ext_resource type="Script" uid="uid://cjmmhbp1b5312" path="res://addons/StyleboxFancy/StyleBorder.gd" id="4_0on6g"]
+[ext_resource type="Script" uid="uid://bkl6g25jwb47h" path="res://addons/StyleboxFancy/StyleBoxFancy.gd" id="5_dchmo"]
+
+[sub_resource type="Resource" id="Resource_rkjk6"]
+script = ExtResource("4_0on6g")
+color = Color(0.16862746, 0.56078434, 0.8784314, 1)
+width_left = 5
+width_top = 5
+width_right = 5
+width_bottom = 5
+metadata/_custom_type_script = "uid://cjmmhbp1b5312"
+
+[sub_resource type="StyleBox" id="StyleBox_xbtyl"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("5_dchmo")
+color = Color(0, 0, 0, 0)
+borders = Array[ExtResource("4_0on6g")]([SubResource("Resource_rkjk6")])
+corner_radius_top_left = 55
+corner_radius_top_right = 55
+corner_radius_bottom_right = 55
+corner_radius_bottom_left = 55
+corner_curvature_top_left = 4.025
+corner_curvature_top_right = 4.025
+corner_curvature_bottom_right = 4.025
+corner_curvature_bottom_left = 4.025
+metadata/_custom_type_script = "uid://bkl6g25jwb47h"
 
 [node name="UserVoiceChatSquare" type="PanelContainer" unique_id=678362775]
 custom_minimum_size = Vector2(200, 200)
@@ -27,3 +58,8 @@ max_value = 1.0
 step = 0.001
 fill_mode = 3
 show_percentage = false
+
+[node name="SpeakingIndicator" type="PanelContainer" parent="." unique_id=1818639180]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_xbtyl")
