@@ -13,6 +13,16 @@ const PROPERTIES: Array[String] = [
 
 @export var member_join_date_time: String = "Invalid Date"
 
+func _init() -> void:
+	local_volume = FS.get_pref("member_volumes.%s" % id, 100.0)
+
+var local_volume: float = -1.0:
+	set(new):
+		if local_volume != new:
+			local_volume = new
+
+			FS.get_pref("member_volumes.%s" % id, 100.0)
+
 # func save() -> void:
 # 	assert(HeadlessServer.is_headless_server, "Cannot save user as a client")
 	

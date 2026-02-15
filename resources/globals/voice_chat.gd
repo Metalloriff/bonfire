@@ -212,7 +212,7 @@ func _downstream_packets(channel_id: String, user_id: int, packet, pitch: float,
 	users[user_id].stream.push_opus_packet(packet, 0, 0)
 	users[user_id].set_meta("speaking_activity_level", speaking_activity_level)
 	users[user_id].set_meta("activity_level", activity_level)
-	users[user_id].volume_linear = (Settings.get_value("voice", "output_device_volume") / 100.0) * speaking_activity_level
+	users[user_id].volume_linear = (Settings.get_value("voice", "output_device_volume") / 100.0) * (active_channel.server.get_user_by_peer_id(user_id).local_volume / 100.0) * speaking_activity_level
 
 func _process(_delta: float) -> void:
 	if HeadlessServer.is_headless_server:

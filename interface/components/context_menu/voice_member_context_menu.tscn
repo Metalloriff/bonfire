@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://wicaetce48o1"]
+
+[ext_resource type="PackedScene" uid="uid://bvdbogspriemp" path="res://interface/components/context_menu/context_menu_base.tscn" id="1_wqdd7"]
+[ext_resource type="Script" uid="uid://d2rdmtwv1qfbo" path="res://interface/components/context_menu/voice_member_context_menu.gd" id="2_peenj"]
+
+[node name="VoiceMemberContextMenu" unique_id=319957489 instance=ExtResource("1_wqdd7")]
+script = ExtResource("2_peenj")
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="0" unique_id=306165847]
+layout_mode = 2
+text = "Volume"
+
+[node name="VolumeSlider" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="1" unique_id=1371154625]
+unique_name_in_owner = true
+layout_mode = 2
+value = 100.0
+
+[connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_value_changed"]

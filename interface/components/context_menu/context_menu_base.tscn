@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bvdbogspriemp"]
+
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_f2cmj"]
+[ext_resource type="Script" uid="uid://3wxqd2tjpff7" path="res://interface/components/context_menu/context_menu.gd" id="1_s4xmn"]
+
+[node name="ContextMenuBase" type="Control" unique_id=319957489]
+layout_mode = 3
+anchors_preset = 0
+theme = ExtResource("1_f2cmj")
+script = ExtResource("1_s4xmn")
+
+[node name="Background" type="ColorRect" parent="." unique_id=422129976]
+layout_mode = 0
+offset_left = -9999.0
+offset_top = -9999.0
+offset_right = 90000.0
+offset_bottom = 90000.0
+color = Color(1, 1, 1, 0)
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=235822602]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer" unique_id=1003074682]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer" unique_id=547925685]
+layout_mode = 2
+
+[connection signal="gui_input" from="Background" to="." method="_on_background_gui_input"]

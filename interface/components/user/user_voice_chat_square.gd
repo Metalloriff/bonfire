@@ -13,6 +13,13 @@ var channel: Channel
 @onready var volume_indicator: ProgressBar = %VolumeIndicator
 @onready var speaking_indicator: Control = $SpeakingIndicator
 
+func _ready() -> void:
+	var context_menu_scene: PackedScene = preload("res://interface/components/context_menu/voice_member_context_menu.tscn")
+
+	ContextMenu.attach_listener(self , context_menu_scene, func(menu: ContextMenu) -> void:
+		menu.user = user
+	)
+
 func _process(delta: float) -> void:
 	volume_indicator.visible = is_instance_valid(VoiceChat.active_channel) and VoiceChat.active_channel.id == channel.id
 	if not volume_indicator.visible:
