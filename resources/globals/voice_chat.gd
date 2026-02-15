@@ -156,6 +156,12 @@ func _create_peer(id: int) -> void:
 	users[id].bus = str(id)
 	user_bus_indices[id] = new_bus_index
 
+	# This is retarded, but it fixes the delay. The delay has nothing to do with the network latency, but something to do with the audio.
+	await Lib.seconds(1.0)
+	users[id].playing = false
+	await Lib.seconds(0.1)
+	users[id].playing = true
+
 func _remove_peer(id: int) -> void:
 	if not id in users:
 		return
