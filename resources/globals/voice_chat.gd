@@ -27,7 +27,8 @@ func _ready() -> void:
 		get_tree().set_multiplayer(HeadlessServer.instance.multiplayer, "/root/VoiceChat")
 		return
 
-	Settings.make_setting_link_method("voice", "bool_stereo_microphone_enabled", func(new_value: bool) -> void:
+	Settings.make_setting_link_method("voice", "stereo_microphone_enabled", func(new_value: bool) -> void:
+		print("setting mic stereo", new_value)
 		AudioServer.set_bus_effect_enabled(mic_bus, 0, not new_value)
 	)
 
