@@ -44,11 +44,6 @@ func _ready() -> void:
 		AudioServer.output_device = new_device
 	)
 
-	Settings.make_setting_link_method("voice", "output_device_volume", func(new_value: int) -> void:
-		for peer_id: int in users:
-			users[peer_id].volume_linear = float(new_value) / 100.0
-	)
-
 	mic_capture = AudioServer.get_bus_effect(mic_bus, AudioServer.get_bus_effect_count(mic_bus) - 1)
 
 	user_joined.connect(func(channel_id: String, user_id: int) -> void:
@@ -221,7 +216,7 @@ func _downstream_packets(channel_id: String, user_id: int, packet, pitch: float,
 	users[user_id].stream.push_opus_packet(packet, 0, 0)
 	users[user_id].set_meta("speaking_activity_level", speaking_activity_level)
 	users[user_id].set_meta("activity_level", activity_level)
-	users[user_id].volume_linear = speaking_activity_level
+	users[user_id].volume_linear = Settings.get_value("voice", "output_device_volume") / 100.0
 
 func _process(_delta: float) -> void:
 	if HeadlessServer.is_headless_server:
