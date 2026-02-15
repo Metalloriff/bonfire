@@ -179,7 +179,7 @@ func _upstream_packets(channel_id: String, packet, pitch: float, activity_level:
 		if participant_id == sender_id:
 			continue
 		
-		_downstream_packets.rpc_id(participant_id, channel_id, sender_id, packet, pitch)
+		_downstream_packets.rpc_id(participant_id, channel_id, sender_id, packet, pitch, activity_level)
 
 @rpc("authority", "call_remote", "unreliable")
 func _downstream_packets(channel_id: String, user_id: int, packet, pitch: float, activity_level: float = 0.0) -> void:
@@ -188,8 +188,6 @@ func _downstream_packets(channel_id: String, user_id: int, packet, pitch: float,
 		return
 	if not is_instance_valid(active_channel) or not active_channel.id == channel_id:
 		return
-	
-	prints("user", multiplayer.get_unique_id(), "received packet from", user_id)
 	
 	users[user_id].pitch_scale = pitch
 	users[user_id].stream.push_opus_packet(packet, 0, 0)
