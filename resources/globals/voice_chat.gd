@@ -32,6 +32,25 @@ func _ready() -> void:
 		AudioServer.set_bus_effect_enabled(mic_bus, 0, not new_value)
 	)
 
+	Settings.make_setting_link_method("voice", "input_device", func(new_value: int) -> void:
+		var devices := AudioServer.get_input_device_list()
+		AudioServer.input_device = devices[new_value] if len(devices) > new_value else devices[0]
+	)
+
+	Settings.make_setting_link_method("voice", "input_device_volume", func(new_value: int) -> void:
+		$Input.volume_linear = float(new_value) / 100.0
+	)
+
+	Settings.make_setting_link_method("voice", "output_device", func(new_value: int) -> void:
+		var devices := AudioServer.get_output_device_list()
+		AudioServer.output_device = devices[new_value] if len(devices) > new_value else devices[0]
+	)
+
+	Settings.make_setting_link_method("voice", "output_device_volume", func(new_value: int) -> void:
+		for peer_id: int in users:
+			users[peer_id].volume_linear = float(new_value) / 100.0
+	)
+
 	mic_capture = AudioServer.get_bus_effect(mic_bus, AudioServer.get_bus_effect_count(mic_bus) - 1)
 
 	user_joined.connect(func(channel_id: String, user_id: int) -> void:
