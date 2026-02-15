@@ -65,4 +65,5 @@ func _continue() -> void:
 	if not _username or not _password_hash:
 		return
 	
+	await ModalStack._fade_out_modal(self )
 	get_tree().change_scene_to_file("res://interface/screens/main.tscn")

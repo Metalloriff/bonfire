@@ -27,6 +27,10 @@ func _ready() -> void:
 		get_tree().set_multiplayer(HeadlessServer.instance.multiplayer, "/root/VoiceChat")
 		return
 
+	Settings.make_setting_link_method("voice", "bool_stereo_microphone_enabled", func(new_value: bool) -> void:
+		AudioServer.set_bus_effect_enabled(mic_bus, 0, not new_value)
+	)
+
 	mic_capture = AudioServer.get_bus_effect(mic_bus, 1)
 
 	user_joined.connect(func(channel_id: String, user_id: int) -> void:
@@ -156,7 +160,7 @@ func _create_peer(id: int) -> void:
 	users[id].bus = str(id)
 	user_bus_indices[id] = new_bus_index
 
-	# This is retarded, but it fixes the delay. The delay has nothing to do with the network latency, but something to do with the audio.
+	# This is a hack, but it fixes the delay. The delay has nothing to do with the network latency, but something to do with the audio.
 	await Lib.seconds(1.0)
 	users[id].playing = false
 	await Lib.seconds(0.1)

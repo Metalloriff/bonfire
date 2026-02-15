@@ -5,6 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://bv1wihpmkwq8q" path="res://icons/accountTree.png" id="2_tp7gj"]
 [ext_resource type="Script" uid="uid://cbepodpajiqbp" path="res://interface/screens/main/server_list.gd" id="3_t6rgs"]
 [ext_resource type="Script" uid="uid://d1srepb6fakhm" path="res://interface/screens/main/channel_list.gd" id="5_s7lbp"]
+[ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="6_3x0ov"]
+[ext_resource type="Script" uid="uid://bhhwjyqd08gbs" path="res://interface/screens/main/local_user_container.gd" id="6_5n1j1"]
+[ext_resource type="Texture2D" uid="uid://cml4bx5ybxqtj" path="res://icons/settings.png" id="7_5n1j1"]
 [ext_resource type="Script" uid="uid://ckln06vm8xqkx" path="res://interface/screens/main/chat_frame.gd" id="7_sqj8o"]
 [ext_resource type="PackedScene" uid="uid://cqljlwc8jrffj" path="res://interface/components/servers/text_area.tscn" id="9_3x0ov"]
 [ext_resource type="PackedScene" uid="uid://bln4u7aj8h827" path="res://interface/components/servers/member_list.tscn" id="9_aes4q"]
@@ -16,6 +19,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
 theme = ExtResource("1_tp7gj")
 script = ExtResource("1_d1nne")
 
@@ -29,7 +33,7 @@ grow_vertical = 2
 
 [node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer" unique_id=2094505634]
 layout_mode = 2
-split_offsets = PackedInt32Array(50, 275, 1550)
+split_offsets = PackedInt32Array(50, 350, 1500, 0)
 split_offset = 50
 
 [node name="Servers" type="PanelContainer" parent="MarginContainer/HSplitContainer" unique_id=1912331874]
@@ -54,26 +58,57 @@ theme_override_font_sizes/font_size = 18
 icon = ExtResource("2_tp7gj")
 expand_icon = true
 
-[node name="Channels" type="PanelContainer" parent="MarginContainer/HSplitContainer" unique_id=813886612]
+[node name="ChannelContainer" type="VBoxContainer" parent="MarginContainer/HSplitContainer" unique_id=1207690190]
 layout_mode = 2
 
-[node name="ChannelList" type="VBoxContainer" parent="MarginContainer/HSplitContainer/Channels" unique_id=813998620]
+[node name="Channels" type="PanelContainer" parent="MarginContainer/HSplitContainer/ChannelContainer" unique_id=813886612]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ChannelList" type="VBoxContainer" parent="MarginContainer/HSplitContainer/ChannelContainer/Channels" unique_id=813998620]
 layout_mode = 2
 theme_override_constants/separation = 0
 script = ExtResource("5_s7lbp")
 
-[node name="ServerInfoContainer" type="MarginContainer" parent="MarginContainer/HSplitContainer/Channels/ChannelList" unique_id=1952891382]
+[node name="ServerInfoContainer" type="MarginContainer" parent="MarginContainer/HSplitContainer/ChannelContainer/Channels/ChannelList" unique_id=1952891382]
 layout_mode = 2
 
-[node name="ServerInfo" type="VBoxContainer" parent="MarginContainer/HSplitContainer/Channels/ChannelList/ServerInfoContainer" unique_id=1723194714]
+[node name="ServerInfo" type="VBoxContainer" parent="MarginContainer/HSplitContainer/ChannelContainer/Channels/ChannelList/ServerInfoContainer" unique_id=1723194714]
 layout_mode = 2
 
-[node name="Name" type="Label" parent="MarginContainer/HSplitContainer/Channels/ChannelList/ServerInfoContainer/ServerInfo" unique_id=44537089]
+[node name="Name" type="Label" parent="MarginContainer/HSplitContainer/ChannelContainer/Channels/ChannelList/ServerInfoContainer/ServerInfo" unique_id=44537089]
 layout_mode = 2
 text = "Server Name"
 
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/HSplitContainer/Channels/ChannelList/ServerInfoContainer/ServerInfo" unique_id=387222966]
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/HSplitContainer/ChannelContainer/Channels/ChannelList/ServerInfoContainer/ServerInfo" unique_id=387222966]
 layout_mode = 2
+
+[node name="LocalUserContainer" type="PanelContainer" parent="MarginContainer/HSplitContainer/ChannelContainer" unique_id=2001124872]
+layout_mode = 2
+script = ExtResource("6_5n1j1")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer" unique_id=1910278376]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer" unique_id=1366381619]
+layout_mode = 2
+
+[node name="Avatar" type="TextureRect" parent="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1217910208]
+layout_mode = 2
+texture = ExtResource("6_3x0ov")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Label" type="Label" parent="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1758461276]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Username"
+
+[node name="SettingsButton" type="Button" parent="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1139410926]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+icon = ExtResource("7_5n1j1")
+expand_icon = true
 
 [node name="ChatContainer" type="VBoxContainer" parent="MarginContainer/HSplitContainer" unique_id=1819694883]
 layout_mode = 2
@@ -93,3 +128,4 @@ layout_mode = 2
 layout_mode = 2
 
 [connection signal="pressed" from="MarginContainer/HSplitContainer/Servers/ServerList/JoinServer" to="." method="_on_join_server_pressed"]
+[connection signal="pressed" from="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/SettingsButton" to="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer" method="_on_settings_button_pressed"]

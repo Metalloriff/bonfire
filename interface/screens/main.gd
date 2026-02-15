@@ -20,6 +20,9 @@ func _ready() -> void:
 	for server_resource_path: String in DirAccess.get_files_at("user://servers"):
 		var server: Server = load("user://servers/%s" % server_resource_path)
 		ServerComNode.new(server.id)
+	
+	ModalStack._fade_out_modal(self , 0.0)
+	ModalStack._fade_in_modal(self )
 
 func _on_join_server_pressed() -> void:
-	get_tree().current_scene.add_child(load("res://interface/modals/join_server_modal.tscn").instantiate())
+	ModalStack.open_modal("res://interface/modals/join_server_modal.tscn")

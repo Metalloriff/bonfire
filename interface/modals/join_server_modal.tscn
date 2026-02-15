@@ -10,6 +10,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
 theme = ExtResource("1_uhtjb")
 script = ExtResource("2_qpq2g")
 
@@ -20,6 +21,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(5, 5)
+pivot_offset_ratio = Vector2(0.5, 0.5)
 color = Color(0, 0, 0, 0.6392157)
 
 [node name="Modal" type="PanelContainer" parent="." unique_id=18995346]

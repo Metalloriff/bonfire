@@ -1,0 +1,320 @@
+[gd_scene format=3 uid="uid://c85sdicm3xc6d"]
+
+[ext_resource type="Script" uid="uid://ofqts6sp517b" path="res://settings/settings.gd" id="1_b3h0d"]
+[ext_resource type="Shader" uid="uid://dob5q86hplpmo" path="res://settings/shaders/blur_bg.gdshader" id="1_f0c1n"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="2_3igm3"]
+[ext_resource type="Script" uid="uid://cqbujsj1jts6q" path="res://settings/ui.gd" id="2_axkxe"]
+[ext_resource type="Texture2D" uid="uid://brk34k7vjmah2" path="res://settings/icons/reset.png" id="4_11qxb"]
+[ext_resource type="Script" uid="uid://cg3y0rs5boe34" path="res://settings/project_settings_manager.gd" id="4_a11k5"]
+[ext_resource type="Script" uid="uid://7owmd7f3jvpl" path="res://addons/awesome_input_icons/classes/InputIconTextureRect.gd" id="6_5wv7n"]
+[ext_resource type="Script" uid="uid://j4k5urgovvep" path="res://settings/input_picker_modal.gd" id="7_0svtd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hc83s"]
+shader = ExtResource("1_f0c1n")
+shader_parameter/blur_amount = 1.5
+
+[node name="Settings" type="CanvasLayer" unique_id=1866238567]
+process_mode = 3
+layer = -128
+script = ExtResource("1_b3h0d")
+
+[node name="UI" type="Control" parent="." unique_id=147935127]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset_ratio = Vector2(0.5, 0.5)
+theme = ExtResource("2_3igm3")
+script = ExtResource("2_axkxe")
+
+[node name="BlurBG" type="ColorRect" parent="UI" unique_id=2028035966]
+material = SubResource("ShaderMaterial_hc83s")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(5, 5)
+pivot_offset_ratio = Vector2(0.5, 0.5)
+
+[node name="MarginContainer" type="MarginContainer" parent="UI" unique_id=484607331]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 100
+theme_override_constants/margin_right = 100
+
+[node name="TabContainer" type="TabContainer" parent="UI/MarginContainer" unique_id=740572149]
+unique_name_in_owner = true
+layout_mode = 2
+current_tab = 0
+
+[node name="SettingsPage" type="MarginContainer" parent="UI/MarginContainer/TabContainer" unique_id=467472894]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+metadata/_tab_index = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI/MarginContainer/TabContainer/SettingsPage" unique_id=1702301607]
+layout_mode = 2
+
+[node name="Items" type="VBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer" unique_id=1284973786]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ResetButton" type="Button" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=1221971217]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(23, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+flat = true
+icon_alignment = 1
+expand_icon = true
+
+[node name="TextureRect" type="TextureRect" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/ResetButton" unique_id=1378716443]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_11qxb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DivItem" type="MarginContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=2111336106]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/DivItem" unique_id=1446075142]
+custom_minimum_size = Vector2(0, 30)
+layout_mode = 2
+text = "Separator"
+
+[node name="ColorRect" type="ColorRect" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/DivItem" unique_id=789527633]
+custom_minimum_size = Vector2(0, 2)
+layout_mode = 2
+size_flags_vertical = 8
+color = Color(1, 1, 1, 0.313726)
+
+[node name="BoolItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=1190118251]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/BoolItem" unique_id=9976117]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Example Bool Item"
+
+[node name="CheckButton" type="CheckButton" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/BoolItem" unique_id=625825974]
+layout_mode = 2
+
+[node name="FltItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=1012475932]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/FltItem" unique_id=1093130620]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Example Float Item"
+
+[node name="HSlider" type="HSlider" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/FltItem" unique_id=167052611]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 4
+step = 0.0
+scrollable = false
+
+[node name="SpinBox" type="SpinBox" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/FltItem" unique_id=1606326420]
+layout_mode = 2
+step = 0.01
+value = 0.1
+
+[node name="IntItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=611059624]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/IntItem" unique_id=1588311335]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Example Int Item"
+
+[node name="HSlider" type="HSlider" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/IntItem" unique_id=1904390514]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_vertical = 4
+step = 0.0
+rounded = true
+scrollable = false
+
+[node name="Label2" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/IntItem" unique_id=646640048]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "0
+"
+
+[node name="EnumItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=2002516961]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/EnumItem" unique_id=1990356870]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Example Enum Item"
+
+[node name="OptionButton" type="OptionButton" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/EnumItem" unique_id=1696735096]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="ColorItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=490370965]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/ColorItem" unique_id=2100350523]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Example Color Item"
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/ColorItem" unique_id=2079852695]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="StrItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=1836900989]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/StrItem" unique_id=85623147]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Example String Item"
+
+[node name="LineEdit" type="LineEdit" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/StrItem" unique_id=611269065]
+custom_minimum_size = Vector2(350, 0)
+layout_mode = 2
+
+[node name="FileItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=1440305284]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/FileItem" unique_id=1081931311]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Example File Item"
+
+[node name="Button" type="Button" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/FileItem" unique_id=66474621]
+layout_mode = 2
+text = "Pick File"
+
+[node name="FileDialog" type="FileDialog" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/FileItem" unique_id=902975490]
+title = "Open a File"
+initial_position = 5
+size = Vector2i(876, 660)
+ok_button_text = "Open"
+file_mode = 0
+access = 2
+
+[node name="BindItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=370617442]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/BindItem" unique_id=1219812346]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Example Keybind Item"
+
+[node name="Button" type="Button" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/BindItem" unique_id=1596263818]
+layout_mode = 2
+text = "  "
+
+[node name="InputIconTextureRect" type="TextureRect" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items/BindItem/Button" unique_id=1265565392]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("6_5wv7n")
+
+[node name="NoteItem" type="RichTextLabel" parent="UI/MarginContainer/TabContainer/SettingsPage/ScrollContainer/Items" unique_id=1588553537]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 12
+theme_override_font_sizes/bold_font_size = 12
+theme_override_font_sizes/bold_italics_font_size = 12
+theme_override_font_sizes/italics_font_size = 12
+theme_override_font_sizes/mono_font_size = 12
+bbcode_enabled = true
+text = "This is an example paragraph thingy."
+fit_content = true
+
+[node name="InputPickerModal" type="Control" parent="UI" unique_id=175991061]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_0svtd")
+
+[node name="ColorRect" type="ColorRect" parent="UI/InputPickerModal" unique_id=188896617]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.823529)
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/InputPickerModal" unique_id=1493634708]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/InputPickerModal/PanelContainer" unique_id=677909775]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Label" type="Label" parent="UI/InputPickerModal/PanelContainer/MarginContainer" unique_id=1214519644]
+layout_mode = 2
+text = "Press desired key/button.
+
+Press Escape to cancel.
+Press Backspace to delete binding."
+horizontal_alignment = 1
+
+[node name="ProjectSettingsManager" type="Node" parent="." unique_id=1922777472]
+script = ExtResource("4_a11k5")

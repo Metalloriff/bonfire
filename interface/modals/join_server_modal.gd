@@ -3,9 +3,9 @@ extends Control
 func _ready() -> void:
 	$Background.gui_input.connect(func(event: InputEvent) -> void:
 		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-			queue_free()
+			ModalStack.fade_free_modal(self )
 		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			queue_free()
+			ModalStack.fade_free_modal(self )
 	)
 
 func _on_private_profile_toggle_toggled(toggled_on: bool) -> void:
@@ -54,4 +54,4 @@ func _on_join_button_pressed() -> void:
 			return
 
 	ServerList.instance.queue_redraw.call_deferred()
-	queue_free()
+	ModalStack.fade_free_modal(self )

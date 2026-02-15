@@ -30,6 +30,8 @@ ServerCom="*uid://cd501xn21n02m"
 Lib="*uid://c5uufs22002k1"
 VoiceChat="*uid://ca462bqbnh1q0"
 Notifications="*uid://d238v2kglk6eb"
+ModalStack="*uid://yc0qingvqkvu"
+Settings="*uid://c85sdicm3xc6d"
 
 [display]
 
@@ -38,7 +40,12 @@ window/size/viewport_height=1080
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/StyleboxFancy/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/material_icons_importer/plugin.cfg", "res://addons/miniyaml/plugin.cfg")
+enabled=PackedStringArray("res://addons/StyleboxFancy/plugin.cfg", "res://addons/awesome_input_icons/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/material_icons_importer/plugin.cfg", "res://addons/miniyaml/plugin.cfg")
+
+[network]
+
+limits/tcp/connect_timeout_seconds=10
+limits/unix/connect_timeout_seconds=10
 
 [physics]
 
