@@ -42,4 +42,4 @@ func _draw() -> void:
 	
 	if new_message_count > 0:
 		await Lib.frame
-		scroll_vertical = size.y
+		scroll_vertical = -999999999999999

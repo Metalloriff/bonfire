@@ -2,7 +2,6 @@
 
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_0g7jh"]
 [ext_resource type="Script" uid="uid://d11qnwg4a3kmy" path="res://interface/screens/voice_chat_screen.gd" id="2_xxmmj"]
-[ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="3_7kqkq"]
 [ext_resource type="Texture2D" uid="uid://cqvkn7ao3bg82" path="res://icons/call.png" id="4_rbrwj"]
 [ext_resource type="Texture2D" uid="uid://b8uy64f5vck0j" path="res://icons/mic.png" id="5_hbfhw"]
 [ext_resource type="Texture2D" uid="uid://b3q1vxouvgx7o" path="res://icons/callEnd.png" id="5_xxmmj"]
@@ -34,116 +33,6 @@ grow_vertical = 2
 scale = Vector2(0.85, 0.85)
 pivot_offset_ratio = Vector2(0.5, 0.5)
 alignment = 1
-
-[node name="PanelContainer" type="PanelContainer" parent="VC/UserTiles" unique_id=111569172]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer" unique_id=1883156431]
-layout_mode = 2
-texture = ExtResource("3_7kqkq")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="PanelContainer2" type="PanelContainer" parent="VC/UserTiles" unique_id=7240295]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer2" unique_id=873496474]
-layout_mode = 2
-texture = ExtResource("3_7kqkq")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="PanelContainer3" type="PanelContainer" parent="VC/UserTiles" unique_id=2082450757]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer3" unique_id=352023009]
-layout_mode = 2
-texture = ExtResource("3_7kqkq")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="PanelContainer4" type="PanelContainer" parent="VC/UserTiles" unique_id=1686423527]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer4" unique_id=2121147633]
-layout_mode = 2
-texture = ExtResource("3_7kqkq")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="PanelContainer5" type="PanelContainer" parent="VC/UserTiles" unique_id=347877771]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer5" unique_id=503602328]
-layout_mode = 2
-texture = ExtResource("3_7kqkq")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="PanelContainer6" type="PanelContainer" parent="VC/UserTiles" unique_id=511310680]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer6" unique_id=1622169397]
-layout_mode = 2
-texture = ExtResource("3_7kqkq")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="PanelContainer7" type="PanelContainer" parent="VC/UserTiles" unique_id=1581491242]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer7" unique_id=1690769014]
-layout_mode = 2
-texture = ExtResource("3_7kqkq")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="PanelContainer8" type="PanelContainer" parent="VC/UserTiles" unique_id=1266310783]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer8" unique_id=344930404]
-layout_mode = 2
-texture = ExtResource("3_7kqkq")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="PanelContainer9" type="PanelContainer" parent="VC/UserTiles" unique_id=696563916]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer9" unique_id=1677775429]
-layout_mode = 2
-texture = ExtResource("3_7kqkq")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="PanelContainer10" type="PanelContainer" parent="VC/UserTiles" unique_id=616103853]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer10" unique_id=1798732592]
-layout_mode = 2
-texture = ExtResource("3_7kqkq")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="PanelContainer11" type="PanelContainer" parent="VC/UserTiles" unique_id=294446399]
-custom_minimum_size = Vector2(200, 200)
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="VC/UserTiles/PanelContainer11" unique_id=1060358110]
-layout_mode = 2
-texture = ExtResource("3_7kqkq")
-expand_mode = 1
-stretch_mode = 6
 
 [node name="Notice" type="Label" parent="VC" unique_id=1399972638]
 layout_mode = 1

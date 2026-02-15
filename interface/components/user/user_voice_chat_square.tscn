@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://b7wpacwxxot0o"]
+
+[ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="1_6btdq"]
+
+[node name="UserVoiceChatSquare" type="PanelContainer" unique_id=678362775]
+custom_minimum_size = Vector2(200, 200)
+
+[node name="Avatar" type="TextureRect" parent="." unique_id=1912762179]
+layout_mode = 2
+texture = ExtResource("1_6btdq")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1476791044]
+layout_mode = 2
+
+[node name="VolumeIndicator" type="ProgressBar" parent="MarginContainer" unique_id=365457035]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.001
+fill_mode = 3
+show_percentage = false

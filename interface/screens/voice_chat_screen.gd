@@ -14,6 +14,8 @@ var channel: Channel:
 
 var unread_message_count: int = 0
 
+@onready var user_tiles: HFlowContainer = $VC/UserTiles
+
 func _ready() -> void:
 	if is_instance_valid(VoiceChat.active_channel) and VoiceChat.active_channel == channel:
 		_fade_in_focus(0.0)
@@ -46,6 +48,20 @@ func _draw() -> void:
 	%MuteButton.theme_type_variation = &"Button_Red" if VoiceChat.muted else &""
 	%MuteButton.icon = preload("res://icons/micOff.png") if VoiceChat.muted else preload("res://icons/mic.png")
 	%MuteButton.text = "Unmute" if VoiceChat.muted else "Mute"
+
+	for peer_id: int in VoiceChat.users:
+		if user_tiles.has_node(str(peer_id)):
+			continue
+		
+		var user_tile: Control = load("res://interface/components/user/user_voice_chat_square.tscn").instantiate()
+		user_tile.peer_id = peer_id
+		user_tile.user = channel.server.get_user_by_peer_id(peer_id)
+		user_tile.channel = channel
+		user_tiles.add_child(user_tile)
+	
+	for user_tile in user_tiles.get_children():
+		if not int(user_tile.name) in VoiceChat.users:
+			user_tile.queue_free()
 
 func _fade_out_focus(tween_time: float = 0.5) -> void:
 	var tiles: HFlowContainer = $VC/UserTiles
@@ -80,7 +96,7 @@ func _on_new_messages_button_pressed() -> void:
 	split_offsets[0] = 0 if split_offsets[0] < 0 else -500
 
 func _on_dragged(offset: int) -> void:
-	$TextChatContainer/TextChat.set_deferred(&"scroll_vertical", 999999.0)
+	$TextChatContainer/TextChat.set_deferred(&"scroll_vertical", -9999999999)
 
 func _on_mute_button_pressed() -> void:
 	VoiceChat.muted = not VoiceChat.muted
