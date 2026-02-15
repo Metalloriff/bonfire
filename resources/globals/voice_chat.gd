@@ -28,7 +28,6 @@ func _ready() -> void:
 		return
 
 	Settings.make_setting_link_method("voice", "stereo_microphone_enabled", func(new_value: bool) -> void:
-		print("setting mic stereo", new_value)
 		AudioServer.set_bus_effect_enabled(mic_bus, 0, not new_value)
 	)
 
