@@ -47,9 +47,11 @@ func _draw() -> void:
 	
 	%MuteButton.theme_type_variation = &"Button_Red" if VoiceChat.muted else &""
 	%MuteButton.icon = preload("res://icons/micOff.png") if VoiceChat.muted else preload("res://icons/mic.png")
-	%MuteButton.text = "Unmute" if VoiceChat.muted else "Mute"
 
-	var vc_participants: Array = channel.server.voice_chat_participants[channel.id] if channel.id in channel.server.voice_chat_participants else []
+	%DeafenButton.theme_type_variation = &"Button_Red" if VoiceChat.deafened else &""
+	%DeafenButton.icon = preload("res://icons/volumeOff.png") if VoiceChat.deafened else preload("res://icons/volumeUp.png")
+
+	var vc_participants: Dictionary = channel.server.voice_chat_participants[channel.id] if channel.id in channel.server.voice_chat_participants else {}
 
 	for peer_id: int in vc_participants:
 		if user_tiles.has_node(str(peer_id)):
@@ -62,7 +64,6 @@ func _draw() -> void:
 		var user_tile: Control = load("res://interface/components/user/user_voice_chat_square.tscn").instantiate()
 		user_tile.peer_id = peer_id
 		user_tile.user = channel.server.get_user_by_peer_id(peer_id)
-		print("what in the flippity fuck", user_tile.user.avatar)
 		user_tile.channel = channel
 		user_tiles.add_child(user_tile)
 		user_tile.name = str(peer_id)
@@ -108,4 +109,8 @@ func _on_dragged(offset: int) -> void:
 
 func _on_mute_button_pressed() -> void:
 	VoiceChat.muted = not VoiceChat.muted
+	queue_redraw()
+
+func _on_deafen_button_pressed() -> void:
+	VoiceChat.deafened = not VoiceChat.deafened
 	queue_redraw()

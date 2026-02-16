@@ -4,9 +4,19 @@ var active_channel: Channel
 var muted: bool:
 	set(new):
 		if muted != new:
+			if deafened and not new:
+				return
 			muted = new
 
 			Notifications.play_sound("mute" if muted else "unmute")
+			_user_update.rpc_id(1, active_channel.id, {muted = muted})
+var deafened: bool:
+	set(new):
+		if deafened != new:
+			deafened = new
+			muted = new
+
+			_user_update.rpc_id(1, active_channel.id, {deafened = deafened})
 var local_activity_level: float
 var local_speaking_activity_level: float
 
@@ -17,8 +27,13 @@ var mic_bus: int = AudioServer.get_bus_index("Microphone")
 var mic_capture: AudioEffectOpusChunked
 var users: Dictionary = {}
 var user_bus_indices: Dictionary = {}
+var participants: Dictionary:
+	get:
+		if not is_instance_valid(active_channel):
+			return {}
+		return active_channel.server.voice_chat_participants[active_channel.id]
 
-@onready var mic_mix_rate: int = AudioServer.get_input_mix_rate()
+var _pending_updates: bool
 
 func _ready() -> void:
 	if HeadlessServer.is_headless_server:
@@ -43,8 +58,6 @@ func _ready() -> void:
 	mic_capture = AudioServer.get_bus_effect(mic_bus, AudioServer.get_bus_effect_count(mic_bus) - 1)
 
 	user_joined.connect(func(channel_id: String, user_id: int) -> void:
-		prints("user joined", channel_id, user_id, "is server", HeadlessServer.is_headless_server)
-
 		if active_channel and active_channel.id == channel_id:
 			ChatFrame.instance.queue_redraw()
 
@@ -77,11 +90,14 @@ func _ready() -> void:
 	)
 
 func connect_to_channel(channel: Channel) -> void:
+	if _pending_updates:
+		return
 	if channel.type != Channel.Type.VOICE:
 		return
-	
 	if active_channel == channel or channel.id in channel.server.voice_chat_participants and multiplayer.get_unique_id() in channel.server.voice_chat_participants[channel.id]:
 		return
+	
+	_pending_updates = true
 	
 	if is_instance_valid(active_channel):
 		disconnect_from_channel()
@@ -90,18 +106,22 @@ func connect_to_channel(channel: Channel) -> void:
 	active_channel = channel
 
 	get_tree().set_multiplayer(channel.server.com_node.local_multiplayer, "/root/VoiceChat")
-	_user_join_request.rpc_id(1, channel.id)
+	_user_join_request.rpc_id(1, channel.id, AudioServer.get_input_mix_rate() / 44100.0)
 
 	while not channel.id in channel.server.voice_chat_participants or not multiplayer.get_unique_id() in channel.server.voice_chat_participants[channel.id]:
 		await Lib.frame
 	
-	for user_id in channel.server.voice_chat_participants[channel.id]:
-		if user_id == multiplayer.get_unique_id():
+	for peer_id in channel.server.voice_chat_participants[channel.id]:
+		if peer_id == multiplayer.get_unique_id():
 			continue
 		
-		_create_peer(user_id)
+		_create_peer(peer_id)
 
 func disconnect_from_channel() -> void:
+	if _pending_updates:
+		return
+	_pending_updates = true
+	
 	_user_leave_request.rpc_id(1, active_channel.id)
 
 @rpc("any_peer")
@@ -113,12 +133,15 @@ func _user_leave_request(channel_id: String) -> void:
 	var peer_id: int = multiplayer.get_remote_sender_id()
 	var channel: Channel = server.get_channel(channel_id)
 
+	if not channel.id in server.voice_chat_participants or not peer_id in server.voice_chat_participants[channel.id]:
+		return
+
 	if not is_instance_valid(channel):
 		push_error("User (%s) attempted to leave invalid channel with ID '%s'" % [peer_id, channel_id])
 		return
 	
 	if not channel.id in server.voice_chat_participants:
-		server.voice_chat_participants[channel.id] = []
+		server.voice_chat_participants[channel.id] = {}
 	if peer_id in server.voice_chat_participants[channel.id]:
 		server.voice_chat_participants[channel.id].erase(peer_id)
 	HeadlessServer.send_api_message("update_voice_chat_participants", {
@@ -126,7 +149,7 @@ func _user_leave_request(channel_id: String) -> void:
 	})
 
 @rpc("any_peer")
-func _user_join_request(channel_id: String) -> void:
+func _user_join_request(channel_id: String, mic_mix_rate_offset: float) -> void:
 	if not HeadlessServer.is_headless_server or not multiplayer.is_server():
 		return
 	
@@ -136,16 +159,41 @@ func _user_join_request(channel_id: String) -> void:
 	var peer_id: int = multiplayer.get_remote_sender_id()
 	var channel: Channel = server.get_channel(channel_id)
 
+	if channel.id in channel.server.voice_chat_participants and peer_id in channel.server.voice_chat_participants[channel.id]:
+		return
+
 	if not is_instance_valid(channel):
 		push_error("User (%s) attempted to join invalid channel with ID '%s'" % [peer_id, channel_id])
 		return
 	
 	if not channel.id in server.voice_chat_participants:
-		server.voice_chat_participants[channel.id] = []
+		server.voice_chat_participants[channel.id] = {}
 	if peer_id in server.voice_chat_participants[channel.id]:
 		return
 
-	server.voice_chat_participants[channel.id].append(peer_id)
+	server.voice_chat_participants[channel.id][peer_id] = {
+		mix_rate = mic_mix_rate_offset,
+		muted = false,
+		deafened = false
+	}
+	HeadlessServer.send_api_message("update_voice_chat_participants", {
+		participants = server.voice_chat_participants
+	})
+
+@rpc("any_peer")
+func _user_update(channel_id: String, data: Dictionary) -> void:
+	if not HeadlessServer.is_headless_server:
+		return
+
+	var server: Server = HeadlessServer.instance.server
+	var peer_id := multiplayer.get_remote_sender_id()
+	if not peer_id in server.voice_chat_participants[channel_id]:
+		return
+	
+	for property in data:
+		if property in server.voice_chat_participants[channel_id][peer_id] and property != "mix_rate":
+			server.voice_chat_participants[channel_id][peer_id][property] = data[property]
+	
 	HeadlessServer.send_api_message("update_voice_chat_participants", {
 		participants = server.voice_chat_participants
 	})
@@ -158,9 +206,8 @@ func _create_user(id: int) -> Node:
 	return user
 
 func _create_peer(id: int) -> void:
-	prints("peer created", id)
-
 	users[id] = _create_user(id)
+	users[id].pitch_scale = participants[id].mix_rate
 	$Outputs.add_child(users[id])
 
 	var new_bus_index: int = AudioServer.bus_count
@@ -186,29 +233,31 @@ func _remove_peer(id: int) -> void:
 	user_bus_indices.erase(id)
 
 @rpc("any_peer", "call_remote", "unreliable") # TODO remove pitch
-func _upstream_packets(channel_id: String, packet, pitch: float, activity_level: float = 0.0, speaking_activity_level: float = 0.0) -> void:
+func _upstream_packets(channel_id: String, packet, activity_level: float = 0.0, speaking_activity_level: float = 0.0) -> void:
 	if not channel_id in HeadlessServer.instance.server.voice_chat_participants:
 		return
 	
-	var sender_id := multiplayer.get_remote_sender_id()
-	if not sender_id in HeadlessServer.instance.server.voice_chat_participants[channel_id]:
+	var peer_id := multiplayer.get_remote_sender_id()
+	if not peer_id in HeadlessServer.instance.server.voice_chat_participants[channel_id]:
 		return
 	
 	for participant_id in HeadlessServer.instance.server.voice_chat_participants[channel_id]:
-		if participant_id == sender_id:
+		if participant_id == peer_id:
 			continue
 		
-		_downstream_packets.rpc_id(participant_id, channel_id, sender_id, packet, pitch, activity_level, speaking_activity_level)
+		_downstream_packets.rpc_id(participant_id, channel_id, peer_id, packet, activity_level, speaking_activity_level)
 
 @rpc("authority", "call_remote", "unreliable")
-func _downstream_packets(channel_id: String, user_id: int, packet, pitch: float, activity_level: float = 0.0, speaking_activity_level: float = 0.0) -> void:
+func _downstream_packets(channel_id: String, user_id: int, packet, activity_level: float = 0.0, speaking_activity_level: float = 0.0) -> void:
+	if deafened:
+		return
+	
 	if not user_id in users:
 		print("invalid user found: %s" % user_id)
 		return
 	if not is_instance_valid(active_channel) or not active_channel.id == channel_id:
 		return
 	
-	users[user_id].pitch_scale = pitch
 	users[user_id].stream.push_opus_packet(packet, 0, 0)
 	users[user_id].set_meta("speaking_activity_level", speaking_activity_level)
 	users[user_id].set_meta("activity_level", activity_level)
@@ -235,4 +284,4 @@ func _process(_delta: float) -> void:
 		# if volume > 0.05 or true:
 		
 		if not muted:
-			_upstream_packets.rpc_id(1, active_channel.id, packet, mic_mix_rate / 44100.0, activity_level, speaking_activity_level)
+			_upstream_packets.rpc_id(1, active_channel.id, packet, activity_level, speaking_activity_level)

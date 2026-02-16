@@ -26,7 +26,6 @@ func _draw() -> void:
 				child.free()
 				
 			if channel.id in channel.server.voice_chat_participants:
-				prints("channel", channel.id, channel.server.voice_chat_participants[channel.id])
 				for user_id in channel.server.voice_chat_participants[channel.id]:
 					var user: User = channel.server.get_user_by_peer_id(user_id)
 					if not is_instance_valid(user):

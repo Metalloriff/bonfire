@@ -114,7 +114,14 @@ func _ready() -> void:
 
 	server.com_node = ServerComNode.new(server.id)
 
+var _invalid_packets_received: Array = []
 func _packet_received(peer_id: int, packet: PackedByteArray) -> void:
+	if not peer_id in server.online_users:
+		if peer_id in _invalid_packets_received:
+			print("Peer %d sent a packet but is not a valid user" % peer_id)
+			return
+		_invalid_packets_received.append(peer_id)
+
 	var message: Dictionary = bytes_to_var(packet)
 
 	if not "endpoint" in message:

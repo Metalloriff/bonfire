@@ -4,7 +4,9 @@
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_exw2m"]
 [ext_resource type="Script" uid="uid://cltarrncimdb4" path="res://interface/components/user/user_voice_chat_square.gd" id="2_3ljpa"]
 [ext_resource type="Script" uid="uid://cjmmhbp1b5312" path="res://addons/StyleboxFancy/StyleBorder.gd" id="4_0on6g"]
+[ext_resource type="Texture2D" uid="uid://4b4co4fexl7m" path="res://icons/volumeOff.png" id="4_rkjk6"]
 [ext_resource type="Script" uid="uid://bkl6g25jwb47h" path="res://addons/StyleboxFancy/StyleBoxFancy.gd" id="5_dchmo"]
+[ext_resource type="Texture2D" uid="uid://bui3f30bcnwyg" path="res://icons/micOff.png" id="5_xbtyl"]
 
 [sub_resource type="Resource" id="Resource_rkjk6"]
 script = ExtResource("4_0on6g")
@@ -68,6 +70,28 @@ max_value = 1.0
 step = 0.001
 fill_mode = 3
 show_percentage = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=342866231]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="DeafenIndicator" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=898446748]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+texture = ExtResource("4_rkjk6")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="MuteIndicator" type="TextureRect" parent="MarginContainer/HBoxContainer" unique_id=493255694]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+texture = ExtResource("5_xbtyl")
+expand_mode = 5
+stretch_mode = 5
 
 [node name="SpeakingIndicator" type="PanelContainer" parent="." unique_id=1818639180]
 modulate = Color(1, 1, 1, 0)
