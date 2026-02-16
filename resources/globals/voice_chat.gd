@@ -206,6 +206,10 @@ func _create_user(id: int) -> Node:
 	return user
 
 func _create_peer(id: int) -> void:
+	var timeout: float = 0.0
+	while not id in participants and timeout < 5.0:
+		timeout += await Lib.frame_with_delta()
+
 	users[id] = _create_user(id)
 	users[id].pitch_scale = participants[id].mix_rate
 	$Outputs.add_child(users[id])
