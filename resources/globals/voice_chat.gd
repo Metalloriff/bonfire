@@ -244,6 +244,8 @@ func _upstream_packets(channel_id: String, packet, activity_level: float = 0.0, 
 	for participant_id in HeadlessServer.instance.server.voice_chat_participants[channel_id]:
 		if participant_id == peer_id:
 			continue
+		if HeadlessServer.instance.server.voice_chat_participants[channel_id][participant_id].deafened:
+			continue
 		
 		_downstream_packets.rpc_id(participant_id, channel_id, peer_id, packet, activity_level, speaking_activity_level)
 
