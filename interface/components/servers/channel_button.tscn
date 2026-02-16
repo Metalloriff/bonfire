@@ -19,6 +19,25 @@ icon = ExtResource("1_tj6h4")
 alignment = 0
 expand_icon = true
 
+[node name="OpenTextChatButton" type="Button" parent="Button" unique_id=1155082422]
+visible = false
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -10.0
+offset_bottom = 10.0
+grow_horizontal = 0
+grow_vertical = 2
+tooltip_text = "Open Text Chat"
+icon = ExtResource("1_tj6h4")
+flat = true
+expand_icon = true
+
 [node name="VoiceMembers" type="FoldableContainer" parent="." unique_id=1317391829]
 visible = false
 layout_mode = 2
@@ -31,3 +50,4 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [connection signal="pressed" from="Button" to="." method="_on_pressed"]
+[connection signal="pressed" from="Button/OpenTextChatButton" to="." method="_on_open_text_chat_button_pressed"]

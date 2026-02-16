@@ -83,7 +83,7 @@ func _create_field(category: Node, item: Node, prop_name: String, setting: Dicti
 	if is_instance_valid(_collapse_parent):
 		_collapse_parent.add_child(node)
 	else:
-		category.get_node("ScrollContainer/Items").add_child(node)
+		category.get_node("MarginContainer/ScrollContainer/Items").add_child(node)
 	
 	if "meta" in setting:
 		node.tooltip_text = setting.meta
@@ -132,7 +132,7 @@ func _build_interface() -> void:
 		tabs.add_child(category_node)
 		category_node.name = category.capitalize()
 		
-		for child: Node in category_node.get_node("ScrollContainer/Items").get_children():
+		for child: Node in category_node.get_node("MarginContainer/ScrollContainer/Items").get_children():
 			child.queue_free()
 		
 		for property: String in settings.schema[category]:
@@ -214,17 +214,21 @@ func _build_interface() -> void:
 					if setting.type == "audioin":
 						enum_items = AudioServer.get_input_device_list()
 						if not value:
-							value = enum_items.find(AudioServer.input_device)
+							value = AudioServer.input_device
 					elif setting.type == "audioout":
 						enum_items = AudioServer.get_output_device_list()
 						if not value:
-							value = enum_items.find(AudioServer.output_device)
+							value = AudioServer.output_device
 					
 					for item in enum_items:
 						option.add_item(" ".join(item.split("_")).capitalize())
 					
-					option.item_selected.connect(func(new_value: int) -> void: _handle_value_change(category, property, new_value, option.get_parent()))
-					option.select(value)
+					if setting.type in ["audioin", "audioout"]:
+						option.item_selected.connect(func(new_value: int) -> void: _handle_value_change(category, property, enum_items[new_value], option.get_parent()))
+						option.select(enum_items.find(value))
+					else:
+						option.item_selected.connect(func(new_value: int) -> void: _handle_value_change(category, property, new_value, option.get_parent()))
+						option.select(value)
 				"color":
 					var picker: ColorPickerButton = _create_field(category_node, color_item, property, setting).get_node("ColorPickerButton")
 					

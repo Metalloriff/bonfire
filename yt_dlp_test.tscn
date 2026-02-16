@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://bn4hqa32n7pl3"]
+
+[ext_resource type="Script" uid="uid://cokk2c3xd21oy" path="res://yt_dlp_testing.gd" id="1_apcrh"]
+
+[sub_resource type="AudioStreamOpusChunked" id="AudioStreamOpusChunked_apcrh"]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" unique_id=642621017]
+stream = SubResource("AudioStreamOpusChunked_apcrh")
+script = ExtResource("1_apcrh")

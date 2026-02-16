@@ -41,5 +41,7 @@ func _draw() -> void:
 		last_message = message
 	
 	if new_message_count > 0:
-		await Lib.frame
-		scroll_vertical = -999999999999999
+		_update_scrollbar.call_deferred()
+
+func _update_scrollbar() -> void:
+	set_deferred("scroll_vertical", get_v_scroll_bar().max_value * 20.0)

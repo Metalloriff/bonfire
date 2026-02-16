@@ -55,4 +55,5 @@ limits/unix/connect_timeout_seconds=10
 
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0.0488, 0.0488, 0.08, 1)

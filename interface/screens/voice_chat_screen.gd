@@ -105,7 +105,7 @@ func _on_new_messages_button_pressed() -> void:
 	split_offsets[0] = 0 if split_offsets[0] < 0 else -500
 
 func _on_dragged(offset: int) -> void:
-	$TextChatContainer/TextChat.set_deferred(&"scroll_vertical", -9999999999)
+	$TextChatContainer/TextChat.set_deferred(&"scroll_vertical", 9999999999)
 
 func _on_mute_button_pressed() -> void:
 	VoiceChat.muted = not VoiceChat.muted

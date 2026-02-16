@@ -9,6 +9,7 @@ var selected_channel: Channel:
 
 			instance.queue_redraw()
 var last_channel: Channel
+var force_text: bool
 
 func _ready() -> void:
 	instance = self
@@ -27,6 +28,15 @@ func _draw() -> void:
 	if not is_instance_valid(selected_channel):
 		return
 	
+	if force_text:
+		var control = load("res://interface/screens/text_chat_screen.tscn").instantiate()
+		control.channel = selected_channel
+		add_child(control)
+
+		force_text = false
+
+		return
+
 	match selected_channel.type:
 		Channel.Type.TEXT:
 			var control = load("res://interface/screens/text_chat_screen.tscn").instantiate()

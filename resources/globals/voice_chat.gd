@@ -51,6 +51,10 @@ func _ready() -> void:
 		$Input.volume_linear = float(new_value) / 100.0
 	)
 
+	Settings.make_setting_link_method("voice", "input_device", func(new_device: String) -> void:
+		AudioServer.input_device = new_device
+	)
+
 	Settings.make_setting_link_method("voice", "output_device", func(new_device: String) -> void:
 		AudioServer.output_device = new_device
 	)
@@ -149,14 +153,11 @@ func _user_leave_request(channel_id: String) -> void:
 	})
 
 @rpc("any_peer")
-func _user_join_request(channel_id: String, mic_mix_rate_offset: float) -> void:
+func _user_join_request(channel_id: String, mic_mix_rate_offset: float, peer_id: int = multiplayer.get_remote_sender_id()) -> void:
 	if not HeadlessServer.is_headless_server or not multiplayer.is_server():
 		return
-	
-	prints("user is attempting to join channel", channel_id, multiplayer.get_remote_sender_id())
 
 	var server: Server = HeadlessServer.instance.server
-	var peer_id: int = multiplayer.get_remote_sender_id()
 	var channel: Channel = server.get_channel(channel_id)
 
 	if channel.id in channel.server.voice_chat_participants and peer_id in channel.server.voice_chat_participants[channel.id]:
@@ -207,7 +208,10 @@ func _create_user(id: int) -> Node:
 
 func _create_peer(id: int) -> void:
 	var timeout: float = 0.0
-	while not id in participants and timeout < 5.0:
+	while not active_channel.id in active_channel.server.voice_chat_participants or not id in participants:
+		if timeout > 5.0:
+			prints("VoiceChat", "_create_peer", "timeout")
+			return
 		timeout += await Lib.frame_with_delta()
 
 	users[id] = _create_user(id)

@@ -16,6 +16,8 @@ func _draw() -> void:
 				prints("server com node not valid")
 				return
 
+			$Button/OpenTextChatButton.show()
+
 			$VoiceMembers.show()
 			$VoiceMembers.title = "Participants (%d)" % (len(channel.server.voice_chat_participants[channel.id]) if channel.id in channel.server.voice_chat_participants else 0)
 			if VoiceChat.active_channel == channel:
@@ -42,4 +44,12 @@ func _draw() -> void:
 	_button.text = channel.name
 
 func _on_pressed() -> void:
+	if channel.type == Channel.Type.VOICE and ChatFrame.instance.selected_channel == channel:
+		ChatFrame.instance.selected_channel = null
+		await Lib.frame
+		await Lib.frame
 	ChatFrame.instance.selected_channel = channel
+
+func _on_open_text_chat_button_pressed() -> void:
+	ChatFrame.instance.force_text = true
+	_on_pressed()
