@@ -64,4 +64,5 @@ func _process(delta: float) -> void:
 	mute_indicator.visible = participant.muted
 	deafen_indicator.visible = participant.deafened
 
+	volume_indicator.visible = not participant.muted
 	avatar.modulate.a = lerpf(avatar.modulate.a, target_opacity, clampf(delta * 15.0, 0.0, 1.0))
