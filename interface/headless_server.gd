@@ -49,6 +49,10 @@ func _ready() -> void:
 	if FS.exists(server_data_path.path_join("server.res")):
 		server = load(server_data_path.path_join("server.res"))
 	
+	if FS.exists(server_data_path.path_join("icon.png")):
+		var image: Image = Image.load_from_file(server_data_path.path_join("icon.png"))
+		server.icon = ImageTexture.create_from_image(image)
+	
 	server.name = get_config_entry("profile.name")
 
 	for channel in server.channels:
