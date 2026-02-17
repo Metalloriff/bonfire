@@ -65,10 +65,10 @@ func _init(server_id: String) -> void:
 			server._handle_api_message_client(message.endpoint, message, peer_id)
 		)
 
-func _start() -> void:
+func _ready() -> void:
 	Settings.make_setting_link_method("profile", "avatar_picture", func(new_value: String) -> void:
 		_send_avatar_to_server(new_value)
-	)
+	, false)
 
 func _process(delta: float) -> void:
 	connected_time += delta

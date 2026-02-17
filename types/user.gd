@@ -9,7 +9,7 @@ const PROPERTIES: Array[String] = [
 
 @export var id: String
 @export var name: String = "Invalid User"
-@export var avatar: Texture = preload("res://icon.svg")
+@export var avatar: Texture
 
 @export var member_join_date_time: String = "Invalid Date"
 

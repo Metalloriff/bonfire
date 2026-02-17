@@ -1,12 +1,34 @@
 [gd_scene format=3 uid="uid://tey3ufsxh7tx"]
 
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_gvins"]
 [ext_resource type="Script" uid="uid://bmk622ma8jo37" path="res://interface/components/servers/server_item.gd" id="1_m348y"]
-[ext_resource type="Texture2D" uid="uid://bvmdg22gaa36n" path="res://icon.svg" id="1_rnqc2"]
 [ext_resource type="Texture2D" uid="uid://df2ed1hmrpplf" path="res://icons/wifiOff.png" id="3_gvins"]
 
 [node name="ServerItem" type="Button" unique_id=1431780799]
+clip_children = 2
 custom_minimum_size = Vector2(50, 50)
+theme = ExtResource("1_gvins")
 script = ExtResource("1_m348y")
+
+[node name="PlaceholderIcon" type="ColorRect" parent="." unique_id=154346167]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.16862746, 0.56078434, 0.8784314, 1)
+
+[node name="Label" type="Label" parent="PlaceholderIcon" unique_id=1668157926]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Icon" type="TextureRect" parent="." unique_id=24456343]
 modulate = Color(1, 1, 1, 0.5254902)
@@ -16,12 +38,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_rnqc2")
 expand_mode = 5
 stretch_mode = 5
 
 [node name="ConnectionIssueIcon" type="TextureRect" parent="." unique_id=2114935234]
 modulate = Color(1, 0.3, 0.36999995, 1)
+z_index = 1
 layout_mode = 1
 anchors_preset = 3
 anchor_left = 1.0

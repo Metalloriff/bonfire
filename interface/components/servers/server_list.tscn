@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://bt5nv2a5po3kk"]
+
+[ext_resource type="Script" uid="uid://cbepodpajiqbp" path="res://interface/screens/main/server_list.gd" id="1_mmkxm"]
+[ext_resource type="Texture2D" uid="uid://bv1wihpmkwq8q" path="res://icons/accountTree.png" id="2_vrmtq"]
+
+[node name="ServerList" type="VBoxContainer" unique_id=716935970]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mmkxm")
+
+[node name="Divider" type="Control" parent="." unique_id=282813618]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="HSeparator" type="HSeparator" parent="." unique_id=1411989945]
+layout_mode = 2
+
+[node name="JoinServer" type="Button" parent="." unique_id=1319288614]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+icon = ExtResource("2_vrmtq")
+expand_icon = true
+
+[connection signal="pressed" from="JoinServer" to="." method="_on_join_server_pressed"]

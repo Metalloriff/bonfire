@@ -9,6 +9,7 @@ static func get_server(server_id: String) -> Server:
 @export var name: String = "Invalid Server"
 @export var channels: Array[Channel] = []
 @export var users: Array[User] = []
+@export var icon: ImageTexture
 
 @export var address: String
 @export var port: int

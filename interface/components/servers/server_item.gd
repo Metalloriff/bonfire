@@ -1,6 +1,21 @@
 extends Button
 
-var server: Server
+var server: Server:
+	set(new):
+		if server != new:
+			server = new
+			
+			queue_redraw()
+
+func _draw() -> void:
+	if not is_instance_valid(server):
+		$PlaceholderIcon.show()
+		return
+
+	$PlaceholderIcon.visible = not server.icon
+	$PlaceholderIcon/Label.text = server.name[0].to_upper() + server.name[-1].to_upper()
+
+	$Icon.texture = server.icon
 
 func _process(_delta: float) -> void:
 	if not is_instance_valid(server):

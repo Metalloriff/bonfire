@@ -3,8 +3,7 @@
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_5h4wo"]
 [ext_resource type="Script" uid="uid://bohs8rq1l0mcd" path="res://interface/screens/main.gd" id="2_fn5t8"]
 [ext_resource type="Script" uid="uid://b05gsor8jp2wt" path="res://interface/screens/main/mobile_container.gd" id="3_fn5t8"]
-[ext_resource type="Script" uid="uid://cbepodpajiqbp" path="res://interface/screens/main/server_list.gd" id="3_idlen"]
-[ext_resource type="Texture2D" uid="uid://bv1wihpmkwq8q" path="res://icons/accountTree.png" id="4_gotuh"]
+[ext_resource type="PackedScene" uid="uid://bt5nv2a5po3kk" path="res://interface/components/servers/server_list.tscn" id="4_5h4wo"]
 [ext_resource type="Script" uid="uid://d1srepb6fakhm" path="res://interface/screens/main/channel_list.gd" id="5_1j1gh"]
 [ext_resource type="Script" uid="uid://bhhwjyqd08gbs" path="res://interface/screens/main/local_user_container.gd" id="6_7xj2g"]
 [ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="7_isgh4"]
@@ -54,23 +53,11 @@ layout_mode = 2
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="ServerList" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers" unique_id=1539788462]
-layout_mode = 2
-script = ExtResource("3_idlen")
-
-[node name="Divider" type="Control" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers/ServerList" unique_id=1844760978]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HSeparator" type="HSeparator" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers/ServerList" unique_id=747735006]
+[node name="MarginContainer" type="MarginContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers" unique_id=2041724835]
 layout_mode = 2
 
-[node name="JoinServer" type="Button" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers/ServerList" unique_id=1985280843]
-custom_minimum_size = Vector2(50, 50)
+[node name="ServerList" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers/MarginContainer" unique_id=716935970 instance=ExtResource("4_5h4wo")]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-icon = ExtResource("4_gotuh")
-expand_icon = true
 
 [node name="ChannelContainer" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer" unique_id=1207690190]
 layout_mode = 2
@@ -174,5 +161,4 @@ layout_mode = 2
 layout_mode = 2
 script = ExtResource("12_nbw81")
 
-[connection signal="pressed" from="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers/ServerList/JoinServer" to="." method="_on_join_server_pressed"]
 [connection signal="pressed" from="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/SettingsButton" to="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer" method="_on_settings_button_pressed"]

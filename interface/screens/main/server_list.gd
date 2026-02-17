@@ -25,3 +25,6 @@ func _draw():
 
 		add_child(control)
 		move_child(control, 0)
+
+func _on_join_server_pressed() -> void:
+	ModalStack.open_modal("res://interface/modals/join_server_modal.tscn")

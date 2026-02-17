@@ -26,6 +26,3 @@ func _ready() -> void:
 	
 	ModalStack._fade_out_modal(self , 0.0)
 	ModalStack._fade_in_modal(self )
-
-func _on_join_server_pressed() -> void:
-	ModalStack.open_modal("res://interface/modals/join_server_modal.tscn")

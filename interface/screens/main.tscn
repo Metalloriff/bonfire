@@ -2,8 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bohs8rq1l0mcd" path="res://interface/screens/main.gd" id="1_d1nne"]
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_tp7gj"]
-[ext_resource type="Texture2D" uid="uid://bv1wihpmkwq8q" path="res://icons/accountTree.png" id="2_tp7gj"]
-[ext_resource type="Script" uid="uid://cbepodpajiqbp" path="res://interface/screens/main/server_list.gd" id="3_t6rgs"]
+[ext_resource type="PackedScene" uid="uid://bt5nv2a5po3kk" path="res://interface/components/servers/server_list.tscn" id="3_3x0ov"]
 [ext_resource type="Script" uid="uid://d1srepb6fakhm" path="res://interface/screens/main/channel_list.gd" id="5_s7lbp"]
 [ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="6_3x0ov"]
 [ext_resource type="Script" uid="uid://bhhwjyqd08gbs" path="res://interface/screens/main/local_user_container.gd" id="6_5n1j1"]
@@ -40,23 +39,11 @@ split_offset = 50
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="ServerList" type="VBoxContainer" parent="MarginContainer/HSplitContainer/Servers" unique_id=1539788462]
-layout_mode = 2
-script = ExtResource("3_t6rgs")
-
-[node name="Divider" type="Control" parent="MarginContainer/HSplitContainer/Servers/ServerList" unique_id=1844760978]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/HSplitContainer/Servers/ServerList" unique_id=747735006]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HSplitContainer/Servers" unique_id=211139366]
 layout_mode = 2
 
-[node name="JoinServer" type="Button" parent="MarginContainer/HSplitContainer/Servers/ServerList" unique_id=1985280843]
-custom_minimum_size = Vector2(50, 50)
+[node name="ServerList" parent="MarginContainer/HSplitContainer/Servers/MarginContainer" unique_id=716935970 instance=ExtResource("3_3x0ov")]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-icon = ExtResource("2_tp7gj")
-expand_icon = true
 
 [node name="ChannelContainer" type="VBoxContainer" parent="MarginContainer/HSplitContainer" unique_id=1207690190]
 layout_mode = 2
@@ -133,5 +120,6 @@ layout_mode = 2
 [node name="MemberList" parent="MarginContainer/HSplitContainer/Members" unique_id=756092059 instance=ExtResource("9_aes4q")]
 layout_mode = 2
 
-[connection signal="pressed" from="MarginContainer/HSplitContainer/Servers/ServerList/JoinServer" to="." method="_on_join_server_pressed"]
 [connection signal="pressed" from="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/SettingsButton" to="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer" method="_on_settings_button_pressed"]
+
+[editable path="MarginContainer/HSplitContainer/Servers/MarginContainer/ServerList"]

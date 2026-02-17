@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://co7krkjmk70k1"]
 
 [ext_resource type="Texture2D" uid="uid://bvmdg22gaa36n" path="res://icon.svg" id="1_7moij"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_j1l11"]
 [ext_resource type="Script" uid="uid://dacvy1yl143aq" path="res://interface/components/chat/message_group.gd" id="1_ofoua"]
 [ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="2_ofoua"]
 
@@ -10,12 +11,36 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_j1l11")
 script = ExtResource("1_ofoua")
 
 [node name="Container" type="HBoxContainer" parent="." unique_id=1012151890]
 layout_mode = 2
+theme_override_constants/separation = 12
 
-[node name="Avatar" type="TextureRect" parent="Container" unique_id=1944460117]
+[node name="AvatarContainer" type="PanelContainer" parent="Container" unique_id=657132105]
+clip_children = 1
+layout_mode = 2
+size_flags_vertical = 0
+theme_type_variation = &"CircleMask"
+
+[node name="PlaceholderAvatar" type="ColorRect" parent="Container/AvatarContainer" unique_id=1316782051]
+visible = false
+layout_mode = 2
+color = Color(0.16862746, 0.56078434, 0.8784314, 1)
+
+[node name="Label" type="Label" parent="Container/AvatarContainer/PlaceholderAvatar" unique_id=195944815]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Avatar" type="TextureRect" parent="Container/AvatarContainer" unique_id=1944460117]
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_horizontal = 0
