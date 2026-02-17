@@ -1,0 +1,115 @@
+[gd_scene format=3 uid="uid://24vkj2tgir6v"]
+
+[ext_resource type="Script" uid="uid://crje04rhjf5o3" path="res://resources/globals/notification_daemon.gd" id="1_h0af3"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="2_cpp1a"]
+[ext_resource type="Texture2D" uid="uid://df2ed1hmrpplf" path="res://icons/wifiOff.png" id="3_gatwy"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_k4ej4"]
+bg_color = Color(0.063, 0.0729, 0.09, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.8, 0.8, 0.8, 0.113725)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[node name="Notifications" type="Node2D" unique_id=543754348]
+script = ExtResource("1_h0af3")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=463458269]
+layer = 128
+
+[node name="ToastsContainer" type="Control" parent="CanvasLayer" unique_id=1896843428]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_cpp1a")
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/ToastsContainer" unique_id=401407014]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 50
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 50
+
+[node name="Toasts" type="VBoxContainer" parent="CanvasLayer/ToastsContainer/MarginContainer" unique_id=661894368]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+alignment = 2
+
+[node name="ToastNotification" type="PanelContainer" parent="CanvasLayer/ToastsContainer/MarginContainer/Toasts" unique_id=940009185]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 8
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_k4ej4")
+
+[node name="M" type="MarginContainer" parent="CanvasLayer/ToastsContainer/MarginContainer/Toasts/ToastNotification" unique_id=1655708234]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="Label" type="Label" parent="CanvasLayer/ToastsContainer/MarginContainer/Toasts/ToastNotification/M" unique_id=1995431696]
+layout_mode = 2
+text = "This is a toast notification!"
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/ToastsContainer/MarginContainer/Toasts/ToastNotification" unique_id=2070616430]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_vertical = 8
+mouse_filter = 2
+value = 9.24
+show_percentage = false
+
+[node name="StatusContainer" type="Control" parent="CanvasLayer" unique_id=1484960772]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/StatusContainer" unique_id=1288765577]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 0.06
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="Statuses" type="HBoxContainer" parent="CanvasLayer/StatusContainer/MarginContainer" unique_id=1103329414]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.772549)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Network" type="TextureRect" parent="CanvasLayer/StatusContainer/MarginContainer/Statuses" unique_id=1907534906]
+visible = false
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_gatwy")
+expand_mode = 3
+stretch_mode = 4

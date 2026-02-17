@@ -38,6 +38,8 @@ func _draw() -> void:
 		message_label.meta_hover_started.connect(_on_meta_hover_started)
 		message_label.meta_hover_ended.connect(_on_meta_hover_ended)
 		message_label.meta_clicked.connect(_on_meta_clicked)
+		if OS.has_feature("android") or OS.has_feature("ios"):
+			message_label.mouse_filter = MOUSE_FILTER_IGNORE
 		_messages_container_node.add_child(message_label)
 
 func _on_meta_hover_started(meta: Variant) -> void:

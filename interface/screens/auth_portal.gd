@@ -3,6 +3,11 @@ extends Control
 @onready var _username: String = FS.get_pref("auth.username", "")
 @onready var _password_hash: String = FS.get_pref("auth.pw_hash", "")
 
+func _init() -> void:
+	if OS.has_feature("android"):
+		Engine.get_main_loop().root.content_scale_factor = 3.0
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
 func _ready() -> void:
 	if "--server" in OS.get_cmdline_args():
 		get_tree().change_scene_to_file("res://interface/headless_server.tscn")
@@ -66,4 +71,7 @@ func _continue() -> void:
 		return
 	
 	await ModalStack._fade_out_modal(self )
-	get_tree().change_scene_to_file("res://interface/screens/main.tscn")
+	if OS.has_feature("android") or OS.has_feature("ios"):
+		get_tree().change_scene_to_file("res://interface/screens/main_mobile.tscn")
+	else:
+		get_tree().change_scene_to_file("res://interface/screens/main.tscn")

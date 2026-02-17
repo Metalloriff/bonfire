@@ -30,6 +30,7 @@ Settings="*uid://c85sdicm3xc6d"
 YAML="*uid://iygjiljy04uf"
 ServerCom="*uid://cd501xn21n02m"
 VoiceChat="*uid://ca462bqbnh1q0"
+NotificationDaemon="*uid://24vkj2tgir6v"
 Notifications="*uid://d238v2kglk6eb"
 ModalStack="*uid://yc0qingvqkvu"
 
@@ -37,6 +38,7 @@ ModalStack="*uid://yc0qingvqkvu"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
+window/handheld/orientation=5
 
 [editor_plugins]
 

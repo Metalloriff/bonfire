@@ -4,7 +4,8 @@ const DEFAULT_TWEEN_TIME: float = 0.21
 
 func open_modal(modal_path: String) -> void:
 	move_to_front()
-	assert(FileAccess.file_exists(modal_path), "Modal at path '%s' does not exist" % modal_path)
+	
+	assert(ResourceLoader.exists(modal_path), "Modal at path '%s' does not exist" % modal_path)
 
 	var modal: Control = load(modal_path).instantiate()
 

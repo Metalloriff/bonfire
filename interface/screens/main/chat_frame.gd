@@ -8,6 +8,10 @@ var selected_channel: Channel:
 			selected_channel = new
 
 			instance.queue_redraw()
+			
+			if is_instance_valid(MobileControlsContainer.instance):
+				await Lib.frame
+				MobileControlsContainer.instance.fade_to_chat()
 var last_channel: Channel
 var force_text: bool
 
