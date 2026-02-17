@@ -53,10 +53,15 @@ layout_mode = 2
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers" unique_id=2041724835]
+[node name="ScrollContainer" type="ScrollContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers" unique_id=594918056]
 layout_mode = 2
+horizontal_scroll_mode = 0
 
-[node name="ServerList" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers/MarginContainer" unique_id=716935970 instance=ExtResource("4_5h4wo")]
+[node name="MarginContainer" type="MarginContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers/ScrollContainer" unique_id=169266357]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ServerList" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers/ScrollContainer/MarginContainer" unique_id=716935970 instance=ExtResource("4_5h4wo")]
 layout_mode = 2
 
 [node name="ChannelContainer" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer" unique_id=1207690190]
@@ -162,3 +167,5 @@ layout_mode = 2
 script = ExtResource("12_nbw81")
 
 [connection signal="pressed" from="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/SettingsButton" to="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer" method="_on_settings_button_pressed"]
+
+[editable path="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers/ScrollContainer/MarginContainer/ServerList"]

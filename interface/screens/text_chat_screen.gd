@@ -3,8 +3,8 @@ class_name TextChatScreen extends ScrollContainer
 var channel: Channel
 var message_group_scene: PackedScene = preload("res://interface/components/chat/message_group.tscn")
 
-@onready var list: VBoxContainer = $List
-@onready var no_messages_label: Label = $List/NoMessagesLabel
+@onready var list: VBoxContainer = %List
+@onready var no_messages_label: Label = %List/NoMessagesLabel
 
 var _processed_messages: Array[Message] = []
 

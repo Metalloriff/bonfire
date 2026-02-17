@@ -1,6 +1,11 @@
-extends HBoxContainer
+class_name MainTextArea extends HBoxContainer
+
+static var instance: MainTextArea
 
 @onready var field: TextEdit = $TextEdit
+
+func _ready() -> void:
+	instance = self
 
 func _on_text_edit_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():

@@ -31,7 +31,7 @@ func send_message(content: String) -> void: # TODO add attachments support
 	})
 
 func load_messages(limit: int = 50, offset: int = 0) -> void:
-	if messages_loaded or messages_loading:
+	if messages_loaded or messages_loading or not is_instance_valid(server.com_node):
 		return
 	
 	assert(limit < 100, "Cannot load more than 100 messages at once")

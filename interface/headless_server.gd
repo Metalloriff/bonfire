@@ -15,6 +15,9 @@ var defaults: Dictionary = {
 	},
 	profile = {
 		name = "My Server"
+	},
+	restrictions = {
+		max_file_upload_size = "1GB"
 	}
 }
 var config: Dictionary
@@ -49,11 +52,12 @@ func _ready() -> void:
 	if FS.exists(server_data_path.path_join("server.res")):
 		server = load(server_data_path.path_join("server.res"))
 	
-	if FS.exists(server_data_path.path_join("icon.png")):
+	server.name = get_config_entry("profile.name")
+	server.max_file_upload_size = Lib.readable_to_bytes(get_config_entry("restrictions.max_file_upload_size"))
+	
+	if FS.exists(server_data_path.path_join("icon.png")) and FileAccess.get_size(server_data_path.path_join("icon.png")) < 1024 * 1024:
 		var image: Image = Image.load_from_file(server_data_path.path_join("icon.png"))
 		server.icon = ImageTexture.create_from_image(image)
-	
-	server.name = get_config_entry("profile.name")
 
 	for channel in server.channels:
 		if not is_instance_valid(channel):

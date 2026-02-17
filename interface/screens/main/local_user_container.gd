@@ -1,9 +1,14 @@
 class_name LocalUserContainer extends PanelContainer
 
+static var instance: LocalUserContainer
+
 var server: Server
 
 @onready var avatar: TextureRect = $MarginContainer/HBoxContainer/AvatarContainer/Avatar
 @onready var username: Label = $MarginContainer/HBoxContainer/Username
+
+func _ready() -> void:
+	instance = self
 
 func _process(_delta: float) -> void:
 	visible = is_instance_valid(App.instance.selected_server)

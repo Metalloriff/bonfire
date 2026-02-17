@@ -39,10 +39,15 @@ split_offset = 50
 custom_minimum_size = Vector2(50, 0)
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HSplitContainer/Servers" unique_id=211139366]
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/HSplitContainer/Servers" unique_id=1898517680]
 layout_mode = 2
+horizontal_scroll_mode = 0
 
-[node name="ServerList" parent="MarginContainer/HSplitContainer/Servers/MarginContainer" unique_id=716935970 instance=ExtResource("3_3x0ov")]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/HSplitContainer/Servers/ScrollContainer" unique_id=211139366]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ServerList" parent="MarginContainer/HSplitContainer/Servers/ScrollContainer/MarginContainer" unique_id=716935970 instance=ExtResource("3_3x0ov")]
 layout_mode = 2
 
 [node name="ChannelContainer" type="VBoxContainer" parent="MarginContainer/HSplitContainer" unique_id=1207690190]
@@ -120,6 +125,29 @@ layout_mode = 2
 [node name="MemberList" parent="MarginContainer/HSplitContainer/Members" unique_id=756092059 instance=ExtResource("9_aes4q")]
 layout_mode = 2
 
+[node name="ConnectionIssueNotice" type="PanelContainer" parent="." unique_id=1751341559]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 50.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"PanelContainer_Error"
+
+[node name="MarginContainer" type="MarginContainer" parent="ConnectionIssueNotice" unique_id=1777214134]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="ConnectionIssueNotice/MarginContainer" unique_id=334981546]
+layout_mode = 2
+text = "You are not currently connected to this server!"
+
 [connection signal="pressed" from="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/SettingsButton" to="MarginContainer/HSplitContainer/ChannelContainer/LocalUserContainer" method="_on_settings_button_pressed"]
 
-[editable path="MarginContainer/HSplitContainer/Servers/MarginContainer/ServerList"]
+[editable path="MarginContainer/HSplitContainer/Servers/ScrollContainer/MarginContainer/ServerList"]

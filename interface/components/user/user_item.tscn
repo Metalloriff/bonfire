@@ -5,10 +5,10 @@
 [ext_resource type="Script" uid="uid://dsusus0ol80qb" path="res://interface/components/user/user_item.gd" id="1_jklbg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_erd5c"]
-content_margin_left = 5.0
-content_margin_top = 5.0
-content_margin_right = 5.0
-content_margin_bottom = 5.0
+content_margin_left = 7.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
 bg_color = Color(1, 1, 1, 1)
 corner_radius_top_left = 99
 corner_radius_top_right = 99
@@ -60,17 +60,18 @@ texture = ExtResource("1_iuvpg")
 expand_mode = 3
 stretch_mode = 6
 
+[node name="StatusIndicator" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer" unique_id=65167263]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(0.16862746, 0.56078434, 0.8784314, 1)
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_erd5c")
+
 [node name="Username" type="Label" parent="MarginContainer/HBoxContainer" unique_id=1831971903]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Username"
-
-[node name="StatusIndicator" type="PanelContainer" parent="MarginContainer/HBoxContainer" unique_id=65167263]
-unique_name_in_owner = true
-visible = false
-self_modulate = Color(0.16862746, 0.56078434, 0.8784314, 1)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 4
-theme_override_styles/panel = SubResource("StyleBoxFlat_erd5c")

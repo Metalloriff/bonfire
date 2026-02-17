@@ -10,12 +10,18 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_xwaak")
 
-[node name="List" type="VBoxContainer" parent="." unique_id=106950461]
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1586674518]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="NoMessagesLabel" type="Label" parent="List" unique_id=297632405]
+[node name="List" type="VBoxContainer" parent="MarginContainer" unique_id=106950461]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NoMessagesLabel" type="Label" parent="MarginContainer/List" unique_id=297632405]
 modulate = Color(1, 1, 1, 0.38431373)
 layout_mode = 2
 theme_override_font_sizes/font_size = 36

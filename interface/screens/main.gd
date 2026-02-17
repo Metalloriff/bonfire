@@ -17,6 +17,26 @@ static var selected_server: Server:
 
 signal server_selected(server: Server)
 
+var selected_server_connection_issue: bool:
+	set(new):
+		if selected_server_connection_issue != new:
+			selected_server_connection_issue = new
+
+			%ConnectionIssueNotice.visible = selected_server_connection_issue
+
+			if not selected_server_connection_issue:
+				ChannelList.instance.get_parent().modulate.a = 1.0
+				ChatFrame.instance.modulate.a = 1.0
+				LocalUserContainer.instance.modulate.a = 1.0
+				MemberList.instance.get_parent().modulate.a = 1.0
+				MainTextArea.instance.modulate.a = 1.0
+			else:
+				ChannelList.instance.get_parent().modulate.a = 0.25
+				ChatFrame.instance.modulate.a = 0.25
+				LocalUserContainer.instance.modulate.a = 0.25
+				MemberList.instance.get_parent().modulate.a = 0.25
+				MainTextArea.instance.modulate.a = 0.25
+
 func _ready() -> void:
 	instance = self
 

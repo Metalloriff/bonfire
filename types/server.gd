@@ -10,6 +10,7 @@ static func get_server(server_id: String) -> Server:
 @export var channels: Array[Channel] = []
 @export var users: Array[User] = []
 @export var icon: ImageTexture
+@export var max_file_upload_size: int = Lib.readable_to_bytes("1GB")
 
 @export var address: String
 @export var port: int
@@ -61,6 +62,10 @@ func get_user_by_peer_id(peer_id: int) -> User:
 	return get_user(online_users[peer_id])
 
 func send_api_message(endpoint: String, data: Dictionary) -> void:
+	if not is_instance_valid(com_node):
+		print("Attempted to send API message to server %s but it is not connected!" % id)
+		return
+
 	data.endpoint = endpoint
 	com_node.local_multiplayer.send_bytes(var_to_bytes(data))
 

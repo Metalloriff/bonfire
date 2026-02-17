@@ -6,11 +6,17 @@
 [node name="VoiceMemberContextMenu" unique_id=319957489 instance=ExtResource("1_wqdd7")]
 script = ExtResource("2_peenj")
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="0" unique_id=306165847]
+[node name="Username" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="0" unique_id=306165847]
+unique_name_in_owner = true
 layout_mode = 2
-text = "Volume"
+text = "Username"
+horizontal_alignment = 1
 
-[node name="VolumeSlider" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="1" unique_id=1371154625]
+[node name="Label2" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="1" unique_id=1681297110]
+layout_mode = 2
+text = "Voice Volume"
+
+[node name="VolumeSlider" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="2" unique_id=1371154625]
 unique_name_in_owner = true
 layout_mode = 2
 value = 100.0
