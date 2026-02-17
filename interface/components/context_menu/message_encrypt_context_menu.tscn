@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://do8cboq762inr"]
+
+[ext_resource type="PackedScene" uid="uid://bvdbogspriemp" path="res://interface/components/context_menu/context_menu_base.tscn" id="1_021n7"]
+[ext_resource type="Script" uid="uid://cdlta4dufb47" path="res://interface/components/context_menu/message_encrypt_context_menu.gd" id="2_xrbg0"]
+
+[node name="ContextMenuBase" unique_id=319957489 instance=ExtResource("1_021n7")]
+script = ExtResource("2_xrbg0")
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="0" unique_id=1971857187]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "Encryption settings"
+horizontal_alignment = 1
+
+[node name="EncryptMessage" type="CheckButton" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="1" unique_id=1774225417]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Encrypt message"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="2" unique_id=1775114862]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" index="0" unique_id=561601488]
+layout_mode = 2
+text = "Password  "
+
+[node name="EncryptionKey" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1175759077]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Key to decrypt"
+secret = true
+
+[node name="Label2" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="3" unique_id=1358344434]
+modulate = Color(1, 1, 1, 0.54901963)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "This message can only be decoded
+with the provided password/key.
+The server does not have access to the
+contents of this message without the key."
+
+[connection signal="toggled" from="PanelContainer/MarginContainer/VBoxContainer/EncryptMessage" to="." method="_on_encrypt_message_toggled"]
+[connection signal="text_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/EncryptionKey" to="." method="_on_encryption_key_text_changed"]

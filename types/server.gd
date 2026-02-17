@@ -114,6 +114,9 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				prints("user", peer_id, "tried to send message to channel", data.channel_id, "but is not online")
 				return
 			var message: Message = Message.new(user.id, data.content)
+
+			if "encrypted" in data and data.encrypted:
+				message.encrypted = true
 			
 			channel._commit_message(message)
 		"fetch_messages":

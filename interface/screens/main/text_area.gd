@@ -32,7 +32,14 @@ func _on_text_edit_gui_input(event: InputEvent) -> void:
 func _on_send_button_pressed() -> void:
 	assert(is_instance_valid(ChatFrame.instance.selected_channel), "No channel selected")
 
-	ChatFrame.instance.selected_channel.send_message(field.text)
+	ChatFrame.instance.selected_channel.send_message(
+		field.text,
+		MessageEncryptionContextMenu.encryption_key if MessageEncryptionContextMenu.encrypt_message_enabled else ""
+	)
 	field.set_deferred("text", "")
 
 	ChatFrame.instance.queue_redraw()
+
+func _on_encrypt_button_pressed() -> void:
+	var menu: ContextMenu = ContextMenu.create_menu(load("res://interface/components/context_menu/message_encrypt_context_menu.tscn"))
+	menu.global_position = $EncryptButton.global_position - Vector2((menu.get_node("PanelContainer").size.x / 2.0) - ($EncryptButton.size.x / 2.0), menu.get_node("PanelContainer").size.y + 10.0)

@@ -1,23 +1,74 @@
 [gd_scene format=3 uid="uid://dctw7mxmv6jpa"]
 
-[ext_resource type="Texture2D" uid="uid://bvmdg22gaa36n" path="res://icon.svg" id="1_i3w1o"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_i3w1o"]
+[ext_resource type="Script" uid="uid://qkegu41sb0a7" path="res://interface/components/chat/message_item.gd" id="2_x5vcu"]
 
 [node name="MessageItem" type="VBoxContainer" unique_id=73608036]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_i3w1o")
+script = ExtResource("2_x5vcu")
 
 [node name="TextContents" type="VBoxContainer" parent="." unique_id=426821435]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="TextContents" unique_id=1042899086]
+[node name="Content" type="RichTextLabel" parent="TextContents" unique_id=1932411920]
+unique_name_in_owner = true
 layout_mode = 2
-text = "This is some text and shit. Fuck you."
+focus_mode = 2
+bbcode_enabled = true
+text = "This is some example text"
+fit_content = true
+selection_enabled = true
 
 [node name="MediaContents" type="GridContainer" parent="." unique_id=165452107]
+visible = false
 layout_mode = 2
 columns = 4
 
-[node name="TextureRect" type="TextureRect" parent="MediaContents" unique_id=395695545]
-custom_minimum_size = Vector2(150, 150)
+[node name="Encryption" type="VBoxContainer" parent="." unique_id=1209043765]
+visible = false
 layout_mode = 2
-texture = ExtResource("1_i3w1o")
-expand_mode = 1
-stretch_mode = 6
+
+[node name="Label" type="Label" parent="Encryption" unique_id=836521195]
+modulate = Color(1, 1, 1, 0.44705883)
+layout_mode = 2
+text = "This message is encrypted."
+
+[node name="Encrypted" type="HBoxContainer" parent="Encryption" unique_id=1479784746]
+layout_mode = 2
+
+[node name="Password" type="LineEdit" parent="Encryption/Encrypted" unique_id=587421113]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+placeholder_text = "Password"
+secret = true
+
+[node name="Button" type="Button" parent="Encryption/Encrypted" unique_id=1756630972]
+layout_mode = 2
+text = "Decrypt"
+
+[node name="Decrypted" type="HBoxContainer" parent="Encryption" unique_id=1881142175]
+visible = false
+layout_mode = 2
+
+[node name="Button" type="Button" parent="Encryption/Decrypted" unique_id=1483796389]
+custom_minimum_size = Vector2(285, 0)
+layout_mode = 2
+text = "Hide"
+
+[node name="ErrorText" type="Label" parent="Encryption" unique_id=1349625767]
+visible = false
+modulate = Color(1, 0.27999997, 0.32799995, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Incorrect password!
+Decrypted message was not properly UTF-8 formatted."
+
+[connection signal="meta_clicked" from="TextContents/Content" to="." method="_on_content_meta_clicked"]
+[connection signal="meta_hover_ended" from="TextContents/Content" to="." method="_on_content_meta_hover_ended"]
+[connection signal="meta_hover_started" from="TextContents/Content" to="." method="_on_content_meta_hover_started"]

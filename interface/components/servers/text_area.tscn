@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://cqljlwc8jrffj"]
 
 [ext_resource type="Script" uid="uid://bfb11cygpruyi" path="res://interface/screens/main/text_area.gd" id="1_c3mle"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_wlrei"]
 [ext_resource type="Texture2D" uid="uid://281yk0xge6fj" path="res://icons/send.png" id="2_3aqdj"]
+[ext_resource type="Texture2D" uid="uid://kuh5xg4rf2wy" path="res://icons/lock.png" id="2_wlrei"]
 
 [node name="TextArea" type="HBoxContainer" unique_id=100155648]
 anchors_preset = 15
@@ -9,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_wlrei")
 script = ExtResource("1_c3mle")
 
 [node name="TextEdit" type="TextEdit" parent="." unique_id=1380508690]
@@ -20,6 +23,13 @@ wrap_mode = 1
 scroll_fit_content_height = true
 caret_blink = true
 
+[node name="EncryptButton" type="Button" parent="." unique_id=1449604519]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+tooltip_text = "Encrypt This Message"
+icon = ExtResource("2_wlrei")
+expand_icon = true
+
 [node name="SendButton" type="Button" parent="." unique_id=45688852]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
@@ -27,4 +37,5 @@ icon = ExtResource("2_3aqdj")
 expand_icon = true
 
 [connection signal="gui_input" from="TextEdit" to="." method="_on_text_edit_gui_input"]
+[connection signal="pressed" from="EncryptButton" to="." method="_on_encrypt_button_pressed"]
 [connection signal="pressed" from="SendButton" to="." method="_on_send_button_pressed"]

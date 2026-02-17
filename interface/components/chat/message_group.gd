@@ -34,35 +34,7 @@ func _draw() -> void:
 			continue
 		_added_messages.append(message)
 
-		var message_label: RichTextLabel = RichTextLabel.new()
-		message_label.text = _process_message_content(message.content)
-		message_label.fit_content = true
-		message_label.selection_enabled = true
-		message_label.bbcode_enabled = true
-		message_label.context_menu_enabled = true
-		message_label.meta_hover_started.connect(_on_meta_hover_started)
-		message_label.meta_hover_ended.connect(_on_meta_hover_ended)
-		message_label.meta_clicked.connect(_on_meta_clicked)
-		if OS.has_feature("android") or OS.has_feature("ios"):
-			message_label.mouse_filter = MOUSE_FILTER_IGNORE
-		_messages_container_node.add_child(message_label)
-
-func _on_meta_hover_started(meta: Variant) -> void:
-	prints("MessageGroupNode", "_on_meta_hover_started", meta)
-
-func _on_meta_hover_ended(meta: Variant) -> void:
-	prints("MessageGroupNode", "_on_meta_hover_ended", meta)
-
-func _on_meta_clicked(meta: Variant) -> void:
-	if "https://" in meta or "http://" in meta:
-		OS.shell_open(meta)
-	prints("MessageGroupNode", "_on_meta_clicked", meta)
-
-func _process_message_content(content: String) -> String:
-	# replace URLs with clickable links in the form of [url=https://examples.com]examples.com[/url]
-	# find and replace URLs with clickable links
-	var regex = RegEx.new()
-	regex.compile("https?:\\/\\/(?:www\\.)?((?:[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)))")
-	content = regex.sub(content, "[url=$0]$1[/url]", true)
-
-	return content
+		var message_item: VBoxContainer = preload("res://interface/components/chat/message_item.tscn").instantiate()
+		message_item.author = author
+		message_item.message = message
+		_messages_container_node.add_child(message_item)

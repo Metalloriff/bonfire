@@ -33,6 +33,7 @@ VoiceChat="*uid://ca462bqbnh1q0"
 NotificationDaemon="*uid://24vkj2tgir6v"
 Notifications="*uid://d238v2kglk6eb"
 ModalStack="*uid://yc0qingvqkvu"
+EncryptionTools="*uid://dwuiuvos2bs5n"
 
 [display]
 

@@ -4,6 +4,9 @@ class_name Message extends Resource
 @export var content: String
 @export var timestamp: int
 @export var attachment_ids: Array = []
+@export var encrypted: bool
+
+var decrypted_content: String
 
 func _init(author_id: String = "", content: String = "") -> void:
 	self.author_id = author_id
@@ -15,7 +18,8 @@ func serialize() -> Dictionary:
 		author = author_id,
 		content = content,
 		timestamp = timestamp,
-		attachments = JSON.stringify(attachment_ids)
+		attachments = JSON.stringify(attachment_ids),
+		encrypted = 1 if encrypted else 0
 	}
 
 func deserialize(data: Dictionary) -> Message:
@@ -23,5 +27,6 @@ func deserialize(data: Dictionary) -> Message:
 	self.content = data.content
 	self.timestamp = data.timestamp
 	self.attachment_ids = JSON.parse_string(data.attachments)
+	self.encrypted = 1 if (data.encrypted if "encrypted" in data else false) else 0
 
 	return self

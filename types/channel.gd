@@ -21,14 +21,20 @@ var _db_path: String:
 	get: return HeadlessServer.instance.server_data_path.path_join("channels").path_join(id + ".db")
 var _db: SQLite
 
-func send_message(content: String) -> void: # TODO add attachments support
+func send_message(content: String, encryption_key: String = "") -> void: # TODO add attachments support
 	assert(not HeadlessServer.is_headless_server, "Cannot send message from headless server")
 	assert(is_instance_valid(server), "No server for channel")
 
-	server.send_api_message("send_message", {
+	var message_data: Dictionary = {
 		channel_id = id,
 		content = content
-	})
+	}
+
+	if encryption_key:
+		message_data.encrypted = true
+		message_data.content = Marshalls.raw_to_base64(EncryptionTools.encrypt_string(content, encryption_key))
+
+	server.send_api_message("send_message", message_data)
 
 func load_messages(limit: int = 50, offset: int = 0) -> void:
 	if messages_loaded or messages_loading or not is_instance_valid(server.com_node):
@@ -81,6 +87,7 @@ func _initialize_messages_database() -> void:
 		author = {data_type = "text"},
 		content = {data_type = "text"},
 		timestamp = {data_type = "int"},
+		encrypted = {data_type = "int"},
 		attachments = {data_type = "text"}
 	}
 
