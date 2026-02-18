@@ -1,5 +1,6 @@
 class_name Message extends Resource
 
+var id: int
 @export var author_id: String
 @export var content: String
 @export var timestamp: int
@@ -23,6 +24,7 @@ func serialize() -> Dictionary:
 	}
 
 func deserialize(data: Dictionary) -> Message:
+	self.id = data.id if "id" in data else -1
 	self.author_id = data.author
 	self.content = data.content
 	self.timestamp = data.timestamp

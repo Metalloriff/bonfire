@@ -1,0 +1,51 @@
+[gd_scene format=3 uid="uid://23g3e31h5v4f"]
+
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_b7jtk"]
+[ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="2_ydbil"]
+
+[node name="ReplyItem" type="PanelContainer" unique_id=861933968]
+custom_minimum_size = Vector2(400, 0)
+size_flags_horizontal = 0
+theme = ExtResource("1_b7jtk")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=652322]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2098597442]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1234499493]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1874516965]
+modulate = Color(1, 1, 1, 0.44705883)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Reply:"
+
+[node name="Content" type="RichTextLabel" parent="MarginContainer/VBoxContainer" unique_id=698849471]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 14
+theme_override_font_sizes/bold_font_size = 14
+theme_override_font_sizes/bold_italics_font_size = 14
+theme_override_font_sizes/italics_font_size = 14
+theme_override_font_sizes/mono_font_size = 14
+bbcode_enabled = true
+text = "This is an example message."
+fit_content = true
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer" unique_id=84692886]
+clip_children = 1
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"CircleMask"
+
+[node name="Avatar" type="TextureRect" parent="MarginContainer/PanelContainer" unique_id=1408797118]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("2_ydbil")
+expand_mode = 3
+stretch_mode = 6

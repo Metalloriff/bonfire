@@ -16,15 +16,6 @@ script = ExtResource("2_x5vcu")
 [node name="TextContents" type="VBoxContainer" parent="." unique_id=426821435]
 layout_mode = 2
 
-[node name="Content" type="RichTextLabel" parent="TextContents" unique_id=1932411920]
-unique_name_in_owner = true
-layout_mode = 2
-focus_mode = 2
-bbcode_enabled = true
-text = "This is some example text"
-fit_content = true
-selection_enabled = true
-
 [node name="MediaContents" type="GridContainer" parent="." unique_id=165452107]
 visible = false
 layout_mode = 2
@@ -50,6 +41,7 @@ secret = true
 
 [node name="Button" type="Button" parent="Encryption/Encrypted" unique_id=1756630972]
 layout_mode = 2
+theme_type_variation = &"Button_Red"
 text = "Decrypt"
 
 [node name="Decrypted" type="HBoxContainer" parent="Encryption" unique_id=1881142175]
@@ -68,7 +60,3 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Incorrect password!
 Decrypted message was not properly UTF-8 formatted."
-
-[connection signal="meta_clicked" from="TextContents/Content" to="." method="_on_content_meta_clicked"]
-[connection signal="meta_hover_ended" from="TextContents/Content" to="." method="_on_content_meta_hover_ended"]
-[connection signal="meta_hover_started" from="TextContents/Content" to="." method="_on_content_meta_hover_started"]

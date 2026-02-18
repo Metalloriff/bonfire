@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://j68g168mww8s"]
+
+[ext_resource type="PackedScene" uid="uid://bvdbogspriemp" path="res://interface/components/context_menu/context_menu_base.tscn" id="1_hfanb"]
+[ext_resource type="Script" uid="uid://bejwsf1g4yf6x" path="res://interface/components/context_menu/message_context_menu.gd" id="2_yuyam"]
+
+[node name="ContextMenuBase" unique_id=319957489 instance=ExtResource("1_hfanb")]
+script = ExtResource("2_yuyam")
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="0" unique_id=1533948722]
+layout_mode = 2
+text = "Message"
+horizontal_alignment = 1
+
+[node name="ReplyButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="1" unique_id=1628752233]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Reply"
+
+[node name="QuoteReplyButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="2" unique_id=613865452]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Quote Reply"
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ReplyButton" to="." method="_on_reply_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/QuoteReplyButton" to="." method="_on_quote_reply_button_pressed"]

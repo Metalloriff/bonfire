@@ -143,8 +143,6 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				image.load_png_from_buffer(data.avatar_data)
 				user.avatar = ImageTexture.create_from_image(image)
 
-				prints("what the ffffuck?", user.avatar)
-
 			if "profile" in data:
 				for key in data.profile:
 					if key in user:

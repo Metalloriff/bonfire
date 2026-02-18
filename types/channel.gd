@@ -50,6 +50,12 @@ func load_messages(limit: int = 50, offset: int = 0) -> void:
 		offset = offset
 	})
 
+func find_message(message_id_or_timestamp: int) -> Message:
+	for message in messages:
+		if message.id == message_id_or_timestamp or message.timestamp == message_id_or_timestamp:
+			return message
+	return null
+
 func _load_messages_from_db(limit: int = 50, offset: int = 0) -> Array[Dictionary]:
 	# TODO implement pagination
 	assert(is_instance_valid(_db), "Database not initialized")
