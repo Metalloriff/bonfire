@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_i3w1o"]
 [ext_resource type="Script" uid="uid://qkegu41sb0a7" path="res://interface/components/chat/message_item.gd" id="2_x5vcu"]
+[ext_resource type="Texture2D" uid="uid://d3vb2bm6jy37n" path="res://icons/edit.png" id="3_x5vcu"]
 
 [node name="MessageItem" type="VBoxContainer" unique_id=73608036 groups=["message_item"]]
 anchors_preset = 15
@@ -60,3 +61,17 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 14
 text = "Incorrect password!
 Decrypted message was not properly UTF-8 formatted."
+
+[node name="EditingContainer" type="HBoxContainer" parent="." unique_id=583475151]
+visible = false
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="EditingContainer" unique_id=1090935114]
+layout_mode = 2
+texture = ExtResource("3_x5vcu")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="EditingLabel" type="Label" parent="EditingContainer" unique_id=1615058286]
+layout_mode = 2
+text = "Editing message."

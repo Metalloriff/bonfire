@@ -45,6 +45,16 @@ func delete_message(message: Message) -> void:
 		message_id = message.timestamp
 	})
 
+func edit_message(message: Message, new_content: String) -> void:
+	assert(is_instance_valid(server.com_node), "No server connection")
+	assert(message.author_id == server.user_id, "Cannot edit messages from other users")
+
+	server.send_api_message("edit_message", {
+		channel_id = id,
+		message_id = message.timestamp,
+		content = new_content
+	})
+
 func load_messages(limit: int = 50, offset: int = 0) -> void:
 	if messages_loaded or messages_loading or not is_instance_valid(server.com_node):
 		return

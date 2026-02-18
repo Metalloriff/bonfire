@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_wlrei"]
 [ext_resource type="Texture2D" uid="uid://281yk0xge6fj" path="res://icons/send.png" id="2_3aqdj"]
 [ext_resource type="Texture2D" uid="uid://kuh5xg4rf2wy" path="res://icons/lock.png" id="2_wlrei"]
+[ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="4_tomhb"]
 
 [node name="TextArea" type="HBoxContainer" unique_id=100155648]
 anchors_preset = 15
@@ -30,6 +31,14 @@ tooltip_text = "Encrypt This Message"
 icon = ExtResource("2_wlrei")
 expand_icon = true
 
+[node name="CancelEditButton" type="Button" parent="." unique_id=1023312195]
+visible = false
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_type_variation = &"Button_Red"
+icon = ExtResource("4_tomhb")
+expand_icon = true
+
 [node name="SendButton" type="Button" parent="." unique_id=45688852]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
@@ -38,4 +47,5 @@ expand_icon = true
 
 [connection signal="gui_input" from="TextEdit" to="." method="_on_text_edit_gui_input"]
 [connection signal="pressed" from="EncryptButton" to="." method="_on_encrypt_button_pressed"]
+[connection signal="pressed" from="CancelEditButton" to="." method="_on_cancel_edit_button_pressed"]
 [connection signal="pressed" from="SendButton" to="." method="_on_send_button_pressed"]

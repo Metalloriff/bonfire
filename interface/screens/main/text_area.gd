@@ -1,6 +1,34 @@
 class_name MainTextArea extends HBoxContainer
 
 static var instance: MainTextArea
+static var editing_message: Message:
+	set(new):
+		if editing_message == new:
+			return
+		
+		editing_message = new
+
+		if editing_message:
+			instance.field.text = editing_message.content
+			instance.field.grab_focus.call_deferred()
+			instance.field.set_caret_line.call_deferred(instance.field.get_line_count() - 1)
+
+			instance.get_node("SendButton").icon = load("res://icons/edit.png")
+			instance.get_node("EncryptButton").hide()
+			instance.get_node("CancelEditButton").show()
+		else:
+			instance.field.text = ""
+			instance.get_node("SendButton").icon = load("res://icons/send.png")
+			instance.get_node("EncryptButton").show()
+			instance.get_node("CancelEditButton").hide()
+
+			if is_instance_valid(editing_message_item):
+				editing_message_item.set_process(false)
+				editing_message_item.get_node("EditingContainer").hide()
+				editing_message_item.get_node("TextContents").show()
+				# editing_message_item.get_node("MediaContents").show()
+				editing_message_item = null
+static var editing_message_item: Control
 
 @onready var field: TextEdit = $TextEdit
 
@@ -32,14 +60,20 @@ func _on_text_edit_gui_input(event: InputEvent) -> void:
 func _on_send_button_pressed() -> void:
 	assert(is_instance_valid(ChatFrame.instance.selected_channel), "No channel selected")
 
-	ChatFrame.instance.selected_channel.send_message(
-		field.text,
-		MessageEncryptionContextMenu.encryption_key if MessageEncryptionContextMenu.encrypt_message_enabled else ""
-	)
+	if is_instance_valid(editing_message):
+		ChatFrame.instance.selected_channel.edit_message(editing_message, field.text)
+		editing_message = null
+	else:
+		ChatFrame.instance.selected_channel.send_message(
+			field.text,
+			MessageEncryptionContextMenu.encryption_key if MessageEncryptionContextMenu.encrypt_message_enabled else ""
+		)
 	field.set_deferred("text", "")
 
 	ChatFrame.instance.queue_redraw()
 
 func _on_encrypt_button_pressed() -> void:
 	var menu: ContextMenu = ContextMenu.create_menu(load("res://interface/components/context_menu/message_encrypt_context_menu.tscn"))
-	menu.global_position = $EncryptButton.global_position - Vector2((menu.get_node("PanelContainer").size.x / 2.0) - ($EncryptButton.size.x / 2.0), menu.get_node("PanelContainer").size.y + 10.0)
+
+func _on_cancel_edit_button_pressed() -> void:
+	editing_message = null

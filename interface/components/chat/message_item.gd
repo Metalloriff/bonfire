@@ -81,6 +81,8 @@ func _create_rich_label(text: String) -> void:
 	$TextContents.add_child(label)
 
 func _ready() -> void:
+	set_process(false)
+
 	ContextMenu.attach_listener(self , preload("res://interface/components/context_menu/message_context_menu.tscn"), func(menu: ContextMenu) -> void:
 		menu.message = message
 		menu.message_item = self
@@ -128,16 +130,9 @@ func _ready() -> void:
 	if OS.has_feature("android") or OS.has_feature("ios"):
 		mouse_filter = MOUSE_FILTER_IGNORE
 
-func _on_content_meta_clicked(meta: Variant) -> void:
-	if "https://" in meta or "http://" in meta:
-		OS.shell_open(meta)
-	prints("MessageGroupNode", "_on_meta_clicked", meta)
-
-func _on_content_meta_hover_ended(meta: Variant) -> void:
-	prints("MessageGroupNode", "_on_meta_hover_ended", meta)
-
-func _on_content_meta_hover_started(meta: Variant) -> void:
-	prints("MessageGroupNode", "_on_meta_hover_started", meta)
+func _process(delta: float) -> void:
+	if is_instance_valid(MainTextArea.editing_message) and MainTextArea.editing_message == message:
+		$EditingContainer.modulate.a = sin(Time.get_ticks_msec() * 0.001) * 0.5 + 0.5
 
 func _process_message_content(content: String) -> String:
 	# replace URLs with clickable links in the form of [url=https://examples.com]examples.com[/url]

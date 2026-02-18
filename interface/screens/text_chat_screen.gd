@@ -44,4 +44,5 @@ func _draw() -> void:
 		_update_scrollbar.call_deferred()
 
 func _update_scrollbar() -> void:
+	await Lib.frame
 	set_deferred("scroll_vertical", get_v_scroll_bar().max_value * 20.0)

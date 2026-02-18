@@ -172,11 +172,40 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			if not channel._db.query_result:
 				return
 			
+			if not peer_id in online_users or channel._db.query_result[0].author != online_users[peer_id]:
+				print("Message delete (ID %d) was attempted by a user (%s) who is not the author (%s)" % [data.message_id, online_users[peer_id] if peer_id in online_users else str(peer_id), channel._db.query_result[0].author])
+				return
+			
 			channel._db.delete_rows("messages", "timestamp = '%d'" % data.message_id)
 
 			HeadlessServer.send_api_message("message_deleted", {
 				channel_id = data.channel_id,
 				message_id = data.message_id
+			})
+		"edit_message":
+			if not "channel_id" in data or not "message_id" in data or not "content" in data:
+				return
+			
+			var channel: Channel = get_channel(data.channel_id)
+			if not is_instance_valid(channel):
+				return
+			
+			channel._db.query("SELECT * FROM messages WHERE timestamp = '%d'" % data.message_id)
+			if not channel._db.query_result:
+				return
+			
+			if not peer_id in online_users or channel._db.query_result[0].author != online_users[peer_id]:
+				print("Message edit (ID %d) was attempted by a user (%s) who is not the author (%s)" % [data.message_id, online_users[peer_id] if peer_id in online_users else str(peer_id), channel._db.query_result[0].author])
+				return
+			
+			channel._db.update_rows("messages", "timestamp = '%d'" % data.message_id, {
+				content = data.content
+			})
+
+			HeadlessServer.send_api_message("message_updated", {
+				channel_id = data.channel_id,
+				message_id = data.message_id,
+				new_content = data.content
 			})
 			
 
@@ -266,3 +295,24 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			for message_item in ChatFrame.instance.get_tree().get_nodes_in_group("message_item"):
 				if message_item.message == message:
 					message_item.delete()
+		"message_updated":
+			if not "channel_id" in data or not "message_id" in data:
+				return
+			
+			var channel: Channel = get_channel(data.channel_id)
+			if not is_instance_valid(channel):
+				return
+			
+			var message: Message = channel.find_message(data.message_id)
+			if not is_instance_valid(message):
+				return
+			
+			message.content = data.new_content
+			
+			for message_item in ChatFrame.instance.get_tree().get_nodes_in_group("message_item"):
+				if not is_instance_valid(message_item):
+					continue
+				
+				if message_item.message == message:
+					message_item.text_content = message.content
+					message_item.queue_redraw()

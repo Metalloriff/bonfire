@@ -33,6 +33,7 @@ func _ready() -> void:
 	
 	%QuoteReplyButton.visible = len(_selected_text.strip_edges()) > 0
 	%OwnMessageContainer.visible = message.author_id == ChatFrame.instance.selected_channel.server.user_id
+	%EditButton.visible = not message.encrypted
 
 	show()
 
@@ -49,9 +50,22 @@ func _on_quote_reply_button_pressed() -> void:
 	queue_free()
 
 func _on_delete_button_pressed() -> void:
+	assert(message.author_id == ChatFrame.instance.selected_channel.server.user_id, "Cannot edit messages from other users")
+
 	# TODO ask for confirmation
 	ChatFrame.instance.selected_channel.delete_message(message)
 	queue_free()
 
 func _on_edit_button_pressed() -> void:
-	pass # Replace with function body.
+	assert(not message.encrypted, "Cannot edit encrypted messages")
+	assert(message.author_id == ChatFrame.instance.selected_channel.server.user_id, "Cannot edit messages from other users")
+
+	MainTextArea.editing_message_item = message_item
+	MainTextArea.editing_message = message
+
+	message_item.set_process(true)
+	message_item.get_node("EditingContainer").show()
+	message_item.get_node("TextContents").hide()
+	message_item.get_node("MediaContents").hide()
+
+	queue_free()
