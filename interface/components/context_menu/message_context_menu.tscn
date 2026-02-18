@@ -2,6 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://bvdbogspriemp" path="res://interface/components/context_menu/context_menu_base.tscn" id="1_hfanb"]
 [ext_resource type="Script" uid="uid://bejwsf1g4yf6x" path="res://interface/components/context_menu/message_context_menu.gd" id="2_yuyam"]
+[ext_resource type="Texture2D" uid="uid://b3psk4rk4u5yt" path="res://icons/reply.png" id="3_p6ut8"]
+[ext_resource type="Texture2D" uid="uid://bqft626bqbe8h" path="res://icons/replyAll.png" id="4_plomt"]
+[ext_resource type="Texture2D" uid="uid://d3vb2bm6jy37n" path="res://icons/edit.png" id="5_6kj3k"]
+[ext_resource type="Texture2D" uid="uid://bfykibbbwvwkg" path="res://icons/delete.png" id="6_plomt"]
 
 [node name="ContextMenuBase" unique_id=319957489 instance=ExtResource("1_hfanb")]
 script = ExtResource("2_yuyam")
@@ -15,12 +19,57 @@ horizontal_alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 text = "Reply"
+icon = ExtResource("3_p6ut8")
+alignment = 0
+expand_icon = true
 
 [node name="QuoteReplyButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="2" unique_id=613865452]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 text = "Quote Reply"
+icon = ExtResource("4_plomt")
+alignment = 0
+expand_icon = true
+
+[node name="OwnMessageContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="3" unique_id=516349697]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer/OwnMessageContainer" index="0" unique_id=1652914237]
+layout_mode = 2
+
+[node name="EditButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/OwnMessageContainer" index="1" unique_id=1401211687]
+layout_mode = 2
+text = "Edit"
+icon = ExtResource("5_6kj3k")
+alignment = 0
+expand_icon = true
+
+[node name="DeleteButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/OwnMessageContainer" index="2" unique_id=1944041549]
+layout_mode = 2
+theme_type_variation = &"Button_Red"
+text = "Delete"
+icon = ExtResource("6_plomt")
+alignment = 0
+expand_icon = true
+
+[node name="MessagePreviewContainer" type="PanelContainer" parent="." index="2" unique_id=144763189]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 0
+offset_right = 20.0
+offset_bottom = 20.0
+pivot_offset_ratio = Vector2(0, 1)
+size_flags_horizontal = 8
+size_flags_vertical = 0
+mouse_filter = 2
+theme_type_variation = &"PanelSolid"
+
+[node name="MarginContainer" type="MarginContainer" parent="MessagePreviewContainer" index="0" unique_id=727410921]
+layout_mode = 2
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ReplyButton" to="." method="_on_reply_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/QuoteReplyButton" to="." method="_on_quote_reply_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/OwnMessageContainer/EditButton" to="." method="_on_edit_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/OwnMessageContainer/DeleteButton" to="." method="_on_delete_button_pressed"]

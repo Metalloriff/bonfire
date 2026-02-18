@@ -160,6 +160,24 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			})
 
 			save_to_disk(false)
+		"delete_message":
+			if not "channel_id" in data or not "message_id" in data:
+				return
+			
+			var channel: Channel = get_channel(data.channel_id)
+			if not is_instance_valid(channel):
+				return
+			
+			channel._db.query("SELECT * FROM messages WHERE timestamp = '%d'" % data.message_id)
+			if not channel._db.query_result:
+				return
+			
+			channel._db.delete_rows("messages", "timestamp = '%d'" % data.message_id)
+
+			HeadlessServer.send_api_message("message_deleted", {
+				channel_id = data.channel_id,
+				message_id = data.message_id
+			})
 			
 
 func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int) -> void:
@@ -231,3 +249,20 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 				return
 			
 			users.append(user)
+		"message_deleted": # I know one of you mfers are going to mod this.
+			if not "channel_id" in data or not "message_id" in data:
+				return
+			
+			var channel: Channel = get_channel(data.channel_id)
+			if not is_instance_valid(channel):
+				return
+			
+			var message: Message = channel.find_message(data.message_id)
+			if not is_instance_valid(message):
+				return
+			
+			channel.messages.erase(message)
+			
+			for message_item in ChatFrame.instance.get_tree().get_nodes_in_group("message_item"):
+				if message_item.message == message:
+					message_item.delete()

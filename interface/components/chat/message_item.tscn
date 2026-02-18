@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_i3w1o"]
 [ext_resource type="Script" uid="uid://qkegu41sb0a7" path="res://interface/components/chat/message_item.gd" id="2_x5vcu"]
 
-[node name="MessageItem" type="VBoxContainer" unique_id=73608036]
+[node name="MessageItem" type="VBoxContainer" unique_id=73608036 groups=["message_item"]]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0

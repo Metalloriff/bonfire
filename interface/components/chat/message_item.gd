@@ -147,3 +147,10 @@ func _process_message_content(content: String) -> String:
 	content = regex.sub(content, "[url=$0]$1[/url]", true)
 
 	return content
+
+func delete() -> void:
+	var tween := create_tween().set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(self , "modulate:a", 0.0, 0.5)
+	await tween.finished
+
+	queue_free()
