@@ -9,16 +9,29 @@ enum Type {
 signal message_received(message: Message)
 
 @export var id: String = Lib.create_uid(32)
-@export var name: String = "Invalid Channel"
+@export var name: String = "Invalid Channel":
+	get:
+		if is_private:
+			if not is_instance_valid(server):
+				return "..."
+			
+			for user in pm_participants:
+				if user.user_id != server.user_id:
+					return server.get_user(user.user_id).name
+		return name
 @export var type: int = Type.TEXT
+@export var is_private: bool
+@export var pm_participants: Array[Dictionary] = []
 
 var server: Server
 var messages: Array[Message] = []
 var messages_loaded: bool
 var messages_loading: bool
+var private_key: String
 
 var _db_path: String:
-	get: return HeadlessServer.instance.server_data_path.path_join("channels").path_join(id + ".db")
+	get:
+		return HeadlessServer.instance.server_data_path.path_join("private_channels" if is_private else "channels").path_join(id + ".db")
 var _db: SQLite
 
 func send_message(content: String, encryption_key: String = "") -> void: # TODO add attachments support
@@ -33,6 +46,8 @@ func send_message(content: String, encryption_key: String = "") -> void: # TODO 
 	if encryption_key:
 		message_data.encrypted = true
 		message_data.content = Marshalls.raw_to_base64(EncryptionTools.encrypt_string(content, encryption_key))
+	elif is_private:
+		message_data.content = Marshalls.raw_to_base64(EncryptionTools.encrypt_string(content, private_key))
 
 	server.send_api_message("send_message", message_data)
 
@@ -95,10 +110,21 @@ func _commit_message(message: Message) -> void:
 	var serialized_message: Dictionary = message.serialize()
 
 	messages.append(message)
-	HeadlessServer.send_api_message("new_message", {
+
+	var api_message_data: Dictionary = {
 		channel_id = id,
 		message = serialized_message
-	})
+	}
+
+	if is_private:
+		for participant in pm_participants:
+			var peer_id: int = server.get_peer_id_by_user_id(participant.user_id)
+			if not peer_id in server.online_users:
+				continue
+			
+			HeadlessServer.send_api_message("new_message", api_message_data, peer_id)
+	else:
+		HeadlessServer.send_api_message("new_message", api_message_data)
 
 	_db.insert_row("messages", serialized_message)
 

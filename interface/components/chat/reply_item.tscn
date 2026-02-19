@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="2_ydbil"]
 
 [node name="ReplyItem" type="PanelContainer" unique_id=861933968]
-custom_minimum_size = Vector2(400, 0)
+custom_minimum_size = Vector2(300, 0)
 size_flags_horizontal = 0
 theme = ExtResource("1_b7jtk")
 

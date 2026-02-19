@@ -8,6 +8,12 @@ var user: User:
 			queue_redraw()
 var server: Server
 
+func _ready() -> void:
+	ContextMenu.attach_listener(self , preload("res://interface/components/context_menu/user_context_menu.tscn"), func(menu: ContextMenu) -> void:
+		menu.user = user
+		menu.server = server
+	)
+
 func _draw() -> void:
 	%Username.text = user.name
 	%StatusIndicator.visible = is_instance_valid(server) and user.id in server.online_users.values()

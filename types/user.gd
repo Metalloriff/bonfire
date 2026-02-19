@@ -16,6 +16,24 @@ const PROPERTIES: Array[String] = [
 func _init() -> void:
 	local_volume = FS.get_pref("member_volumes.%s" % id, 100.0)
 
+func is_online_in_server(server: Server) -> bool:
+	for peer_id: int in server.online_users:
+		if server.online_users[peer_id] == id:
+			return true
+	return false
+
+func get_direct_message_channel(server: Server) -> Channel:
+	for channel in server.private_channels:
+		var found_users: int = 0
+
+		for participant in channel.pm_participants:
+			if participant.user_id == id or participant.user_id == server.user_id:
+				found_users += 1
+		
+		if found_users == 2:
+			return channel
+	return null
+
 var local_volume: float = -1.0:
 	set(new):
 		if local_volume != new:

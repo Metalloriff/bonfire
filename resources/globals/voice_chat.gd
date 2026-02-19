@@ -1,5 +1,7 @@
 extends Node
 
+var __DEBUG_MODE: bool = false
+
 var active_channel: Channel
 var muted: bool:
 	set(new):
@@ -65,7 +67,7 @@ func _ready() -> void:
 		if active_channel and active_channel.id == channel_id:
 			ChatFrame.instance.queue_redraw()
 
-		if user_id == multiplayer.get_unique_id():
+		if user_id == multiplayer.get_unique_id() and not __DEBUG_MODE:
 			return
 
 		if active_channel and active_channel.id == channel_id:
@@ -250,7 +252,7 @@ func _upstream_packets(channel_id: String, packet, activity_level: float = 0.0, 
 		return
 	
 	for participant_id in HeadlessServer.instance.server.voice_chat_participants[channel_id]:
-		if participant_id == peer_id:
+		if participant_id == peer_id and not __DEBUG_MODE:
 			continue
 		if HeadlessServer.instance.server.voice_chat_participants[channel_id][participant_id].deafened:
 			continue

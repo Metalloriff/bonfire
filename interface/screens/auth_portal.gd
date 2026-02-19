@@ -1,4 +1,6 @@
-extends Control
+class_name AuthPortal extends Control
+
+static var private_key: String
 
 @onready var _username: String = FS.get_pref("auth.username", "")
 @onready var _password_hash: String = FS.get_pref("auth.pw_hash", "")
@@ -33,6 +35,11 @@ func _input(event: InputEvent) -> void:
 func _on_submit_button_pressed() -> void:
 	var password: String = $Contents/Password/LineEdit.text
 	var password_hash: String = password.sha256_text()
+
+	# This isn't secure, but it needs to be different from the password hash, and the server needs to be unable to decipher it without client access.
+	# This is basically a "password" that is only used to encrypt the private key for PMs, which is then used to decrypt the private key.
+	# It's a better way than storing your password in memory, but it's not good. If anyone who is smarter than a shoe (unlike me) can help me figure out a better solution, I'll be happy to implement it.
+	private_key = (password + password_hash).sha256_text()
 
 	if not _password_hash:
 		var username: String = $Contents/Username/LineEdit.text

@@ -2,6 +2,7 @@ extends VBoxContainer
 
 var author: User
 var message: Message
+var channel: Channel
 var is_reply: bool
 
 var text_content: String:
@@ -135,8 +136,6 @@ func _process(delta: float) -> void:
 		$EditingContainer.modulate.a = sin(Time.get_ticks_msec() * 0.001) * 0.5 + 0.5
 
 func _process_message_content(content: String) -> String:
-	# replace URLs with clickable links in the form of [url=https://examples.com]examples.com[/url]
-	# find and replace URLs with clickable links
 	var regex = RegEx.new()
 	regex.compile("https?:\\/\\/(?:www\\.)?((?:[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)))")
 	content = regex.sub(content, "[url=$0]$1[/url]", true)

@@ -106,7 +106,7 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 
 	server.cache()
 
-	for channel in server.channels:
+	for channel in server.channels + server.private_channels:
 		channel.server = server
 
 	instances[server.id] = self

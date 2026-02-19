@@ -21,6 +21,9 @@ static func attach_listener(control: Control, menu_packed_scene: PackedScene, cr
 			menu.global_position = control.get_global_mouse_position()
 
 			await Lib.frame
+
+			if not is_instance_valid(menu) or not menu.is_inside_tree():
+				return
 			
 			var panel: PanelContainer = menu.get_node("PanelContainer")
 			var window_height: float = menu.get_viewport_rect().size.y

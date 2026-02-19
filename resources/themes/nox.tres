@@ -320,6 +320,59 @@ corner_radius_top_right = 100
 corner_radius_bottom_right = 100
 corner_radius_bottom_left = 100
 
+[sub_resource type="Gradient" id="Gradient_qlc1u"]
+offsets = PackedFloat32Array(0.5708955, 0.6977612)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5gc66"]
+gradient = SubResource("Gradient_qlc1u")
+width = 20
+height = 20
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_710he"]
+gradient = SubResource("Gradient_qlc1u")
+width = 20
+height = 20
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_eppvg"]
+gradient = SubResource("Gradient_qlc1u")
+width = 20
+height = 20
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qt0uk"]
+bg_color = Color(0.16862746, 0.56078434, 0.8784314, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eaw1p"]
+bg_color = Color(0.37199998, 0.6789001, 0.93, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2oyfk"]
+content_margin_top = 5.0
+content_margin_bottom = 5.0
+bg_color = Color(0.03137255, 0.03137255, 0.050980393, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.078, 0.078, 0.13, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+
 [sub_resource type="Resource" id="Resource_qlc1u"]
 script = ExtResource("1_qlc1u")
 color = Color(0.12319999, 0.12319999, 0.16, 1)
@@ -556,6 +609,57 @@ corner_curvature_bottom_right = 2.25
 corner_curvature_bottom_left = 2.25
 shadow_blur = 0
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wloot"]
+bg_color = Color(0.27380002, 0.3219, 0.37, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+expand_margin_left = 3.0
+expand_margin_right = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f1qdn"]
+bg_color = Color(0.16862746, 0.56078434, 0.8784314, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+expand_margin_left = 3.0
+expand_margin_right = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qv602"]
+bg_color = Color(0, 0.3190001, 0.58, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+expand_margin_left = 3.0
+expand_margin_right = 3.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_eja14"]
+bg_color = Color(0.03137255, 0.03137255, 0.050980393, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.078, 0.078, 0.13, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d5rib"]
+bg_color = Color(0.03137255, 0.03137255, 0.050980393, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.102000006, 0.102000006, 0.17, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+
 [resource]
 default_font = ExtResource("1_ug2aw")
 Button/constants/h_separation = 5
@@ -587,6 +691,12 @@ FoldableContainer/styles/title_hover_panel = SubResource("StyleBox_4mkth")
 FoldableContainer/styles/title_panel = SubResource("StyleBox_4mkth")
 HSeparator/constants/separation = 6
 HSeparator/styles/separator = SubResource("StyleBoxFlat_5gc66")
+HSlider/icons/grabber = SubResource("GradientTexture2D_5gc66")
+HSlider/icons/grabber_disabled = SubResource("GradientTexture2D_710he")
+HSlider/icons/grabber_highlight = SubResource("GradientTexture2D_eppvg")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_qt0uk")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_eaw1p")
+HSlider/styles/slider = SubResource("StyleBoxFlat_2oyfk")
 LineEdit/styles/normal = SubResource("StyleBox_eppvg")
 MarginContainer/constants/margin_bottom = 10
 MarginContainer/constants/margin_left = 10
@@ -607,3 +717,8 @@ TabContainer/styles/tab_selected = SubResource("StyleBox_051t1")
 TabContainer/styles/tab_unselected = SubResource("StyleBoxFlat_0wlw2")
 TextEdit/styles/normal = SubResource("StyleBox_f1qdn")
 VBoxContainer/constants/separation = 8
+VScrollBar/styles/grabber = SubResource("StyleBoxFlat_wloot")
+VScrollBar/styles/grabber_highlight = SubResource("StyleBoxFlat_f1qdn")
+VScrollBar/styles/grabber_pressed = SubResource("StyleBoxFlat_qv602")
+VScrollBar/styles/scroll = SubResource("StyleBoxFlat_eja14")
+VScrollBar/styles/scroll_focus = SubResource("StyleBoxFlat_d5rib")

@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bt5nv2a5po3kk" path="res://interface/components/servers/server_list.tscn" id="4_5h4wo"]
 [ext_resource type="Script" uid="uid://d1srepb6fakhm" path="res://interface/screens/main/channel_list.gd" id="5_1j1gh"]
 [ext_resource type="Script" uid="uid://bhhwjyqd08gbs" path="res://interface/screens/main/local_user_container.gd" id="6_7xj2g"]
+[ext_resource type="Script" uid="uid://diw8801b53b20" path="res://interface/screens/main/private_channel_list.gd" id="6_fn5t8"]
 [ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="7_isgh4"]
 [ext_resource type="Texture2D" uid="uid://cml4bx5ybxqtj" path="res://icons/settings.png" id="8_remya"]
 [ext_resource type="Script" uid="uid://ckln06vm8xqkx" path="res://interface/screens/main/chat_frame.gd" id="9_2khah"]
@@ -64,60 +65,84 @@ size_flags_vertical = 3
 [node name="ServerList" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers/ScrollContainer/MarginContainer" unique_id=716935970 instance=ExtResource("4_5h4wo")]
 layout_mode = 2
 
-[node name="ChannelContainer" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer" unique_id=1207690190]
+[node name="ChannelContainer" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer" unique_id=1921953393]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Channels" type="PanelContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer" unique_id=813886612]
+[node name="TabContainer" type="TabContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer" unique_id=684160487]
 layout_mode = 2
 size_flags_vertical = 3
+current_tab = 0
 
-[node name="ChannelList" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/Channels" unique_id=813998620]
+[node name="Public" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/TabContainer" unique_id=1038953838]
 layout_mode = 2
 theme_override_constants/separation = 0
 script = ExtResource("5_1j1gh")
+metadata/_tab_index = 0
 
-[node name="ServerInfoContainer" type="MarginContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/Channels/ChannelList" unique_id=1952891382]
+[node name="ServerInfoContainer" type="MarginContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/TabContainer/Public" unique_id=1233841667]
 layout_mode = 2
 
-[node name="ServerInfo" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/Channels/ChannelList/ServerInfoContainer" unique_id=1723194714]
+[node name="ServerInfo" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/TabContainer/Public/ServerInfoContainer" unique_id=681705470]
 layout_mode = 2
 
-[node name="Name" type="Label" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/Channels/ChannelList/ServerInfoContainer/ServerInfo" unique_id=44537089]
+[node name="Name" type="Label" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/TabContainer/Public/ServerInfoContainer/ServerInfo" unique_id=1656724168]
 layout_mode = 2
 text = "Server Name"
+horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/Channels/ChannelList/ServerInfoContainer/ServerInfo" unique_id=387222966]
+[node name="HSeparator" type="HSeparator" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/TabContainer/Public/ServerInfoContainer/ServerInfo" unique_id=1647244743]
 layout_mode = 2
 
-[node name="LocalUserContainer" type="PanelContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer" unique_id=2001124872]
+[node name="Private" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/TabContainer" unique_id=141389929]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("6_fn5t8")
+metadata/_tab_index = 1
+
+[node name="ServerInfoContainer" type="MarginContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/TabContainer/Private" unique_id=1660038030]
+layout_mode = 2
+
+[node name="ServerInfo" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/TabContainer/Private/ServerInfoContainer" unique_id=993538240]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/TabContainer/Private/ServerInfoContainer/ServerInfo" unique_id=677987523]
+layout_mode = 2
+text = "Private Messages"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/TabContainer/Private/ServerInfoContainer/ServerInfo" unique_id=1652443275]
+layout_mode = 2
+
+[node name="LocalUserContainer" type="PanelContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer" unique_id=1448988823]
 layout_mode = 2
 script = ExtResource("6_7xj2g")
 
-[node name="MarginContainer" type="MarginContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer" unique_id=1910278376]
+[node name="MarginContainer" type="MarginContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer" unique_id=1400137416]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer" unique_id=1366381619]
+[node name="HBoxContainer" type="HBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer" unique_id=300602293]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="AvatarContainer" type="PanelContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1370698232]
+[node name="AvatarContainer" type="PanelContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=267451733]
 clip_children = 1
 layout_mode = 2
 theme_type_variation = &"CircleMask"
 
-[node name="Avatar" type="TextureRect" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/AvatarContainer" unique_id=1217910208]
+[node name="Avatar" type="TextureRect" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/AvatarContainer" unique_id=1565749923]
 layout_mode = 2
 texture = ExtResource("7_isgh4")
 expand_mode = 3
 stretch_mode = 6
 
-[node name="Username" type="Label" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1758461276]
+[node name="Username" type="Label" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1986327960]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Username"
 
-[node name="SettingsButton" type="Button" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1139410926]
+[node name="SettingsButton" type="Button" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=243007743]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 icon = ExtResource("8_remya")

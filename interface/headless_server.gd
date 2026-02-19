@@ -59,7 +59,7 @@ func _ready() -> void:
 		var image: Image = Image.load_from_file(server_data_path.path_join("icon.png"))
 		server.icon = ImageTexture.create_from_image(image)
 
-	for channel in server.channels:
+	for channel in server.channels + server.private_channels:
 		if not is_instance_valid(channel):
 			server.channels.erase(channel)
 
@@ -78,7 +78,7 @@ func _ready() -> void:
 
 		server.save_to_disk()
 	
-	for channel in server.channels:
+	for channel in server.channels + server.private_channels:
 		channel.server = server
 		channel._initialize_messages_database()
 

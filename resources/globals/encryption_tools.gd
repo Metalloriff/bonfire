@@ -55,7 +55,6 @@ func _pkcs7_pad(data: PackedByteArray) -> PackedByteArray:
 		padded.append(pad_len)
 	return padded
 
-
 func _pkcs7_unpad(data: PackedByteArray) -> PackedByteArray:
 	if data.is_empty():
 		return data
@@ -63,3 +62,6 @@ func _pkcs7_unpad(data: PackedByteArray) -> PackedByteArray:
 	if pad_len < 1 or pad_len > 16:
 		return data
 	return data.slice(0, data.size() - pad_len)
+
+func generate_token(length: int = 128) -> String:
+	return Marshalls.raw_to_base64(Crypto.new().generate_random_bytes(length))

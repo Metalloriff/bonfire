@@ -55,6 +55,8 @@ size_flags_horizontal = 3
 
 [node name="Username" type="Label" parent="Container/Contents" unique_id=1863342250]
 layout_mode = 2
+size_flags_horizontal = 0
+mouse_filter = 1
 theme_override_fonts/font = ExtResource("2_ofoua")
 text = "Some Username"
 

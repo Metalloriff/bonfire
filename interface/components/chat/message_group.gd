@@ -2,6 +2,7 @@ class_name MessageGroupNode extends MarginContainer
 
 @export var author: User
 @export var messages: Array[Message]
+@export var channel: Channel
 
 @onready var _avatar_node: TextureRect = $Container/AvatarContainer/Avatar
 @onready var _avatar_placeholder_node: ColorRect = $Container/AvatarContainer/PlaceholderAvatar
@@ -21,6 +22,13 @@ var _added_messages: Array[Message] = []
 # 	tween.tween_property(self , "position:x", 0.0, 0.5)
 # 	tween.tween_property(self , "modulate:a", 1.0, 0.5)
 
+func _ready() -> void:
+	for node in [_avatar_node, _avatar_placeholder_node, _username_node]:
+		ContextMenu.attach_listener(node, preload("res://interface/components/context_menu/user_context_menu.tscn"), func(menu: ContextMenu) -> void:
+			menu.user = author
+			menu.server = channel.server
+		)
+
 func _draw() -> void:
 	_avatar_node.texture = author.avatar
 	_username_node.text = author.name
@@ -37,4 +45,5 @@ func _draw() -> void:
 		var message_item: VBoxContainer = preload("res://interface/components/chat/message_item.tscn").instantiate()
 		message_item.author = author
 		message_item.message = message
+		message_item.channel = channel
 		_messages_container_node.add_child(message_item)

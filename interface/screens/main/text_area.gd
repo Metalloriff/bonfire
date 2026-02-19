@@ -75,5 +75,7 @@ func _on_send_button_pressed() -> void:
 func _on_encrypt_button_pressed() -> void:
 	var menu: ContextMenu = ContextMenu.create_menu(load("res://interface/components/context_menu/message_encrypt_context_menu.tscn"))
 
+	menu.global_position = $EncryptButton.global_position - Vector2((menu.get_node("PanelContainer").size.x / 2.0) - ($EncryptButton.size.x / 2.0), menu.get_node("PanelContainer").size.y + 10)
+
 func _on_cancel_edit_button_pressed() -> void:
 	editing_message = null

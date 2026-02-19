@@ -13,10 +13,12 @@ func _draw() -> void:
 		print("Invalid channel for text chat screen")
 		return
 	
+	%EncryptionNotice.visible = channel.is_private
+	
 	if not channel.messages_loaded:
 		channel.load_messages()
 	
-	var message_group: MessageGroupNode = list.get_child(-1) if list.get_child_count() > 1 else null
+	var message_group: MessageGroupNode = list.get_child(-1) if list.get_child_count() > 2 else null
 	var last_message: Message = message_group.messages[-1] if message_group else null
 	var new_message_count: int = 0
 
@@ -35,6 +37,7 @@ func _draw() -> void:
 		if not last_message or message.author_id != last_message.author_id:
 			message_group = message_group_scene.instantiate()
 			message_group.author = channel.server.get_user(message.author_id)
+			message_group.channel = channel
 			list.add_child(message_group)
 		message_group.messages.append(message)
 
