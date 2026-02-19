@@ -9,10 +9,11 @@ var id: int
 
 var decrypted_content: String
 
-func _init(author_id: String = "", content: String = "") -> void:
+func _init(author_id: String = "", content: String = "", attachment_ids: Array[String] = []) -> void:
 	self.author_id = author_id
 	self.content = content
 	self.timestamp = int(Time.get_unix_time_from_system())
+	self.attachment_ids = attachment_ids
 
 func serialize() -> Dictionary:
 	return {

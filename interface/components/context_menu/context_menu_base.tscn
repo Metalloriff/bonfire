@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://3wxqd2tjpff7" path="res://interface/components/context_menu/context_menu.gd" id="1_s4xmn"]
 
 [node name="ContextMenuBase" type="Control" unique_id=319957489]
+z_index = 2
 layout_mode = 3
 anchors_preset = 0
 theme = ExtResource("1_f2cmj")

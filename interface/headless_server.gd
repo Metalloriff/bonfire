@@ -22,6 +22,7 @@ var defaults: Dictionary = {
 }
 var config: Dictionary
 var server: Server
+var file_server: FileServer
 
 @onready var server_data_path: String = OS.get_executable_path().get_base_dir().path_join("server_data")
 @onready var config_path: String = OS.get_executable_path().get_base_dir().path_join("config.yml")
@@ -84,6 +85,15 @@ func _ready() -> void:
 
 	var peer = ENetMultiplayerPeer.new()
 	var err = peer.create_server(get_config_entry("network.port"))
+
+	if err != OK:
+		print("Failed to create server! Error %d" % error_string(err))
+		return
+	
+	file_server = FileServer.new()
+	file_server.server = server
+	add_child(file_server)
+	file_server.host(get_config_entry("network.port"))
 
 	peer.peer_connected.connect(func(id):
 		prints("Peer connected with ID", id)

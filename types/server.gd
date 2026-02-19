@@ -136,6 +136,9 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			if len(data.content) > 4000:
 				return
 			
+			if not len(data.content) and not len(data.attachments):
+				return
+			
 			var channel: Channel = get_channel(data.channel_id)
 			if not is_instance_valid(channel):
 				return
@@ -144,6 +147,12 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			if not is_instance_valid(user):
 				prints("user", peer_id, "tried to send message to channel", data.channel_id, "but is not online")
 				return
+			
+			if "attachments" in data and len(data.attachments):
+				for attachment_id in data.attachments:
+					if not attachment_id or not attachment_id is String:
+						prints("invalid attachment id", attachment_id)
+						return
 			
 			if channel.is_private:
 				var user_id: String = online_users[peer_id]
@@ -158,7 +167,7 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 					prints("User", peer_id, "tried to send message to private channel", data.channel_id, "but is not allowed to.")
 					return
 
-			var message: Message = Message.new(user.id, data.content)
+			var message: Message = Message.new(user.id, data.content, data.attachments if "attachments" in data else [])
 
 			if "encrypted" in data and data.encrypted:
 				message.encrypted = true
@@ -335,6 +344,27 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			
 			save_to_disk(false)
 			com_node._receive_server_info.rpc_id(peer_id, var_to_bytes_with_objects(self ))
+		"fetch_media_meta":
+			prints("SERVER: received media meta request", data)
+			if not "media_id" in data or not "channel_id" in data:
+				print("Invalid media meta request")
+				return
+			
+			var channel: Channel = get_channel(data.channel_id)
+			if not is_instance_valid(channel):
+				print("Invalid channel for media meta request")
+				return
+			
+			var meta: Dictionary = channel._load_media_meta_from_db(data.media_id)
+			if not meta:
+				print("fetch_media_meta: Media item not found")
+				return
+			
+			HeadlessServer.send_api_message("fetch_media_meta_response", {
+				channel_id = data.channel_id,
+				media_id = data.media_id,
+				meta = meta
+			}, peer_id)
 
 func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int) -> void:
 	if HeadlessServer.is_headless_server:
@@ -464,3 +494,17 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 				channel_id = data.channel_id,
 				private_key = encrypted_key
 			})
+		"fetch_media_meta_response":
+			if not "media_id" in data or not "channel_id" in data or not "meta" in data:
+				print("Invalid media meta response")
+				return
+			
+			var media: Media = Media.new()
+			media.deserialize(data.meta)
+			media.id = data.media_id
+			
+			var channel: Channel = get_channel(data.channel_id)
+			if not is_instance_valid(channel):
+				return
+			
+			channel._media_meta_cache[data.media_id] = media

@@ -31,13 +31,16 @@ static var editing_message: Message:
 static var editing_message_item: Control
 
 @onready var field: TextEdit = $TextEdit
+@onready var file_attachments: HBoxContainer = get_parent().get_node("FileAttachmentsContainer/FileAttachments")
+
+var attachments: Array[String] = []
 
 func _ready() -> void:
 	instance = self
 
 func _on_text_edit_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
-		if event.keycode == KEY_ENTER and not event.is_echo() and len(field.text.strip_edges().strip_escapes()):
+		if event.keycode == KEY_ENTER and not event.is_echo() and len(field.text.strip_edges()):
 			if Input.is_key_pressed(KEY_SHIFT):
 				# insert new line where cursor is and return cursor position
 				var caret_line: int = field.get_caret_line()
@@ -54,11 +57,20 @@ func _on_text_edit_gui_input(event: InputEvent) -> void:
 				field.text = field.text.insert(flat_caret_index, "\n")
 				field.set_caret_line.call_deferred(caret_line + 1)
 			else:
-				field.text = field.text.strip_edges().strip_escapes()
+				field.text = field.text.strip_edges()
 				_on_send_button_pressed()
 
 func _on_send_button_pressed() -> void:
 	assert(is_instance_valid(ChatFrame.instance.selected_channel), "No channel selected")
+
+	if len(attachments) < file_attachments.get_child_count():
+		NotificationDaemon.show_toast("You must wait for all file uploads to finish before sending a message.")
+		return
+	
+	if not len(attachments) and not field.text.strip_edges():
+		if is_instance_valid(editing_message):
+			editing_message = null
+		return
 
 	if is_instance_valid(editing_message):
 		ChatFrame.instance.selected_channel.edit_message(editing_message, field.text)
@@ -66,9 +78,15 @@ func _on_send_button_pressed() -> void:
 	else:
 		ChatFrame.instance.selected_channel.send_message(
 			field.text,
-			MessageEncryptionContextMenu.encryption_key if MessageEncryptionContextMenu.encrypt_message_enabled else ""
+			MessageEncryptionContextMenu.encryption_key if MessageEncryptionContextMenu.encrypt_message_enabled else "",
+			attachments
 		)
 	field.set_deferred("text", "")
+
+	attachments.clear()
+
+	for attachment in file_attachments.get_children():
+		attachment.queue_free()
 
 	ChatFrame.instance.queue_redraw()
 
@@ -79,3 +97,15 @@ func _on_encrypt_button_pressed() -> void:
 
 func _on_cancel_edit_button_pressed() -> void:
 	editing_message = null
+
+func _on_attach_file_button_pressed() -> void:
+	$FileDialog.popup_centered()
+
+func _on_file_dialog_files_selected(paths: PackedStringArray) -> void:
+	for path in paths:
+		var file_upload_node: PackedScene = preload("res://interface/components/servers/file_upload_node.tscn")
+		var file_upload_node_instance: Control = file_upload_node.instantiate()
+		file_upload_node_instance.server = ChatFrame.instance.selected_channel.server
+		file_upload_node_instance.channel = ChatFrame.instance.selected_channel
+		file_upload_node_instance.file_path = path
+		file_attachments.add_child(file_upload_node_instance)

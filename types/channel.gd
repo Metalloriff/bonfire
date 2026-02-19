@@ -34,13 +34,14 @@ var _db_path: String:
 		return HeadlessServer.instance.server_data_path.path_join("private_channels" if is_private else "channels").path_join(id + ".db")
 var _db: SQLite
 
-func send_message(content: String, encryption_key: String = "") -> void: # TODO add attachments support
+func send_message(content: String, encryption_key: String = "", attachments: Array[String] = []) -> void:
 	assert(not HeadlessServer.is_headless_server, "Cannot send message from headless server")
 	assert(is_instance_valid(server), "No server for channel")
 
 	var message_data: Dictionary = {
 		channel_id = id,
-		content = content
+		content = content,
+		attachments = attachments
 	}
 
 	if encryption_key:
@@ -93,6 +94,7 @@ func find_message(message_id_or_timestamp: int) -> Message:
 func _load_messages_from_db(limit: int = 50, offset: int = 0) -> Array[Dictionary]:
 	# TODO implement pagination
 	assert(is_instance_valid(_db), "Database not initialized")
+	assert(limit < 100, "Cannot load more than 100 messages at once")
 
 	var serialized_messages: Array[Dictionary] = []
 	
@@ -102,6 +104,91 @@ func _load_messages_from_db(limit: int = 50, offset: int = 0) -> Array[Dictionar
 
 	serialized_messages.reverse()
 	return serialized_messages
+
+var _media_meta_cache: Dictionary = {}
+func get_media_meta(media_id: String) -> Media: # TODO optimize this
+	assert(media_id, "No media id provided")
+
+	if not media_id in _media_meta_cache:
+		await Lib.seconds(0.5)
+		server.send_api_message("fetch_media_meta", {
+			channel_id = id,
+			media_id = media_id
+		})
+
+	var timeout: float = 0.0
+	while not media_id in _media_meta_cache:
+		timeout += await Lib.frame_with_delta()
+
+		if timeout > 5.0:
+			print("Timeout while waiting for media meta")
+			return null
+	
+	return _media_meta_cache[media_id]
+
+var _media_response_cache: Dictionary = {}
+func get_media_file_data_then(media_id: String, callback: Callable) -> void:
+	assert(media_id, "No media id provided")
+
+	if not media_id in _media_response_cache:
+		_media_response_cache[media_id] = await server.com_node.file_server.request_file({
+			username = FS.get_pref("auth.username"),
+			password_hash = FS.get_pref("auth.pw_hash")
+		}, id, media_id)
+
+		prints("got media response", media_id, _media_response_cache[media_id])
+	
+	callback.call(_media_response_cache[media_id])
+
+func _load_media_meta_from_db(media_id: String) -> Dictionary:
+	assert(HeadlessServer.is_headless_server, "Cannot load media item from db as a client")
+	assert(is_instance_valid(_db), "Database not initialized")
+
+	_db.query("SELECT * FROM media WHERE media_id = '%s'" % media_id)
+	if not _db.query_result:
+		prints("media meta not found", media_id)
+		return {}
+
+	return _db.query_result[0]
+
+func _get_media_path(media_id: String) -> String:
+	return HeadlessServer.instance.server_data_path.path_join("media").path_join(id).path_join(media_id)
+
+func _load_media_from_db(media_id: String) -> PackedByteArray:
+	assert(HeadlessServer.is_headless_server, "Cannot load media item from db as a client")
+	assert(is_instance_valid(_db), "Database not initialized")
+
+	var meta: Dictionary = _load_media_meta_from_db(media_id)
+	assert(meta, "Media item not found")
+	
+	var file_path: String = _get_media_path(media_id)
+	assert(FileAccess.file_exists(file_path), "Media item not found")
+
+	var bytes: PackedByteArray = FileAccess.get_file_as_bytes(file_path)
+	assert(len(bytes) > 0, "Media item does not exist! " + error_string(FileAccess.get_open_error()))
+	assert(len(bytes) == meta.size, "Media item size does not match")
+
+	return bytes
+
+func _commit_media(media: Media) -> bool:
+	if not HeadlessServer.is_headless_server:
+		print("Cannot commit media item as a client")
+		return false
+	
+	if not is_instance_valid(_db):
+		print("Database not initialized")
+		return false
+
+	return _db.insert_row("media", {
+		media_id = media.media_id,
+		encrypted = media.encrypted,
+		file_name = media.file_name,
+		ext = media.ext,
+		md5 = media.md5,
+		size = media.size,
+		message_id = media.message_id,
+		uploader_id = media.uploader_id
+	})
 
 func _commit_message(message: Message) -> void:
 	assert(HeadlessServer.is_headless_server, "Cannot commit message as a client")
@@ -131,7 +218,11 @@ func _commit_message(message: Message) -> void:
 func _initialize_messages_database() -> void:
 	assert(HeadlessServer.is_headless_server, "Channel database can only be initialized by server")
 	assert(is_instance_valid(HeadlessServer.instance), "No headless server instance")
-	# assert(not FileAccess.file_exists(_db_path), "Channel database already exists")
+
+	FS.mkdir(_db_path.get_base_dir())
+	_db = SQLite.new()
+	_db.path = _db_path
+	_db.open_db()
 
 	var messages_table_schema: Dictionary = {
 		id = {data_type = "int", primary_key = true, not_null = true, auto_increment = true},
@@ -142,12 +233,21 @@ func _initialize_messages_database() -> void:
 		attachments = {data_type = "text"}
 	}
 
-	FS.mkdir(_db_path.get_base_dir())
-
-	_db = SQLite.new()
-	_db.path = _db_path
-	_db.open_db()
 	_db.create_table("messages", messages_table_schema)
+
+	var media_table_schema: Dictionary = {
+		id = {data_type = "int", primary_key = true, not_null = true, auto_increment = true},
+		media_id = {data_type = "text"},
+		encrypted = {data_type = "int"},
+		file_name = {data_type = "text"},
+		ext = {data_type = "text"},
+		md5 = {data_type = "text"},
+		size = {data_type = "int"},
+		message_id = {data_type = "int"},
+		uploader_id = {data_type = "text"}
+	}
+
+	_db.create_table("media", media_table_schema)
 	
 	# create the table if it doesn't exist with properties: id, author, content, timestamp, attachments (array of strings)
 	# _db.create_table(

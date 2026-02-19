@@ -62,7 +62,6 @@ stretch_mode = 6
 
 [node name="StatusIndicator" type="PanelContainer" parent="MarginContainer/HBoxContainer/PanelContainer" unique_id=65167263]
 unique_name_in_owner = true
-visible = false
 self_modulate = Color(0.16862746, 0.56078434, 0.8784314, 1)
 z_index = 1
 layout_mode = 2

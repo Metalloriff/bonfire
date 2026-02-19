@@ -72,6 +72,8 @@ var text_content: String:
 							reply.gui_input.connect(gui_input.get_connections()[0].callable)
 							$TextContents.add_child(reply)
 
+@onready var media_contents: GridContainer = $MediaContents
+
 func _create_rich_label(text: String) -> void:
 	var label: RichTextLabel = RichTextLabel.new()
 	label.bbcode_enabled = true
@@ -88,6 +90,9 @@ func _ready() -> void:
 		menu.message = message
 		menu.message_item = self
 	)
+
+	for attachment_id in message.attachment_ids:
+		_render_attachment(attachment_id)
 
 	if message.encrypted:
 		$TextContents.hide()
@@ -130,6 +135,47 @@ func _ready() -> void:
 
 	if OS.has_feature("android") or OS.has_feature("ios"):
 		mouse_filter = MOUSE_FILTER_IGNORE
+
+func _render_attachment(attachment_id: String) -> void:
+	var meta: Media = await channel.get_media_meta(attachment_id)
+	if not is_instance_valid(meta):
+		return
+	
+	if meta.size > Lib.readable_to_bytes("1MB"):
+		var label: Label = Label.new()
+		label.text = "Attachment too large to display."
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		media_contents.add_child(label)
+		return
+	
+	match meta.ext:
+		"png", "jpg", "jpeg", "svg", "webp":
+			var texture_rect := TextureRect.new()
+			texture_rect.expand_mode = TextureRect.EXPAND_FIT_WIDTH
+			texture_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_COVERED
+			texture_rect.custom_minimum_size.y = 200.0
+			# TODO add loading
+			channel.get_media_file_data_then(attachment_id, func(data: PackedByteArray) -> void:
+				var image: Image = Image.new()
+				image["load_%s_from_buffer" % meta.ext.to_lower().replace("jpeg", "jpg")].call(data)
+				texture_rect.texture = ImageTexture.create_from_image(image)
+			)
+			media_contents.add_child(texture_rect)
+		"mp3", "wav", "ogg":
+			var label: Label = Label.new()
+			label.text = "Audio files are not supported yet. (WIP)"
+			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			media_contents.add_child(label)
+		"mp4", "webm":
+			var label: Label = Label.new()
+			label.text = "Video files are not supported yet. (WIP)"
+			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			media_contents.add_child(label)
+		_:
+			var label: Label = Label.new()
+			label.text = "Unsupported file type. (WIP)"
+			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+			media_contents.add_child(label)
 
 func _process(delta: float) -> void:
 	if is_instance_valid(MainTextArea.editing_message) and MainTextArea.editing_message == message:

@@ -67,8 +67,11 @@ func _ready() -> void:
 		if active_channel and active_channel.id == channel_id:
 			ChatFrame.instance.queue_redraw()
 
-		if user_id == multiplayer.get_unique_id() and not __DEBUG_MODE:
-			return
+		if user_id == multiplayer.get_unique_id():
+			$Input.play()
+
+			if not __DEBUG_MODE:
+				return
 
 		if active_channel and active_channel.id == channel_id:
 			_create_peer(user_id)
@@ -81,6 +84,7 @@ func _ready() -> void:
 
 	user_left.connect(func(channel_id: String, user_id: int) -> void:
 		if user_id == multiplayer.get_unique_id():
+			$Input.stop()
 			set_deferred("active_channel", null)
 			users.clear()
 			user_bus_indices.clear()

@@ -22,6 +22,26 @@ func encrypt_string(plaintext: String, password: String) -> PackedByteArray:
 	result.append_array(encrypted)
 	return result
 
+func encrypt_raw_data(raw: PackedByteArray, password: String) -> PackedByteArray:
+	if not len(raw):
+		return PackedByteArray()
+	
+	var key := _password_to_key(password)
+	var iv := _generate_random_iv()
+	
+	var aes = AESContext.new()
+	aes.start(AESContext.MODE_CBC_ENCRYPT, key, iv)
+
+	var data := raw
+	var padded = _pkcs7_pad(data)
+	
+	var encrypted := aes.update(padded)
+	aes.finish()
+	
+	var result = iv
+	result.append_array(encrypted)
+	return result
+
 func decrypt_string(encrypted_data: PackedByteArray, password: String) -> String:
 	if encrypted_data.size() < 16:
 		return ""
@@ -38,6 +58,23 @@ func decrypt_string(encrypted_data: PackedByteArray, password: String) -> String
 	
 	var unpadded := _pkcs7_unpad(decrypted_padded)
 	return unpadded.get_string_from_utf8()
+
+func decrypt_raw_data(encrypted_data: PackedByteArray, password: String) -> PackedByteArray:
+	if encrypted_data.size() < 16:
+		return PackedByteArray()
+	
+	var key := _password_to_key(password)
+	var iv := encrypted_data.slice(0, 16)
+	var ciphertext := encrypted_data.slice(16)
+	
+	var aes = AESContext.new()
+	aes.start(AESContext.MODE_CBC_DECRYPT, key, iv)
+	
+	var decrypted_padded := aes.update(ciphertext)
+	aes.finish()
+	
+	var unpadded := _pkcs7_unpad(decrypted_padded)
+	return unpadded
 
 func _password_to_key(password: String) -> PackedByteArray:
 	return password.sha256_buffer()

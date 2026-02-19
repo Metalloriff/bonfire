@@ -18,7 +18,6 @@ script = ExtResource("2_x5vcu")
 layout_mode = 2
 
 [node name="MediaContents" type="GridContainer" parent="." unique_id=165452107]
-visible = false
 layout_mode = 2
 columns = 4
 

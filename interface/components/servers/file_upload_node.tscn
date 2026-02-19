@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://j7wsgfkdrcp8"]
+
+[ext_resource type="Script" uid="uid://w0cro0nhb17g" path="res://interface/components/servers/file_upload_node.gd" id="1_414o3"]
+[ext_resource type="Texture2D" uid="uid://dacxuhipb2fnq" path="res://icons/insertDriveFile.png" id="1_mtofa"]
+
+[node name="FileUploadNode" type="PanelContainer" unique_id=520595027]
+custom_minimum_size = Vector2(200, 0)
+script = ExtResource("1_414o3")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=366663601]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=2019176709]
+layout_mode = 2
+alignment = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer" unique_id=1169216149]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/MarginContainer" unique_id=870264272]
+layout_mode = 2
+texture = ExtResource("1_mtofa")
+expand_mode = 3
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1298649669]
+unique_name_in_owner = true
+layout_mode = 2
+text = "file_name.ext"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer/VBoxContainer" unique_id=1028512871]
+unique_name_in_owner = true
+layout_mode = 2
+max_value = 1.0
+step = 0.001
+show_percentage = false

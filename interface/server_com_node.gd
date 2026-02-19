@@ -10,6 +10,16 @@ var connected_time: float
 
 var address: String
 var port: int
+var file_server: FileServer:
+	get:
+		if not is_instance_valid(file_server):
+			file_server = FileServer.new()
+			file_server.server = server
+			file_server.ip_address = address
+			file_server.port = port
+			add_child(file_server)
+		return file_server
+
 var _has_authenticated: bool
 var _connection_timeout: float
 var _connection_tries: int

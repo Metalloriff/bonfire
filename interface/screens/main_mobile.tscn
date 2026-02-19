@@ -164,6 +164,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="MobileChatContainer" type="PanelContainer" parent="VirtKbSepContainer/MobileContainer" unique_id=1258899384]
+z_index = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
