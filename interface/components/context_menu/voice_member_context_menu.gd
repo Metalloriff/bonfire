@@ -3,6 +3,8 @@ extends ContextMenu
 var user: User
 
 func _ready() -> void:
+	await Lib.frame
+	
 	%VolumeSlider.value = user.local_volume
 	%Username.text = user.name
 
