@@ -51,7 +51,9 @@ func _process(delta: float) -> void:
 			return
 		activity_level = VoiceChat.users[peer_id].get_meta("activity_level")
 		speaking_activity_level = VoiceChat.users[peer_id].get_meta("speaking_activity_level")
-		soundboard_activity_level = VoiceChat.soundboard.users[peer_id].get_meta("activity_level")
+
+		if peer_id in VoiceChat.soundboard.users:
+			soundboard_activity_level = VoiceChat.soundboard.users[peer_id].get_meta("activity_level")
 
 	if participant.muted:
 		activity_level = 0.0
