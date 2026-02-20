@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://dqp1iqq3lvulx"]
+
+[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="1_gn8f6"]
+
+[node name="RuleItem" type="VBoxContainer" unique_id=25922971]
+
+[node name="Title" type="Label" parent="." unique_id=315450177]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("1_gn8f6")
+theme_override_font_sizes/font_size = 18
+text = "Rule Title"
+
+[node name="Description" type="RichTextLabel" parent="." unique_id=2052509874]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 14
+theme_override_font_sizes/bold_font_size = 14
+theme_override_font_sizes/bold_italics_font_size = 14
+theme_override_font_sizes/italics_font_size = 14
+theme_override_font_sizes/mono_font_size = 14
+bbcode_enabled = true
+text = "This is an example rule."
+fit_content = true
+scroll_active = false

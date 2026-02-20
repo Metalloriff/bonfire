@@ -107,6 +107,10 @@ func _init(server_id: String) -> void:
 
 				return
 			
+			if not is_instance_valid(server):
+				prints("server is not valid, but got message from server", message)
+				return
+			
 			server._handle_api_message_client(message.endpoint, message, peer_id)
 		)
 
@@ -140,6 +144,9 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 	if not is_instance_valid(server):
 		server = new_server_data
 		Server.instances[server.id] = server
+	
+	if server.left:
+		return
 
 	for property in new_server_data.get_property_list():
 		# TODO only sync exported properties
@@ -152,6 +159,7 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 	var cached_server: Server = load("user://servers/%s.res" % server.id) if ResourceLoader.exists("user://servers/%s.res" % server.id) else null
 	if is_instance_valid(cached_server):
 		server.password = cached_server.password
+		server.accepted_rules_hash = cached_server.accepted_rules_hash
 
 	server.cache()
 
@@ -159,6 +167,12 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 		channel.server = server
 
 	instances[server.id] = self
+
+	if server.rules and server.accepted_rules_hash != JSON.stringify(server.rules).sha256_text():
+		if not server.id in ServerRulesModal.prompted_servers:
+			var modal = ModalStack.open_modal("res://interface/modals/server_rules_modal.tscn")
+			modal.server = server
+			ServerRulesModal.prompted_servers.append(server.id)
 
 	ServerList.instance.queue_redraw()
 

@@ -27,8 +27,6 @@ func _on_join_button_pressed() -> void:
 	prints("sending handshake request to", address, port)
 	var server_id: String = await ServerHandshake.instance.handshake(address, port)
 
-	prints("server id", server_id)
-
 	if not server_id:
 		%Address/Error.show()
 		%Address/Error.text = "Failed to connect to %s:%d!" % [address, port]
@@ -42,7 +40,7 @@ func _on_join_button_pressed() -> void:
 	
 	%Address/Success.show()
 	
-	while not is_instance_valid(server_node.server):
+	while server_node._peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		await get_tree().process_frame
 
 		if server_node.connected_time > 5.0:

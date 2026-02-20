@@ -26,11 +26,14 @@ func _init() -> void:
 @export var users: Array[User] = []
 @export var icon: ImageTexture
 @export var max_file_upload_size: int = Lib.readable_to_bytes("1GB")
+@export var rules: Array = []
 
-@export var address: String
-@export var port: int
+@export_storage var address: String
+@export_storage var port: int
 @export_storage var password: String
+@export_storage var accepted_rules_hash: String
 
+var left: bool
 var online_users: Dictionary[int, String] = {}
 var voice_chat_participants: Dictionary = {}
 
@@ -542,6 +545,8 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 func leave_server(purge_all_messages: bool = false) -> void:
 	assert(is_instance_valid(com_node), "Not connected to a server!")
 	assert(not HeadlessServer.is_headless_server, "Cannot leave server from headless server!")
+
+	left = true
 
 	send_api_message("leave_server", {
 		purge_all_messages = purge_all_messages

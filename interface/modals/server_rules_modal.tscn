@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://cgenp1u07pbmy"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_xsxbv"]
+[ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="2_48r72"]
+[ext_resource type="Script" uid="uid://lvgomiakbfd7" path="res://interface/modals/server_rules_modal.gd" id="2_xsxbv"]
+[ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="4_v4hik"]
+[ext_resource type="Texture2D" uid="uid://cim2sbvcc0hjr" path="res://icons/checkBox.png" id="5_e481b"]
+
+[node name="ServerRulesModal" unique_id=649999717 instance=ExtResource("1_xsxbv")]
+script = ExtResource("2_xsxbv")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=67716252]
+custom_minimum_size = Vector2(450, 0)
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Modal/MarginContainer/VBoxContainer" index="0" unique_id=678917373]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_48r72")
+text = "Server Rules"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/MarginContainer/VBoxContainer" index="1" unique_id=1769835694]
+custom_minimum_size = Vector2(0, 500)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RulesContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer" index="0" unique_id=1219307670]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="2" unique_id=176242615]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Decline" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="0" unique_id=1986083860]
+layout_mode = 2
+theme_type_variation = &"Button_Red"
+text = "Decline"
+icon = ExtResource("4_v4hik")
+
+[node name="Accept" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="1" unique_id=690178822]
+layout_mode = 2
+theme_type_variation = &"Button_Important"
+text = "Accept"
+icon = ExtResource("5_e481b")
+
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Decline" to="." method="_on_decline_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Accept" to="." method="_on_accept_pressed"]

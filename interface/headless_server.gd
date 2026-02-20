@@ -16,7 +16,8 @@ var defaults: Dictionary = {
 	},
 	profile = {
 		name = "My Server",
-		owner = ""
+		owner = "",
+		rules = []
 	},
 	restrictions = {
 		max_file_upload_size = "1GB"
@@ -26,32 +27,29 @@ var config: Dictionary
 var server: Server
 var file_server: FileServer
 
-@onready var server_data_path: String = OS.get_executable_path().get_base_dir().path_join("server_data")
-@onready var config_path: String = OS.get_executable_path().get_base_dir().path_join("config.yml")
+var server_data_path: String = "user://server_data"
+var config_path: String = "%s/config.yml" % server_data_path
 
 var _password_attempts: Dictionary = {}
 
 func _ready() -> void:
 	instance = self
+	
+	for arg in OS.get_cmdline_args():
+		if arg.begins_with("--server-data-path="):
+			server_data_path = "user://" + arg.split("=", false)[1]
+			config_path = "%s/config.yml" % server_data_path
+			break
+	
+	FS.mkdir(server_data_path)
 
-	var possible_config_paths: Array[String] = [
-		OS.get_executable_path().get_base_dir().path_join("server.yml"),
-		OS.get_executable_path().get_base_dir().path_join("server.yaml"),
-		"user://server.yml",
-		"user://server.yaml"
-	]
-	
-	for path in possible_config_paths:
-		if not FileAccess.file_exists(path):
-			continue
-		
-		config = YAML.load_file(path)
-		config_path = path
-		break
-	
-	if not config:
+	if not FileAccess.file_exists(config_path):
 		print("No config file found! Creating a new one...")
 		save_config()
+	
+	config = YAML.load_file(config_path)
+
+	prints("rules", get_config_entry("profile.rules"))
 	
 	server = Server.new()
 	if FS.exists(server_data_path.path_join("server.res")):
@@ -59,6 +57,7 @@ func _ready() -> void:
 	
 	server.name = get_config_entry("profile.name")
 	server.max_file_upload_size = Lib.readable_to_bytes(get_config_entry("restrictions.max_file_upload_size"))
+	server.rules = get_config_entry("profile.rules")
 	
 	if FS.exists(server_data_path.path_join("icon.png")) and FileAccess.get_size(server_data_path.path_join("icon.png")) < 1024 * 1024:
 		var image: Image = Image.load_from_file(server_data_path.path_join("icon.png"))
@@ -218,7 +217,7 @@ func _process(_delta: float) -> void:
 		return
 
 func save_config() -> void:
-	YAML.save_file(config, OS.get_executable_path().get_base_dir().path_join("server.yml"))
+	YAML.save_file(config, config_path)
 
 func get_config_entry(key: String) -> Variant:
 	var split := key.split(".", false)
