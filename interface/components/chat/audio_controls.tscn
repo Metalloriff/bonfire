@@ -1,0 +1,70 @@
+[gd_scene format=3 uid="uid://dbx3r5g6a3ehd"]
+
+[ext_resource type="Texture2D" uid="uid://qdrusckdd544" path="res://icons/playArrow.png" id="1_f7v5n"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_ynqcn"]
+[ext_resource type="Script" uid="uid://d0of0dcp2bi3t" path="res://interface/components/chat/audio_controls.gd" id="2_tml6p"]
+[ext_resource type="Texture2D" uid="uid://dv6n7dtd1pkl6" path="res://icons/volumeUp.png" id="4_u8i5l"]
+
+[node name="AudioControls" type="VBoxContainer" unique_id=9378408]
+custom_minimum_size = Vector2(180, 0)
+theme = ExtResource("1_ynqcn")
+script = ExtResource("2_tml6p")
+
+[node name="Timeline" type="HSlider" parent="." unique_id=2146781732]
+unique_name_in_owner = true
+layout_mode = 2
+step = 0.01
+value = 16.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=2014490211]
+layout_mode = 2
+
+[node name="Time" type="Label" parent="HBoxContainer" unique_id=1570592551]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0:00"
+
+[node name="PausePlay" type="Button" parent="HBoxContainer" unique_id=925311900]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("1_f7v5n")
+
+[node name="VolumeButton" type="Button" parent="HBoxContainer" unique_id=2069976086]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("4_u8i5l")
+
+[node name="VolumeContainer" type="PanelContainer" parent="HBoxContainer/VolumeButton" unique_id=1159311289]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_top = -120.0
+offset_right = 40.0
+pivot_offset_ratio = Vector2(0, 1)
+theme_type_variation = &"PanelSolid"
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/VolumeButton/VolumeContainer" unique_id=1524177404]
+layout_mode = 2
+
+[node name="VolumeSlider" type="VSlider" parent="HBoxContainer/VolumeButton/VolumeContainer/MarginContainer" unique_id=457479802]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+
+[node name="Length" type="Label" parent="HBoxContainer" unique_id=1236577456]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "0:00"
+horizontal_alignment = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1566481922]
+
+[connection signal="value_changed" from="Timeline" to="." method="_on_timeline_value_changed"]
+[connection signal="pressed" from="HBoxContainer/PausePlay" to="." method="_on_pause_play_pressed"]
+[connection signal="pressed" from="HBoxContainer/VolumeButton" to="." method="_on_volume_button_pressed"]
+[connection signal="value_changed" from="HBoxContainer/VolumeButton/VolumeContainer/MarginContainer/VolumeSlider" to="." method="_on_volume_slider_value_changed"]
+[connection signal="finished" from="AudioStreamPlayer" to="." method="_on_audio_stream_player_finished"]

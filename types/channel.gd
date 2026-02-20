@@ -127,14 +127,14 @@ func get_media_meta(media_id: String) -> Media: # TODO optimize this
 	return _media_meta_cache[media_id]
 
 var _media_response_cache: Dictionary = {}
-func get_media_file_data_then(media_id: String, callback: Callable) -> void:
+func get_media_file_data_then(media_id: String, callback: Callable, progress_callback: Callable = func(_v: float) -> void: pass ) -> void:
 	assert(media_id, "No media id provided")
 
 	if not media_id in _media_response_cache:
 		_media_response_cache[media_id] = await server.com_node.file_server.request_file({
 			username = FS.get_pref("auth.username"),
 			password_hash = FS.get_pref("auth.pw_hash")
-		}, id, media_id)
+		}, id, media_id, progress_callback)
 
 		prints("got media response", media_id, _media_response_cache[media_id])
 	

@@ -39,7 +39,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 expand_mode = 5
-stretch_mode = 5
+stretch_mode = 6
 
 [node name="ConnectionIssueIcon" type="TextureRect" parent="." unique_id=2114935234]
 modulate = Color(1, 0.3, 0.36999995, 1)

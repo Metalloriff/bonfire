@@ -179,7 +179,7 @@ func send_api_message(endpoint: String, request_data: Dictionary = {}) -> Stream
 		return client
 	return null
 
-func request_file(auth: Dictionary, channel_id: String, media_id: String) -> PackedByteArray:
+func request_file(auth: Dictionary, channel_id: String, media_id: String, progress_callback: Callable = func() -> void: pass ) -> PackedByteArray:
 	var client := await send_api_message("request_file", {
 		auth = auth,
 		channel_id = channel_id,
@@ -188,6 +188,8 @@ func request_file(auth: Dictionary, channel_id: String, media_id: String) -> Pac
 
 	var size: int = client.get_64()
 	prints("file size", size)
+
+	progress_callback.call(0.0)
 	
 	var data: PackedByteArray
 	var i: int = 0
@@ -208,8 +210,10 @@ func request_file(auth: Dictionary, channel_id: String, media_id: String) -> Pac
 				print("Error while receiving file")
 				return []
 			
+			progress_callback.call(float(len(data)) / float(size))
 			data.append_array(d[1])
 	
+	progress_callback.call(1.0)
 	return data
 
 func upload_file(auth: Dictionary, file_path: String, channel_id: String, file_type: String, file_name: String, encryption_key: String, progress_callback: Callable) -> void:

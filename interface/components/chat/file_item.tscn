@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://bifnxv3fbvl5d"]
+
+[ext_resource type="Texture2D" uid="uid://dacxuhipb2fnq" path="res://icons/insertDriveFile.png" id="1_dbmea"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_ebvyp"]
+[ext_resource type="Script" uid="uid://b7io4juq30p2e" path="res://interface/components/chat/file_item.gd" id="2_dwpma"]
+[ext_resource type="Texture2D" uid="uid://bgu7u4ihraulx" path="res://icons/download.png" id="2_ebvyp"]
+[ext_resource type="Texture2D" uid="uid://cqr51vyo67pvs" path="res://icons/info.png" id="5_snaum"]
+
+[node name="FileItem" type="PanelContainer" unique_id=1944873929]
+theme = ExtResource("1_ebvyp")
+script = ExtResource("2_dwpma")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1586579969]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1614199623]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer" unique_id=441185668]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 180)
+layout_mode = 2
+texture = ExtResource("1_dbmea")
+expand_mode = 5
+stretch_mode = 5
+
+[node name="FileName" type="Label" parent="MarginContainer/VBoxContainer" unique_id=311169996]
+unique_name_in_owner = true
+layout_mode = 2
+text = "file.ext"
+horizontal_alignment = 1
+
+[node name="ControlsContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=734473424]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=180702510]
+layout_mode = 2
+alignment = 1
+
+[node name="DownloadButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1031877736]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Download"
+icon = ExtResource("2_ebvyp")
+alignment = 0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=667410124]
+layout_mode = 2
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="FileType" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1083487542]
+unique_name_in_owner = true
+modulate = Color(0.16862746, 0.56078434, 0.8784314, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "image"
+horizontal_alignment = 1
+
+[node name="FileSize" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer2" unique_id=1619838861]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.49803922)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "6.9MB"
+horizontal_alignment = 1
+
+[node name="FileTooLargeContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=1647617605]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="FileTooLarge" type="Label" parent="MarginContainer/VBoxContainer/FileTooLargeContainer" unique_id=2018948363]
+modulate = Color(1, 1, 1, 0.49803922)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "FILE TOO LARGE TO VIEW"
+horizontal_alignment = 1
+
+[node name="FileTooLargeButton" type="Button" parent="MarginContainer/VBoxContainer/FileTooLargeContainer" unique_id=458721194]
+layout_mode = 2
+text = "Load Anyway"
+icon = ExtResource("5_snaum")
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/DownloadButton" to="." method="_on_download_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/FileTooLargeContainer/FileTooLargeButton" to="." method="_on_file_too_large_button_pressed"]
