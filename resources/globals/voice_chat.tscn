@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://ca462bqbnh1q0"]
 
 [ext_resource type="Script" uid="uid://bfl1o0u57lb63" path="res://resources/globals/voice_chat.gd" id="1_xsmps"]
+[ext_resource type="Script" uid="uid://pq2oklagwse0" path="res://resources/globals/soundboard.gd" id="2_klrms"]
 
 [sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_xsmps"]
 
@@ -12,3 +13,6 @@ stream = SubResource("AudioStreamMicrophone_xsmps")
 bus = &"Microphone"
 
 [node name="Outputs" type="Node" parent="." unique_id=1645769263]
+
+[node name="Soundboard" type="Node" parent="." unique_id=863192150]
+script = ExtResource("2_klrms")

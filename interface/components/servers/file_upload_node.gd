@@ -16,7 +16,6 @@ func _ready() -> void:
 		password_hash = FS.get_pref("auth.pw_hash")
 	}
 
-	# TODO add encryption
 	server.com_node.file_server.upload_file(
 		auth,
 		file_path,

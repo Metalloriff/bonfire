@@ -103,6 +103,11 @@ func _on_attach_file_button_pressed() -> void:
 
 func _on_file_dialog_files_selected(paths: PackedStringArray) -> void:
 	for path in paths:
+		var file_size: int = FileAccess.get_size(path)
+		if file_size > ChatFrame.instance.selected_channel.server.max_file_upload_size:
+			NotificationDaemon.show_toast("File size too large! Max file size for this server is %s." % Lib.bytes_to_readable(ChatFrame.instance.selected_channel.server.max_file_upload_size), NotificationDaemon.NotificationType.Error)
+			return
+
 		var file_upload_node: PackedScene = preload("res://interface/components/servers/file_upload_node.tscn")
 		var file_upload_node_instance: Control = file_upload_node.instantiate()
 		file_upload_node_instance.server = ChatFrame.instance.selected_channel.server

@@ -30,13 +30,11 @@ func _ready() -> void:
 					texture_rect.texture = ImageTexture.create_from_image(image)
 				else:
 					channel.get_media_file_data_then(media.media_id, func(data: PackedByteArray) -> void:
-						var image: Image = Image.new()
-						image["load_%s_from_buffer" % media.ext.to_lower().replace("jpeg", "jpg")].call(data)
-						texture_rect.texture = ImageTexture.create_from_image(image)
-						
 						var file: FileAccess = FileAccess.open(cache_path, FileAccess.WRITE)
 						file.store_buffer(data)
 						file.close()
+
+						_ready.call_deferred()
 					)
 		"mp3", "wav", "ogg", "flac", "opus", "midi":
 			%FileType.text = "audio"
@@ -51,6 +49,8 @@ func _ready() -> void:
 						stream = AudioStreamMP3.new()
 					"wav":
 						stream = AudioStreamWAV.new()
+					"ogg":
+						stream = AudioStreamOggVorbis.new()
 				
 				if not is_instance_valid(stream):
 					%ControlsContainer.show()
@@ -61,20 +61,35 @@ func _ready() -> void:
 					%ControlsContainer.add_child(label)
 				else:
 					if FileAccess.file_exists(cache_path):
-						stream.data = FileAccess.get_file_as_bytes(cache_path)
+						stream = stream.load_from_file(cache_path)
 						_create_audio_item(stream)
 					else:
 						channel.get_media_file_data_then(media.media_id, func(data: PackedByteArray) -> void:
-							stream.data = data
-							_create_audio_item(stream)
-
 							var file: FileAccess = FileAccess.open(cache_path, FileAccess.WRITE)
 							file.store_buffer(data)
 							file.close()
+
+							_ready.call_deferred()
 						)
 		"mp4", "webm", "mkv", "avi", "mov", "flv", "wmv", "3gp", "m4v", "m4a", "mpg", "mpeg":
 			%FileType.text = "video"
 			%Icon.texture = preload("res://icons/videoFile.png")
+
+			if media.size > Lib.readable_to_bytes("20MB") and not force_load:
+				%FileTooLargeContainer.show()
+			else:
+				if FileAccess.file_exists(cache_path):
+					var stream: FFmpegVideoStream = FFmpegVideoStream.new()
+					stream.file = cache_path
+					_create_video_item(stream)
+				else:
+					channel.get_media_file_data_then(media.media_id, func(data: PackedByteArray) -> void:
+						var file: FileAccess = FileAccess.open(cache_path, FileAccess.WRITE)
+						file.store_buffer(data)
+						file.close()
+
+						_ready.call_deferred()
+					)
 		"exe", "x86_64", "appimage":
 			%FileType.text = "executable(!)"
 			%FileType.modulate = Color.html("#e02b4f")
@@ -94,12 +109,25 @@ func _ready() -> void:
 			%Icon.texture = preload("res://icons/code.png")
 		_:
 			%FileType.text = "unknown"
+	
+	await Lib.frame
+	await Lib.frame
+	for text_chat_scroller: ScrollContainer in get_tree().get_nodes_in_group("text_chat_screen"):
+		text_chat_scroller.scroll_vertical += size.y
 
 func _create_audio_item(stream: AudioStream) -> void:
 	var audio_controls = preload("res://interface/components/chat/audio_controls.tscn").instantiate()
 	audio_controls.stream = stream
 
 	%ControlsContainer.add_child(audio_controls)
+	%ControlsContainer.show()
+	%Icon.hide()
+
+func _create_video_item(stream: FFmpegVideoStream) -> void:
+	var video_player = preload("res://interface/components/chat/video_player.tscn").instantiate()
+	video_player.stream = stream
+
+	%ControlsContainer.add_child(video_player)
 	%ControlsContainer.show()
 	%Icon.hide()
 

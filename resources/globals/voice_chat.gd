@@ -36,6 +36,7 @@ var participants: Dictionary:
 		return active_channel.server.voice_chat_participants[active_channel.id]
 
 var _pending_updates: bool
+@onready var soundboard: Soundboard = $Soundboard
 
 func _ready() -> void:
 	if HeadlessServer.is_headless_server:
@@ -219,6 +220,8 @@ func _create_peer(id: int) -> void:
 			prints("VoiceChat", "_create_peer", "timeout")
 			return
 		timeout += await Lib.frame_with_delta()
+	
+	soundboard._create_peer(id)
 
 	users[id] = _create_user(id)
 	users[id].pitch_scale = participants[id].mix_rate
@@ -240,6 +243,8 @@ func _remove_peer(id: int) -> void:
 	if not id in users:
 		return
 	
+	soundboard._remove_peer(id)
+	
 	users[id].queue_free()
 	users.erase(id)
 
@@ -247,7 +252,7 @@ func _remove_peer(id: int) -> void:
 	user_bus_indices.erase(id)
 
 @rpc("any_peer", "call_remote", "unreliable") # TODO remove pitch
-func _upstream_packets(channel_id: String, packet, activity_level: float = 0.0, speaking_activity_level: float = 0.0) -> void:
+func _upstream_packets(channel_id: String, packet, activity_level: float = 0.0, speaking_activity_level: float = 0.0, is_soundboard: bool = false) -> void:
 	if not channel_id in HeadlessServer.instance.server.voice_chat_participants:
 		return
 	
@@ -261,10 +266,10 @@ func _upstream_packets(channel_id: String, packet, activity_level: float = 0.0, 
 		if HeadlessServer.instance.server.voice_chat_participants[channel_id][participant_id].deafened:
 			continue
 		
-		_downstream_packets.rpc_id(participant_id, channel_id, peer_id, packet, activity_level, speaking_activity_level)
+		_downstream_packets.rpc_id(participant_id, channel_id, peer_id, packet, activity_level, speaking_activity_level, is_soundboard)
 
 @rpc("authority", "call_remote", "unreliable")
-func _downstream_packets(channel_id: String, user_id: int, packet, activity_level: float = 0.0, speaking_activity_level: float = 0.0) -> void:
+func _downstream_packets(channel_id: String, user_id: int, packet, activity_level: float = 0.0, speaking_activity_level: float = 0.0, is_soundboard: bool = false) -> void:
 	if deafened:
 		return
 	
@@ -274,10 +279,19 @@ func _downstream_packets(channel_id: String, user_id: int, packet, activity_leve
 	if not is_instance_valid(active_channel) or not active_channel.id == channel_id:
 		return
 	
-	users[user_id].stream.push_opus_packet(packet, 0, 0)
-	users[user_id].set_meta("speaking_activity_level", speaking_activity_level)
-	users[user_id].set_meta("activity_level", activity_level)
-	users[user_id].volume_linear = (Settings.get_value("voice", "output_device_volume") / 100.0) * (active_channel.server.get_user_by_peer_id(user_id).local_volume / 100.0) * speaking_activity_level
+	var user: AudioStreamPlayer = soundboard.users[user_id] if is_soundboard else users[user_id]
+	user.stream.push_opus_packet(packet, 0, 0)
+
+	if is_soundboard:
+		# TODO add soundboard volume per user
+		user.volume_linear = (Settings.get_value("voice", "output_device_volume") / 100.0)
+
+		user.set_meta("activity_level", activity_level)
+	else:
+		user.volume_linear = (Settings.get_value("voice", "output_device_volume") / 100.0) * (active_channel.server.get_user_by_peer_id(user_id).local_volume / 100.0) * speaking_activity_level
+
+		user.set_meta("speaking_activity_level", speaking_activity_level)
+		user.set_meta("activity_level", activity_level)
 
 func _process(_delta: float) -> void:
 	if HeadlessServer.is_headless_server:
@@ -296,8 +310,6 @@ func _process(_delta: float) -> void:
 		local_speaking_activity_level = speaking_activity_level
 
 		$Input.volume_linear = (Settings.get_value("voice", "input_device_volume") / 100.0) if not muted else 0.0
-
-		# if volume > 0.05 or true:
 		
-		if not muted:
+		if not muted and activity_level > 0.00001:
 			_upstream_packets.rpc_id(1, active_channel.id, packet, activity_level, speaking_activity_level)

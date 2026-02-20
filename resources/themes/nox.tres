@@ -688,7 +688,7 @@ corner_radius_bottom_left = 99
 [resource]
 default_font = ExtResource("1_ug2aw")
 Button/constants/h_separation = 5
-Button/constants/icon_max_width = 20
+Button/constants/icon_max_width = 25
 Button/styles/focus = SubResource("StyleBox_qlc1u")
 Button/styles/hover = SubResource("StyleBox_qlc1u")
 Button/styles/normal = SubResource("StyleBox_710he")

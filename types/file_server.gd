@@ -101,6 +101,11 @@ func _handle_api_request_server(client: StreamPeerTCP) -> void:
 			var i: int = 0
 			var timeout: float = 0.0
 
+			if file_size > server.max_file_upload_size:
+				print("File size too large")
+				client.disconnect_from_host()
+				return
+
 			while len(data) < file_size:
 				client.poll()
 
@@ -124,6 +129,11 @@ func _handle_api_request_server(client: StreamPeerTCP) -> void:
 						return
 					
 					data.append_array(d[1])
+
+					if len(data) > server.max_file_upload_size:
+						print("File size too large")
+						client.disconnect_from_host()
+						return
 			
 			var media: Media = Media.new()
 			var media_path: String = channel._get_media_path(media.media_id)
