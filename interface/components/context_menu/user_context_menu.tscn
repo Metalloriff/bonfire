@@ -3,9 +3,13 @@
 [ext_resource type="PackedScene" uid="uid://bvdbogspriemp" path="res://interface/components/context_menu/context_menu_base.tscn" id="1_0ew4m"]
 [ext_resource type="Script" uid="uid://4d2rvnvo4fyx" path="res://interface/components/context_menu/user_context_menu.gd" id="2_a8kb2"]
 [ext_resource type="Texture2D" uid="uid://b4sx6qv0scruf" path="res://icons/textsms.png" id="2_l8waf"]
+[ext_resource type="Texture2D" uid="uid://4fpdtbwcl6bf" path="res://icons/fileCopy.png" id="4_a8kb2"]
 
-[node name="ContextMenuBase" unique_id=319957489 instance=ExtResource("1_0ew4m")]
+[node name="UserContextMenu" unique_id=319957489 instance=ExtResource("1_0ew4m")]
 script = ExtResource("2_a8kb2")
+
+[node name="PanelContainer" parent="." index="1" unique_id=235822602]
+custom_minimum_size = Vector2(250, 0)
 
 [node name="UsernameLabel" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="0" unique_id=733914309]
 unique_name_in_owner = true
@@ -21,4 +25,12 @@ icon = ExtResource("2_l8waf")
 alignment = 0
 expand_icon = true
 
+[node name="CopyUserIDButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="2" unique_id=1881521835]
+layout_mode = 2
+text = "Copy User ID"
+icon = ExtResource("4_a8kb2")
+alignment = 0
+expand_icon = true
+
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/PrivateMessageButton" to="." method="_on_private_message_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/CopyUserIDButton" to="." method="_on_copy_user_id_button_pressed"]

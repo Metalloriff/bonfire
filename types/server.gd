@@ -29,6 +29,7 @@ func _init() -> void:
 
 @export var address: String
 @export var port: int
+@export_storage var password: String
 
 var online_users: Dictionary[int, String] = {}
 var voice_chat_participants: Dictionary = {}
@@ -101,6 +102,9 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 	if not HeadlessServer.is_headless_server:
 		return
 	
+	if not peer_id in online_users and not endpoint in ["authenticate", "handshake", "attempt_password"]:
+		return
+	
 	match endpoint:
 		"handshake":
 			HeadlessServer.instance.multiplayer.send_bytes(var_to_bytes(id), peer_id)
@@ -108,6 +112,8 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			if not "username" in data or not "password_hash" in data:
 				return
 			if not data.username or not data.password_hash:
+				return
+			if not peer_id in HeadlessServer.instance._password_attempts or HeadlessServer.instance._password_attempts[peer_id].sha256_text() != HeadlessServer.instance.get_config_entry("network.password").sha256_text():
 				return
 			
 			var user_id: String = (data.username + ":" + data.password_hash).sha256_text()
@@ -374,6 +380,21 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				media_id = data.media_id,
 				meta = meta
 			}, peer_id)
+		"attempt_password":
+			if not "password" in data:
+				return
+			if not data.password:
+				return
+			
+			var password: String = data.password
+			HeadlessServer.instance._password_attempts[peer_id] = password
+		"leave_server":
+			if "purge_all_messages" in data and data.purge_all_messages:
+				pass
+			
+			com_node._peer.disconnect_peer(peer_id, true)
+			users.erase(get_user_by_peer_id(peer_id))
+			save_to_disk()
 
 func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int) -> void:
 	if HeadlessServer.is_headless_server:
@@ -517,3 +538,22 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 				return
 			
 			channel._media_meta_cache[data.media_id] = media
+
+func leave_server(purge_all_messages: bool = false) -> void:
+	assert(is_instance_valid(com_node), "Not connected to a server!")
+	assert(not HeadlessServer.is_headless_server, "Cannot leave server from headless server!")
+
+	send_api_message("leave_server", {
+		purge_all_messages = purge_all_messages
+	})
+
+	await Lib.seconds(1.0)
+
+	var cache_path: String = "user://servers/%s.res" % id
+	if ResourceLoader.exists(cache_path):
+		DirAccess.remove_absolute(cache_path)
+	
+	await Lib.frame
+
+	ServerList.instance.queue_redraw()
+	ChatFrame.instance.queue_redraw()

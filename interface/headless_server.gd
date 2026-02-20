@@ -10,11 +10,13 @@ var defaults: Dictionary = {
 		server_id = Lib.create_uid(32)
 	},
 	network = {
-		valid_addresses = ["127.0.0.1", "localhost"],
-		port = 26969
+		upnp_enabled = true,
+		port = 26969,
+		password = ""
 	},
 	profile = {
-		name = "My Server"
+		name = "My Server",
+		owner = ""
 	},
 	restrictions = {
 		max_file_upload_size = "1GB"
@@ -26,6 +28,8 @@ var file_server: FileServer
 
 @onready var server_data_path: String = OS.get_executable_path().get_base_dir().path_join("server_data")
 @onready var config_path: String = OS.get_executable_path().get_base_dir().path_join("config.yml")
+
+var _password_attempts: Dictionary = {}
 
 func _ready() -> void:
 	instance = self
@@ -83,6 +87,30 @@ func _ready() -> void:
 		channel.server = server
 		channel._initialize_messages_database()
 
+	if get_config_entry("network.upnp_enabled"):
+		print("Attempting to open uPnP port mapping...")
+
+		var upnp_thread := Thread.new()
+		upnp_thread.start(_do_upnp_mapping)
+		var timeout: float = 0.0
+
+		while upnp_thread.is_alive():
+			timeout += await Lib.frame_with_delta()
+
+			if timeout > 5.0:
+				print("uPnP port mapping timed out! Shutting down server...")
+				get_tree().quit()
+				return
+		
+		var output: String = upnp_thread.wait_to_finish()
+		if "Error" in output:
+			print("uPnP port mapping failed! Shutting down server...")
+			print("Consider disabling uPnP in server.yml and manually forwarding ports.")
+			get_tree().quit()
+			return
+		else:
+			print("uPnP port mapping successful. Server will now listen on %s" % output)
+
 	var peer = ENetMultiplayerPeer.new()
 	var err = peer.create_server(get_config_entry("network.port"))
 
@@ -98,7 +126,23 @@ func _ready() -> void:
 	peer.peer_connected.connect(func(id):
 		prints("Peer connected with ID", id)
 
-		await get_tree().process_frame
+		await Lib.frame
+
+		if get_config_entry("network.password").strip_edges():
+			var password: String = get_config_entry("network.password")
+			send_api_message("request_password", {
+				server_name = server.name,
+				hash = password.sha256_text()
+			}, id)
+
+			var timeout: float = 0.0
+			while not id in _password_attempts or _password_attempts[id] != password:
+				timeout += await Lib.frame_with_delta()
+
+				if timeout > 120.0:
+					print("Password request timed out!")
+					peer.disconnect_peer(id, true)
+					return
 
 		server.com_node._receive_server_info.rpc_id(id, var_to_bytes_with_objects(server))
 		send_api_message("update_voice_chat_participants", {
@@ -132,13 +176,35 @@ func _ready() -> void:
 
 	server.com_node = ServerComNode.new(server.id)
 
-var _invalid_packets_received: Array = []
+func _do_upnp_mapping() -> Variant:
+	var err := func(msg: String) -> String:
+		print(
+			"There was an error opening uPnP ports. Users may not be able to connect to your server unless you manually port forward.\n",
+			"This can happen if you have an outdated router, or you are under a multi-router setup.\n",
+			"Error: ", msg
+		)
+		
+		return msg
+	
+	var upnp := UPNP.new()
+	if upnp.discover() != OK: return err.call("UPNP.discover() called failed!")
+	var port: int = get_config_entry("network.port")
+	
+	if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
+		if upnp.add_port_mapping(port, port, ProjectSettings.get("application/config/name"), "UDP") != OK: return err.call("Could not map UDP port!")
+		if upnp.add_port_mapping(port, port, ProjectSettings.get("application/config/name") + " Info server", "TCP") != OK: return err.call("Could not map TCP port!")
+		
+		return upnp.query_external_address()
+	else:
+		return err.call("No gateway or invalid gateway!")
+
+var _invalid_packets_received: Dictionary = {}
 func _packet_received(peer_id: int, packet: PackedByteArray) -> void:
 	if not peer_id in server.online_users:
-		if peer_id in _invalid_packets_received:
+		if peer_id in _invalid_packets_received and _invalid_packets_received[peer_id] > 5:
 			print("Peer %d sent a packet but is not a valid user" % peer_id)
 			return
-		_invalid_packets_received.append(peer_id)
+		_invalid_packets_received[peer_id] = 1 if not peer_id in _invalid_packets_received else _invalid_packets_received[peer_id] + 1
 
 	var message: Dictionary = bytes_to_var(packet)
 

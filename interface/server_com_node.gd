@@ -72,6 +72,41 @@ func _init(server_id: String) -> void:
 			if not "endpoint" in message:
 				return
 			
+			if message.endpoint == "request_password":
+				if not "hash" in message:
+					return
+				
+				var cache_path: String = "user://servers/%s.res" % server_id
+				if ResourceLoader.exists(cache_path):
+					var cached_server: Server = load(cache_path)
+					var password: String = EncryptionTools.decrypt_string(Marshalls.base64_to_raw(cached_server.password), AuthPortal.private_key)
+
+					if password and password.sha256_text() == message.hash:
+						local_multiplayer.send_bytes(var_to_bytes({
+							endpoint = "attempt_password",
+							password = password
+						}))
+						
+						return
+				
+				var modal = ModalStack.open_modal("res://interface/modals/server_password_modal.tscn")
+				modal.hash = message.hash
+				modal.server_name = message.server_name
+				
+				modal.callback = func(password: String) -> void:
+					local_multiplayer.send_bytes(var_to_bytes({
+						endpoint = "attempt_password",
+						password = password
+					}))
+
+					while not is_instance_valid(server):
+						await Lib.seconds(2.0)
+					
+					server.password = Marshalls.raw_to_base64(EncryptionTools.encrypt_string(password, AuthPortal.private_key))
+					server.cache()
+
+				return
+			
 			server._handle_api_message_client(message.endpoint, message, peer_id)
 		)
 
@@ -113,6 +148,10 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 	
 	server.address = address
 	server.port = port
+
+	var cached_server: Server = load("user://servers/%s.res" % server.id) if ResourceLoader.exists("user://servers/%s.res" % server.id) else null
+	if is_instance_valid(cached_server):
+		server.password = cached_server.password
 
 	server.cache()
 

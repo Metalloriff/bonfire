@@ -7,6 +7,11 @@ var server: Server:
 			
 			queue_redraw()
 
+func _ready() -> void:
+	ContextMenu.attach_listener(self , preload("res://interface/components/context_menu/server_context_menu.tscn"), func(menu: ContextMenu) -> void:
+		menu.server = server
+	)
+
 func _draw() -> void:
 	if not is_instance_valid(server):
 		$PlaceholderIcon.show()
