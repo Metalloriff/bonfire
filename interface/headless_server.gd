@@ -48,8 +48,6 @@ func _ready() -> void:
 		save_config()
 	
 	config = YAML.load_file(config_path)
-
-	prints("rules", get_config_entry("profile.rules"))
 	
 	server = Server.new()
 	if FS.exists(server_data_path.path_join("server.res")):

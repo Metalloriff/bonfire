@@ -116,8 +116,9 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				return
 			if not data.username or not data.password_hash:
 				return
-			if not peer_id in HeadlessServer.instance._password_attempts or HeadlessServer.instance._password_attempts[peer_id].sha256_text() != HeadlessServer.instance.get_config_entry("network.password").sha256_text():
-				return
+			if HeadlessServer.instance.get_config_entry("network.password").strip_edges():
+				if not peer_id in HeadlessServer.instance._password_attempts or HeadlessServer.instance._password_attempts[peer_id].sha256_text() != HeadlessServer.instance.get_config_entry("network.password").sha256_text():
+					return
 			
 			var user_id: String = (data.username + ":" + data.password_hash).sha256_text()
 			
