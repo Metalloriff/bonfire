@@ -209,6 +209,7 @@ func _user_update(channel_id: String, data: Dictionary) -> void:
 func _create_user(id: int) -> Node:
 	var user = AudioStreamPlayer.new()
 	user.stream = AudioStreamOpusChunked.new()
+	# user.stream.audiosamplechunks = 200
 	user.autoplay = true
 	user.name = "User " + str(id)
 	return user
@@ -304,7 +305,6 @@ func _process(_delta: float) -> void:
 		var packet := mic_capture.read_opus_packet(PackedByteArray())
 		var speaking_activity_level: float = mic_capture.denoise_resampled_chunk()
 		var activity_level := mic_capture.chunk_max(true, true)
-		mic_capture.drop_chunk()
 
 		local_activity_level = activity_level
 		local_speaking_activity_level = speaking_activity_level
@@ -313,3 +313,4 @@ func _process(_delta: float) -> void:
 		
 		if not muted and activity_level > 0.00001:
 			_upstream_packets.rpc_id(1, active_channel.id, packet, activity_level, speaking_activity_level)
+		mic_capture.drop_chunk()
