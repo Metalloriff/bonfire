@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Bonfire"
-config/version="f3b9e97"
+config/version="0.0.1"
 run/main_scene="uid://cf0bj5upnbrvh"
 config/features=PackedStringArray("4.6", "Mobile")
 boot_splash/bg_color=Color(0.03529412, 0.03529412, 0.050980393, 1)
