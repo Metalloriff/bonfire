@@ -37,6 +37,13 @@ var attachments: Array[String] = []
 
 func _ready() -> void:
 	instance = self
+	
+	get_window().files_dropped.connect(func(files: PackedStringArray) -> void:
+		if VoiceChat.active_channel and ChatFrame.instance.selected_channel == VoiceChat.active_channel:
+			return
+		
+		_on_file_dialog_files_selected(files)
+	)
 
 func _on_text_edit_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():

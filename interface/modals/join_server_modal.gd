@@ -1,13 +1,5 @@
 extends Control
 
-func _ready() -> void:
-	$Background.gui_input.connect(func(event: InputEvent) -> void:
-		if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
-			ModalStack.fade_free_modal(self )
-		if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			ModalStack.fade_free_modal(self )
-	)
-
 func _on_private_profile_toggle_toggled(toggled_on: bool) -> void:
 	$Modal/MarginContainer/VBoxContainer/UniqueProfileSettings.visible = toggled_on
 
@@ -53,3 +45,6 @@ func _on_join_button_pressed() -> void:
 
 	ServerList.instance.queue_redraw.call_deferred()
 	ModalStack.fade_free_modal(self )
+
+func _on_line_edit_text_submitted(new_text: String) -> void:
+	_on_join_button_pressed()

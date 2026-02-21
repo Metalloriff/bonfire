@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://236mhdafteqb"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_5mksy"]
+[ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="2_wtpui"]
+
+[node name="DonateModal" unique_id=649999717 instance=ExtResource("1_5mksy")]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=1846208500]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer" index="0" unique_id=1750092486]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_wtpui")
+text = "Donate"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/MarginContainer/VBoxContainer" index="1" unique_id=8893297]
+custom_minimum_size = Vector2(500, 750)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer" index="0" unique_id=135584362]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="0" unique_id=1220652170]
+layout_mode = 2
+text = "TODO actually style this shit"
+
+[node name="Label2" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="1" unique_id=432190203]
+layout_mode = 2
+text = "ko-fi: https://ko-fi.com/metalloriff"
+
+[node name="Label3" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="2" unique_id=2014402053]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "XMR: 82qpTD6XmnKGLF9pMuJxmeBWVhkGEc76DNrPAPAKbATVPHL6TTRkV7RUvi7jD6rp27cCJKJ2oKDGiLFJSS8wxabn8CrWGgS"
+autowrap_mode = 1
+
+[node name="Label4" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="3" unique_id=212506368]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "LTC: ltc1q3erhn0mtnwcwjatuayv0mfwq4kh9y20vn4v3mk"
+autowrap_mode = 1

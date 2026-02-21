@@ -207,7 +207,7 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 					HeadlessServer.send_api_message("fetch_messages_response", {
 						channel_id = data.channel_id,
 						messages = []
-					})
+					}, peer_id)
 
 					prints("User", peer_id, "tried to fetch messages from private channel", data.channel_id, "but is not allowed to.")
 					return
@@ -217,7 +217,7 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			HeadlessServer.send_api_message("fetch_messages_response", {
 				channel_id = data.channel_id,
 				messages = messages
-			})
+			}, peer_id)
 		"receive_user_profile_update":
 			assert("user_id" in data, "No user_id provided for user profile update")
 
@@ -394,7 +394,7 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			HeadlessServer.instance._password_attempts[peer_id] = password
 		"leave_server":
 			if "purge_all_messages" in data and data.purge_all_messages:
-				pass
+				HeadlessServer.instance.purge_messages_from_user(online_users[peer_id])
 			
 			com_node._peer.disconnect_peer(peer_id, true)
 			users.erase(get_user_by_peer_id(peer_id))

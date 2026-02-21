@@ -104,5 +104,6 @@ layout_mode = 2
 theme_type_variation = &"Button_Important"
 text = "Join Server"
 
+[connection signal="text_submitted" from="Modal/MarginContainer/VBoxContainer/Address/LineEdit" to="." method="_on_line_edit_text_submitted"]
 [connection signal="toggled" from="Modal/MarginContainer/VBoxContainer/PrivateProfileToggle" to="." method="_on_private_profile_toggle_toggled"]
 [connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]

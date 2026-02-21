@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://by8dg3yw6qmng"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_u8r13"]
+[ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="2_qnxpb"]
+[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="3_t5asv"]
+
+[node name="FAQModal" unique_id=649999717 instance=ExtResource("1_u8r13")]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=1525867672]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer" index="0" unique_id=131995174]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_qnxpb")
+text = "Frequently Asked Questions"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/MarginContainer/VBoxContainer" index="1" unique_id=511954195]
+custom_minimum_size = Vector2(900, 750)
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer" index="0" unique_id=610892811]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="0" unique_id=1040014567]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_t5asv")
+theme_override_font_sizes/font_size = 18
+text = "Example Question"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="1" unique_id=819036762]
+layout_mode = 2
+bbcode_enabled = true
+text = "This is an example answer."
+fit_content = true
+scroll_active = false

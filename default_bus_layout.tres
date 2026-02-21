@@ -6,10 +6,13 @@ pan_pullout = 0.0
 
 [sub_resource type="AudioEffectOpusChunked" id="AudioEffectOpusChunked_j3pel"]
 opusbitrate = 32000
-audiosamplechunks = 25
+opuscomplexity = 10
 resource_name = "OpusChunked"
 
 [sub_resource type="AudioEffectOpusChunked" id="AudioEffectOpusChunked_g28q7"]
+opusbitrate = 64000
+opuscomplexity = 10
+opusoptimizeforvoice = false
 audiosamplechunks = 25
 resource_name = "OpusChunked"
 

@@ -379,6 +379,35 @@ corner_radius_top_right = 99
 corner_radius_bottom_right = 99
 corner_radius_bottom_left = 99
 
+[sub_resource type="Resource" id="Resource_2oyfk"]
+script = ExtResource("1_qlc1u")
+color = Color(0.8202596, 0.82148546, 0.8718711, 1)
+width_left = 2
+width_top = 2
+width_right = 2
+width_bottom = 2
+metadata/_custom_type_script = "uid://cjmmhbp1b5312"
+
+[sub_resource type="StyleBox" id="StyleBox_mu0c4"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+script = ExtResource("2_5gc66")
+color = Color(0.0876, 0.0876, 0.12, 1)
+borders = Array[ExtResource("1_qlc1u")]([SubResource("Resource_2oyfk")])
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_curvature_top_left = 2.25
+corner_curvature_top_right = 2.25
+corner_curvature_bottom_right = 2.25
+corner_curvature_bottom_left = 2.25
+shadow_blur = 0
+
 [sub_resource type="Resource" id="Resource_qlc1u"]
 script = ExtResource("1_qlc1u")
 color = Color(0.12319999, 0.12319999, 0.16, 1)
@@ -733,6 +762,7 @@ HSlider/icons/grabber_highlight = SubResource("GradientTexture2D_eppvg")
 HSlider/styles/grabber_area = SubResource("StyleBoxFlat_qt0uk")
 HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_eaw1p")
 HSlider/styles/slider = SubResource("StyleBoxFlat_2oyfk")
+LineEdit/styles/focus = SubResource("StyleBox_mu0c4")
 LineEdit/styles/normal = SubResource("StyleBox_eppvg")
 MarginContainer/constants/margin_bottom = 10
 MarginContainer/constants/margin_left = 10

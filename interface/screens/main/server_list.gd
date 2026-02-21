@@ -28,3 +28,9 @@ func _draw():
 
 func _on_join_server_pressed() -> void:
 	ModalStack.open_modal("res://interface/modals/join_server_modal.tscn")
+
+func _on_faq_pressed() -> void:
+	ModalStack.open_modal("res://interface/modals/faq_modal.tscn")
+
+func _on_donate_pressed() -> void:
+	ModalStack.open_modal("res://interface/modals/donate_modal.tscn")

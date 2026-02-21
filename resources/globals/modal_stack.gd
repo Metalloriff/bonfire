@@ -12,6 +12,15 @@ func open_modal(modal_path: String) -> Control:
 	assert(ResourceLoader.exists(modal_path), "Modal at path '%s' does not exist" % modal_path)
 
 	var modal: Control = load(modal_path).instantiate()
+	var background: ColorRect = modal.get_node_or_null("Background")
+
+	if is_instance_valid(background):
+		background.gui_input.connect(func(event: InputEvent) -> void:
+			if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+				fade_free_modal(modal)
+			if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+				fade_free_modal(modal)
+		)
 
 	add_child(modal)
 	_fade_out_modal(modal, 0.0)
@@ -33,7 +42,7 @@ func fade_free_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME) -> 
 	await _fade_out_modal(modal, tween_time)
 	modal.queue_free()
 
-func _fade_out_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME, depth: int = 0) -> void:
+func _fade_out_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME, depth: int = 1) -> void:
 	var tween := create_tween().set_parallel().set_ease(Tween.EASE_IN)
 
 	tween.tween_property(modal, "modulate:a", 0.25, tween_time)

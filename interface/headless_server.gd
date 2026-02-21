@@ -245,6 +245,21 @@ func _sync_online_users() -> void:
 		online_users = server.online_users
 	})
 
+func purge_messages_from_user(user_id: String) -> void:
+	assert(HeadlessServer.is_headless_server, "Cannot purge messages from user as a client")
+
+	for channel in server.channels + server.private_channels:
+		if not is_instance_valid(channel):
+			continue
+		
+		channel._db.delete_rows("messages", "author = '%s'" % user_id)
+		channel._db.query("SELECT * FROM media WHERE uploader_id = '%s'" % user_id)
+		for media_result in channel._db.query_result:
+			var media_path: String = channel._get_media_path(media_result.media_id)
+			if FileAccess.file_exists(media_path):
+				DirAccess.remove_absolute(media_path)
+		channel._db.delete_rows("media", "uploader_id = '%s'" % user_id)
+
 static func send_api_message(endpoint: String, data: Dictionary, peer_id: int = 0) -> void:
 	if not is_instance_valid(instance):
 		return
