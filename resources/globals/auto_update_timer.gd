@@ -7,8 +7,6 @@ signal update_available(data)
 func _ready() -> void:
 	if OS.has_feature("editor"):
 		return
-	if HeadlessServer.is_headless_server:
-		return
 
 	Settings.make_setting_link_method("system", "automatically_check_for_updates", func(auto_update: bool) -> void:
 		if auto_update:
@@ -24,7 +22,10 @@ func _ready() -> void:
 	timeout.connect(_check_debounced)
 
 func check_for_updates() -> void:
-	if not Settings.get_value("system", "automatically_check_for_updates") and not HeadlessServer.is_headless_server:
+	if HeadlessServer.is_headless_server:
+		if not HeadlessServer.instance.get_config_entry("system.auto_update"):
+			return
+	elif not Settings.get_value("system", "automatically_check_for_updates"):
 		return
 	
 	print("Checking for updates...")
@@ -38,7 +39,7 @@ func check_for_updates() -> void:
 	
 	if latest_version.is_newer_than(current_version):
 		print("Update available.")
-		
+
 		update_available.emit(latest_release_data)
 		var modal = ModalStack.open_modal("res://interface/modals/update_modal.tscn")
 		modal.update_data = latest_release_data
@@ -58,7 +59,7 @@ func _get_latest_release_data() -> Dictionary:
 	var data: Array = JSON.parse_string(response[3].get_string_from_utf8())
 	prints("response data", data)
 
-	if Settings.get_value("system", "include_prereleases"):
+	if Settings.get_value("system", "include_prereleases") or HeadlessServer.is_headless_server and HeadlessServer.instance.get_config_entry("system.update_channel") in ["prerelease", "early", "testing", "pre", "preview"]:
 		return data[0]
 	else:
 		for release in data:
