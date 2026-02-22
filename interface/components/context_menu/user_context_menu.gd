@@ -44,4 +44,4 @@ func _on_private_message_button_pressed() -> void:
 func _on_copy_user_id_button_pressed() -> void:
 	DisplayServer.clipboard_set(user.id)
 	NotificationDaemon.show_toast("User ID copied to clipboard")
-	queue_free()
+	fade_free()

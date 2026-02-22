@@ -41,20 +41,20 @@ func _on_reply_button_pressed() -> void:
 	MainTextArea.instance.field.text += "[reply message_id=\"%s\"][/reply]\n\n" % message.timestamp
 	MainTextArea.instance.field.grab_focus.call_deferred()
 	MainTextArea.instance.field.set_caret_line(MainTextArea.instance.field.get_line_count() - 1)
-	queue_free()
+	fade_free()
 
 func _on_quote_reply_button_pressed() -> void:
 	MainTextArea.instance.field.text += "[reply message_id=\"%s\"]%s[/reply]\n\n" % [message.timestamp, _selected_text]
 	MainTextArea.instance.field.grab_focus.call_deferred()
 	MainTextArea.instance.field.set_caret_line(MainTextArea.instance.field.get_line_count() - 1)
-	queue_free()
+	fade_free()
 
 func _on_delete_button_pressed() -> void:
 	assert(message.author_id == ChatFrame.instance.selected_channel.server.user_id, "Cannot edit messages from other users")
 
 	# TODO ask for confirmation
 	ChatFrame.instance.selected_channel.delete_message(message)
-	queue_free()
+	fade_free()
 
 func _on_edit_button_pressed() -> void:
 	assert(not message.encrypted, "Cannot edit encrypted messages")
@@ -68,4 +68,4 @@ func _on_edit_button_pressed() -> void:
 	message_item.get_node("TextContents").hide()
 	message_item.get_node("MediaContents").hide()
 
-	queue_free()
+	fade_free()

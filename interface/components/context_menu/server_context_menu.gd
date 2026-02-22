@@ -9,7 +9,7 @@ func _ready() -> void:
 
 func _on_confirm_leave_server_pressed() -> void:
 	server.leave_server(%PurgeAllMessages.button_pressed)
-	queue_free()
+	fade_free()
 
 func _on_cancel_leave_server_pressed() -> void:
 	%LeaveServerPanel.hide()
