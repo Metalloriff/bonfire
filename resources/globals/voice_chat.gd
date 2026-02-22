@@ -289,8 +289,7 @@ func _downstream_packets(channel_id: String, user_id: int, packet, activity_leve
 
 		user.set_meta("activity_level", activity_level)
 	else:
-		# user.volume_linear = (Settings.get_value("voice", "output_device_volume") / 100.0) * (active_channel.server.get_user_by_peer_id(user_id).local_volume / 100.0) * speaking_activity_level
-		user.volume_linear = 1.0
+		user.volume_linear = (Settings.get_value("voice", "output_device_volume") / 100.0) * (active_channel.server.get_user_by_peer_id(user_id).local_volume / 100.0) * speaking_activity_level
 
 		user.set_meta("speaking_activity_level", speaking_activity_level)
 		user.set_meta("activity_level", activity_level)
@@ -311,6 +310,14 @@ func _process(_delta: float) -> void:
 		local_speaking_activity_level = speaking_activity_level
 
 		$Input.volume_linear = (Settings.get_value("voice", "input_device_volume") / 100.0) if not muted else 0.0
+
+		if OS.get_name() == "Android":
+			var total_user_activity_level: float = 0.0
+			for user_id in users:
+				if users[user_id].has_meta("speaking_activity_level"):
+					total_user_activity_level += users[user_id].get_meta("speaking_activity_level")
+			
+			$Input.volume_linear -= total_user_activity_level
 		
 		if not muted: # and activity_level > 0.00001:
 			_upstream_packets.rpc_id(1, active_channel.id, packet, activity_level, speaking_activity_level)
