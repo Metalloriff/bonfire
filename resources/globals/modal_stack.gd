@@ -43,6 +43,9 @@ func fade_free_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME) -> 
 	modal.queue_free()
 
 func _fade_out_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME, depth: int = 1) -> void:
+	if not is_instance_valid(modal):
+		return
+	
 	var tween := create_tween().set_parallel().set_ease(Tween.EASE_IN)
 
 	tween.tween_property(modal, "modulate:a", 0.25, tween_time)
@@ -51,6 +54,9 @@ func _fade_out_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME, dep
 	await tween.finished
 
 func _fade_in_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME, depth: int = 0) -> void:
+	if not is_instance_valid(modal):
+		return
+	
 	var tween := create_tween().set_parallel().set_ease(Tween.EASE_IN)
 
 	tween.tween_property(modal, "modulate:a", 1.0, tween_time)

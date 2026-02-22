@@ -35,6 +35,7 @@ NotificationDaemon="*uid://24vkj2tgir6v"
 Notifications="*uid://d238v2kglk6eb"
 ModalStack="*uid://yc0qingvqkvu"
 EncryptionTools="*uid://dwuiuvos2bs5n"
+AutoUpdateTimer="*uid://cvku0ticy0q5q"
 
 [display]
 

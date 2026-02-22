@@ -14,6 +14,9 @@ func _ready() -> void:
 	if "--server" in OS.get_cmdline_args():
 		get_tree().change_scene_to_file("res://interface/headless_server.tscn")
 		return
+	
+	%AutoUpdate.button_pressed = Settings.get_value("system", "automatically_check_for_updates")
+	%PreRelease.button_pressed = Settings.get_value("system", "include_prereleases")
 
 	if _username and _password_hash:
 		$Contents/Username.hide()
@@ -82,3 +85,9 @@ func _continue() -> void:
 		get_tree().change_scene_to_file("res://interface/screens/main_mobile.tscn")
 	else:
 		get_tree().change_scene_to_file("res://interface/screens/main.tscn")
+
+func _on_pre_release_toggled(toggled_on: bool) -> void:
+	Settings.set_value("system", "include_prereleases", toggled_on)
+
+func _on_auto_update_toggled(toggled_on: bool) -> void:
+	Settings.set_value("system", "automatically_check_for_updates", toggled_on)

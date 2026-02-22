@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://0ch7jfa6g4ad"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_ahw5y"]
+[ext_resource type="Script" uid="uid://bukpqbto303t3" path="res://interface/modals/update_modal.gd" id="2_20xpq"]
+[ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="2_e4bek"]
+[ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="3_20xpq"]
+[ext_resource type="Texture2D" uid="uid://bno3ulnf016r2" path="res://icons/notificationsOff.png" id="4_4ixcl"]
+[ext_resource type="Texture2D" uid="uid://pog6c74njdaf" path="res://icons/downloading.png" id="5_pb6bk"]
+
+[node name="UpdateModal" unique_id=649999717 instance=ExtResource("1_ahw5y")]
+script = ExtResource("2_20xpq")
+
+[node name="Modal" parent="." index="1" unique_id=18995346]
+custom_minimum_size = Vector2(750, 450)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=1049545245]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer" index="0" unique_id=180029819]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_e4bek")
+text = "A new Bonfire update is available."
+horizontal_alignment = 1
+
+[node name="Body" type="RichTextLabel" parent="Modal/MarginContainer/VBoxContainer" index="1" unique_id=1276995826]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.7176471)
+layout_mode = 2
+size_flags_vertical = 3
+text = "This build is not meant to be used. It's here for API testing purposes, for auto-updates. But, by all means, use it if you wish."
+
+[node name="ButtonContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="2" unique_id=1172238062]
+unique_name_in_owner = true
+layout_mode = 2
+alignment = 1
+
+[node name="InstalledVersion" type="Label" parent="Modal/MarginContainer/VBoxContainer/ButtonContainer" index="0" unique_id=1757313277]
+unique_name_in_owner = true
+modulate = Color(1, 0.36, 0.36, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 10
+text = "installed: v0.0.0"
+
+[node name="Close" type="Button" parent="Modal/MarginContainer/VBoxContainer/ButtonContainer" index="1" unique_id=176841004]
+layout_mode = 2
+text = "Close"
+icon = ExtResource("3_20xpq")
+
+[node name="SkipUpdate" type="Button" parent="Modal/MarginContainer/VBoxContainer/ButtonContainer" index="2" unique_id=744841589]
+layout_mode = 2
+text = "Skip Update"
+icon = ExtResource("4_4ixcl")
+
+[node name="Install" type="Button" parent="Modal/MarginContainer/VBoxContainer/ButtonContainer" index="3" unique_id=124664942]
+layout_mode = 2
+text = "Download & Install"
+icon = ExtResource("5_pb6bk")
+
+[node name="LatestVersion" type="Label" parent="Modal/MarginContainer/VBoxContainer/ButtonContainer" index="4" unique_id=219657546]
+unique_name_in_owner = true
+modulate = Color(0.29000002, 1, 0.52666676, 1)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 10
+text = "v0.0.1-prerelease"
+horizontal_alignment = 2
+
+[node name="UpdateContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="3" unique_id=1946654221]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(0, 45)
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Modal/MarginContainer/VBoxContainer/UpdateContainer" index="0" unique_id=1754214291]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/UpdateContainer" index="1" unique_id=621252124]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/UpdateContainer/HBoxContainer" index="0" unique_id=1133780518]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Downloading update..."
+
+[node name="CancelUpdateButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/UpdateContainer/HBoxContainer" index="1" unique_id=277276530]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_type_variation = &"Button_Red"
+text = "Cancel"
+icon = ExtResource("3_20xpq")
+expand_icon = true
+
+[node name="UpdateDownloader" type="HTTPRequest" parent="." index="2" unique_id=654957845]
+download_chunk_size = 8192
+use_threads = true
+
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/ButtonContainer/Close" to="." method="_on_close_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/ButtonContainer/SkipUpdate" to="." method="_on_skip_update_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/ButtonContainer/Install" to="." method="_on_install_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/UpdateContainer/HBoxContainer/CancelUpdateButton" to="." method="_on_cancel_update_button_pressed"]

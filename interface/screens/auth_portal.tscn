@@ -85,6 +85,18 @@ layout_mode = 2
 text = "Passwords do not match!"
 horizontal_alignment = 1
 
+[node name="AutoUpdate" type="CheckButton" parent="Contents" unique_id=2143258135]
+unique_name_in_owner = true
+layout_mode = 2
+button_pressed = true
+text = "Automatically check for
+ updates from GitHub"
+
+[node name="PreRelease" type="CheckButton" parent="Contents" unique_id=584354286]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Include pre-release builds"
+
 [node name="HBoxContainer" type="HBoxContainer" parent="Contents" unique_id=1013330498]
 layout_mode = 2
 alignment = 1
@@ -114,4 +126,23 @@ grow_horizontal = 2
 theme_override_font_sizes/font_size = 27
 text = "Create Account"
 
+[node name="Label2" type="Label" parent="." unique_id=2126192821]
+modulate = Color(0.8784314, 0.21568628, 0.16862746, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -61.0
+offset_top = 150.0
+offset_right = 61.0
+offset_bottom = 20.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 20
+text = "NOTE: There is no way to reset your password.
+If you forget your password, you will
+lose access to your identity on servers."
+horizontal_alignment = 1
+
+[connection signal="toggled" from="Contents/AutoUpdate" to="." method="_on_auto_update_toggled"]
+[connection signal="toggled" from="Contents/PreRelease" to="." method="_on_pre_release_toggled"]
 [connection signal="pressed" from="Contents/HBoxContainer/SubmitButton" to="." method="_on_submit_button_pressed"]
