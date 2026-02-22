@@ -25,6 +25,8 @@ I've done everything in my power to make this project as easy as possible to hos
 - Built in the Godot engine, so you can easily mod and customize the client and server
 - Per-server profiles, completely detaching the server's knowledge of your identity
 - The ability to download files without opening a web browser first (truly revolutionary technology)
+- Smooth animations and a responsive UI. No more freezing and lagging when interacting with the client.
+- Lightweight. While it's not the most lightweight chat client out there, it packs a punch for its small footprint, and easily runs smoother and lighter than every web-based client.
 
 ## Missing Expected Features
 Some of the features that are missing from modern chat services, and the reasons:

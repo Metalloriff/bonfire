@@ -7,6 +7,11 @@ func _on_join_button_pressed() -> void:
 	var split: PackedStringArray = %Address/LineEdit.text.split(":")
 	var address: String = split[0]
 	var port: int = int(split[1]) if len(split) > 1 else 0
+
+	if len(split) > 2:
+		# TODO add a way to handle port and ipv6 addresses
+		address = %Address/LineEdit.text
+		port = 26969
 	
 	if not port:
 		port = 26969
