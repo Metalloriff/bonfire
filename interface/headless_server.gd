@@ -6,8 +6,9 @@ static var is_headless_server: bool:
 		return "--server" in OS.get_cmdline_args()
 
 var defaults: Dictionary = {
-	DO_NOT_CHANGE__AUTO_GENERATED = {
-		server_id = Lib.create_uid(32)
+	system = {
+		auto_update = true,
+		update_channel = "stable"
 	},
 	network = {
 		upnp_enabled = true,

@@ -1,9 +1,13 @@
 extends Timer
 
-@onready var _check_debounced: Callable = Lib.create_debouncer(3.0, _check_for_updates)
+signal update_available(data)
+
+@onready var _check_debounced: Callable = Lib.create_debouncer(3.0, check_for_updates)
 
 func _ready() -> void:
 	if OS.has_feature("editor"):
+		return
+	if HeadlessServer.is_headless_server:
 		return
 
 	Settings.make_setting_link_method("system", "automatically_check_for_updates", func(auto_update: bool) -> void:
@@ -19,9 +23,11 @@ func _ready() -> void:
 	_check_debounced.call()
 	timeout.connect(_check_debounced)
 
-func _check_for_updates() -> void:
-	if not Settings.get_value("system", "automatically_check_for_updates"):
+func check_for_updates() -> void:
+	if not Settings.get_value("system", "automatically_check_for_updates") and not HeadlessServer.is_headless_server:
 		return
+	
+	print("Checking for updates...")
 
 	var latest_release_data: Dictionary = await _get_latest_release_data()
 	if not latest_release_data:
@@ -31,6 +37,9 @@ func _check_for_updates() -> void:
 	var latest_version: SemanticVersion = SemanticVersion.new(latest_release_data.tag_name)
 	
 	if latest_version.is_newer_than(current_version):
+		print("Update available.")
+		
+		update_available.emit(latest_release_data)
 		var modal = ModalStack.open_modal("res://interface/modals/update_modal.tscn")
 		modal.update_data = latest_release_data
 

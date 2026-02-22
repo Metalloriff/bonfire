@@ -1,9 +1,20 @@
 [gd_scene format=3 uid="uid://236mhdafteqb"]
 
 [ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_5mksy"]
+[ext_resource type="Script" uid="uid://dee7lhrbdpjvg" path="res://interface/modals/donate_modal.gd" id="2_et2mw"]
 [ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="2_wtpui"]
+[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="3_yif6s"]
+[ext_resource type="Texture2D" uid="uid://cjciyxasijk21" path="res://icons/donate/xmr-donate.png" id="4_n5xpo"]
+[ext_resource type="Texture2D" uid="uid://cdkmsk2xqhu04" path="res://icons/contentCopy.png" id="5_2ebky"]
+[ext_resource type="Texture2D" uid="uid://cdwy5x3vvehnc" path="res://icons/donate/kofi_logo.png" id="5_276bk"]
+[ext_resource type="Texture2D" uid="uid://cir3qkqhcl3ak" path="res://icons/donate/ltc-donate.png" id="6_et2mw"]
+[ext_resource type="Texture2D" uid="uid://cxcegwu4gppx8" path="res://icons/openInNew.png" id="6_lv5n8"]
 
 [node name="DonateModal" unique_id=649999717 instance=ExtResource("1_5mksy")]
+script = ExtResource("2_et2mw")
+
+[node name="Modal" parent="." index="1" unique_id=18995346]
+custom_minimum_size = Vector2(800, 0)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=1846208500]
 layout_mode = 2
@@ -11,34 +22,139 @@ layout_mode = 2
 [node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer" index="0" unique_id=1750092486]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("2_wtpui")
-text = "Donate"
+theme_override_font_sizes/font_size = 20
+text = "Donation Links"
 horizontal_alignment = 1
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Modal/MarginContainer/VBoxContainer" index="1" unique_id=8893297]
-custom_minimum_size = Vector2(500, 750)
+custom_minimum_size = Vector2(500, 620)
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer" index="0" unique_id=135584362]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/separation = 20
 
-[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="0" unique_id=1220652170]
-layout_mode = 2
-text = "TODO actually style this shit"
-
-[node name="Label2" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="1" unique_id=432190203]
-layout_mode = 2
-text = "ko-fi: https://ko-fi.com/metalloriff"
-
-[node name="Label3" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="2" unique_id=2014402053]
+[node name="Label3" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="0" unique_id=1348912783]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "XMR: 82qpTD6XmnKGLF9pMuJxmeBWVhkGEc76DNrPAPAKbATVPHL6TTRkV7RUvi7jD6rp27cCJKJ2oKDGiLFJSS8wxabn8CrWGgS"
+theme_override_fonts/font = ExtResource("3_yif6s")
+theme_override_font_sizes/font_size = 22
+text = "Fiat"
+horizontal_alignment = 1
 autowrap_mode = 1
 
-[node name="Label4" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="3" unique_id=212506368]
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="1" unique_id=233931382]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="0" unique_id=1226098930]
+layout_mode = 2
+alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer2" index="0" unique_id=263354396]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("5_276bk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="KoFi" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="1" unique_id=404035876]
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer/KoFi" index="0" unique_id=410575031]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "https://ko-fi.com/metalloriff"
+
+[node name="OpenKofiButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer/KoFi" index="1" unique_id=752879213]
+layout_mode = 2
+text = "Open Link"
+icon = ExtResource("6_lv5n8")
+
+[node name="Label4" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="2" unique_id=1818007135]
 custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "LTC: ltc1q3erhn0mtnwcwjatuayv0mfwq4kh9y20vn4v3mk"
+size_flags_vertical = 6
+theme_override_fonts/font = ExtResource("3_yif6s")
+theme_override_font_sizes/font_size = 22
+text = "Crypto"
+horizontal_alignment = 1
+vertical_alignment = 2
 autowrap_mode = 1
+
+[node name="Crypto" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="3" unique_id=815933052]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="XMRContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto" index="0" unique_id=212699409]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto/XMRContainer" index="0" unique_id=2014402053]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_yif6s")
+theme_override_font_sizes/font_size = 22
+text = "XMR"
+horizontal_alignment = 1
+autowrap_mode = 1
+
+[node name="CryptoQR" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto/XMRContainer" index="1" unique_id=1487078332]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("4_n5xpo")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="XMR" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto/XMRContainer" index="2" unique_id=322450382]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto/XMRContainer/XMR" index="0" unique_id=647142854]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "82qpTD6XmnKGLF9pMuJxmeBWVhkGEc76DNrPAPAKbATVPHL6TTRkV7RUvi7jD6rp27cCJKJ2oKDGiLFJSS8wxabn8CrWGgS"
+
+[node name="CopyButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto/XMRContainer/XMR" index="1" unique_id=1488192540]
+layout_mode = 2
+icon = ExtResource("5_2ebky")
+
+[node name="LTCContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto" index="1" unique_id=1366259226]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto/LTCContainer" index="0" unique_id=188287549]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_yif6s")
+theme_override_font_sizes/font_size = 22
+text = "LTC"
+horizontal_alignment = 1
+autowrap_mode = 1
+
+[node name="CryptoQR" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto/LTCContainer" index="1" unique_id=1847545359]
+custom_minimum_size = Vector2(0, 300)
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("6_et2mw")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LTC" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto/LTCContainer" index="2" unique_id=634900178]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="LineEdit" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto/LTCContainer/LTC" index="0" unique_id=528923478]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "ltc1q3erhn0mtnwcwjatuayv0mfwq4kh9y20vn4v3mk"
+
+[node name="CopyButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/Crypto/LTCContainer/LTC" index="1" unique_id=406048303]
+layout_mode = 2
+icon = ExtResource("5_2ebky")
+
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/VBoxContainer/KoFi/OpenKofiButton" to="." method="_on_open_kofi_button_pressed"]

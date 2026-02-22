@@ -24,6 +24,14 @@ I've done everything in my power to make this project as easy as possible to hos
 - The option to purge all of your messages and files when leaving a server
 - Built in the Godot engine, so you can easily mod and customize the client and server
 - Per-server profiles, completely detaching the server's knowledge of your identity
+- The ability to download files without opening a web browser first (truly revolutionary technology)
+
+## Missing Expected Features
+Some of the features that are missing from modern chat services, and the reasons:
+- ID verification
+	- This is a joke. It's never happening.
+- Push Notifications
+	- I've not yet been able to find a way to handle push notifications in Godot, especially a privacy-friendly solution. This is a high priority feature that I'm trying to find a solution for. If you have any leads, please create an issue or pull request.
 
 ## Screenshots
 Nothing here.

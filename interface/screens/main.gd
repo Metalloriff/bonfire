@@ -37,6 +37,8 @@ var selected_server_connection_issue: bool:
 				MemberList.instance.get_parent().modulate.a = 0.25
 				MainTextArea.instance.modulate.a = 0.25
 
+@onready var split_container: HSplitContainer = get_node_or_null("%SplitContainer")
+
 func _ready() -> void:
 	instance = self
 
@@ -46,3 +48,9 @@ func _ready() -> void:
 	
 	ModalStack._fade_out_modal(self , 0.0)
 	ModalStack._fade_in_modal(self )
+
+	if is_instance_valid(split_container):
+		split_container.split_offsets = FS.get_pref("app_split_offsets", split_container.split_offsets)
+
+func _on_split_container_drag_ended() -> void:
+	FS.set_pref("app_split_offsets", split_container.split_offsets)

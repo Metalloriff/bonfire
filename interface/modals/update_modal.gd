@@ -11,6 +11,9 @@ func _ready() -> void:
 	%LatestVersion.text = "latest: %s" % update_data.tag_name
 	%Body.text = update_data.body
 
+	if HeadlessServer.is_headless_server:
+		_on_install_pressed()
+
 func _on_install_pressed() -> void:
 	if OS.get_name() == "Android":
 		NotificationDaemon.show_toast("Android in-app updates are not yet supported.")
@@ -21,6 +24,8 @@ func _on_install_pressed() -> void:
 			_install_asset(asset)
 
 func _install_asset(asset: Dictionary) -> void:
+	print("Downloading update version %s..." % asset.tag_name)
+
 	%UpdateContainer.show()
 	%ButtonContainer.hide()
 
@@ -47,6 +52,8 @@ func _install_asset(asset: Dictionary) -> void:
 		NotificationDaemon.show_toast("Failed to find PCK file.")
 		return
 	
+	print("Extracting update...")
+	
 	DirAccess.remove_absolute(pck_file)
 	var zreader: ZIPReader = ZIPReader.new()
 	zreader.open(update_downloader.download_file)
@@ -65,8 +72,10 @@ func _install_asset(asset: Dictionary) -> void:
 		else:
 			push_error("Failed to open file '%s' for writing. This is likely normal if it is the executable or a DLL file." % fp)
 	zreader.close()
+
+	print("Update complete. Restarting...")
 	
-	OS.create_process(OS.get_executable_path(), [])
+	OS.create_process(OS.get_executable_path(), OS.get_cmdline_args() + OS.get_cmdline_user_args())
 	await Lib.frame
 	get_tree().quit()
 

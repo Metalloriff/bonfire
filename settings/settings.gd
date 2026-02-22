@@ -8,13 +8,19 @@ signal setting_updated(category: String, property_name: String, new_value: Varia
 signal button_pressed(category: String, property_name: String)
 signal setting_init(property_name: String, node: Control)
 
-var schema := { }
+var schema := {}
 var settings := ConfigFile.new()
 
 @onready var ui: SettingsUI = $UI
 
 func _ready() -> void:
 	assert(FS.exists(SCHEMA_PATH), "Settings schema.cfg could not be found!")
+
+	if HeadlessServer.is_headless_server:
+		while not is_instance_valid(HeadlessServer.instance):
+			await Lib.frame
+		
+		USER_SETTINGS_PATH = HeadlessServer.instance.server_data_path.path_join("client_settings.cfg")
 	
 	_init_schema()
 	_load_settings()
@@ -47,7 +53,7 @@ func _validate_settings_schema() -> void:
 		for prop in schema[category]:
 			if schema[category][prop].type in IGNORED_SETTINGS: continue
 			
-			if not settings.has_section(category)\
+			if not settings.has_section(category) \
 			or not settings.has_section_key(category, prop):
 				settings.set_value(category, prop, schema[category][prop].default_value)
 
@@ -67,12 +73,12 @@ func _init_schema() -> void:
 		
 		if category:
 			current_category = category.get_string(1)
-			schema[current_category] = { }
+			schema[current_category] = {}
 		elif setting:
 			var split := setting.get_string(1).split("_")
 			current_setting = "_".join(split.slice(1))
 			
-			schema[current_category][current_setting] = { "type": split[0] }
+			schema[current_category][current_setting] = {"type": split[0]}
 			
 			if split[0] == "collapse":
 				schema[current_category][current_setting].is_collapse_begin = split[1] == "begin" or split[1] == "start"

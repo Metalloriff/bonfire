@@ -25,6 +25,7 @@ func _ready() -> void:
 		%SubmitButton.text = "Login"
 		$Label.text = "Hello, %s." % _username
 		$Label.visible_characters = 0
+		%PasswordWarning.hide()
 
 		create_tween().tween_property($Label, "visible_characters", len($Label.text), 1.5)
 		$Contents/Password/LineEdit.grab_focus()
