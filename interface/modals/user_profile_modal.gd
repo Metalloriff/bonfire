@@ -31,6 +31,8 @@ func _on_save_changes_button_pressed() -> void:
 		ModalStack.fade_free_modal(self )
 		return
 	
+	unsaved_changes = false
+	
 	var payload: Dictionary = {
 		display_name = %DisplayName.text,
 		tagline = %Tagline.text,
@@ -56,8 +58,8 @@ func _on_save_changes_button_pressed() -> void:
 	%SaveChangesButton.disabled = true
 
 func _on_cancel_button_pressed() -> void:
-	if unsaved_changes:
-		print("unsaved changes")
+	unsaved_changes = false
+	ModalStack.fade_free_modal(self )
 
 func _on_file_dialog_file_selected(path: String) -> void:
 	var image: Image = Image.load_from_file(path)
@@ -83,3 +85,6 @@ func _on_bio_text_changed() -> void:
 
 func _on_display_name_text_changed(new_text: String) -> void:
 	unsaved_changes = true
+
+func is_busy() -> bool:
+	return unsaved_changes

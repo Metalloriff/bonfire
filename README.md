@@ -34,6 +34,9 @@ Some of the features that are missing from modern chat services, and the reasons
 	- This is a joke. It's never happening.
 - Push Notifications
 	- I've not yet been able to find a way to handle push notifications in Godot, especially a privacy-friendly solution. This is a high priority feature that I'm trying to find a solution for. If you have any leads, please create an issue or pull request.
+- Account/Settings Sync
+	- While your account will sync on servers, if you have the same username and password, you will have to change your settings between every device, and join all of your servers for every device.
+	- There is the possibility of adding a "home server" in the future, that will sync your settings and servers across all devices. This is not a high priority currently, but please provide feedback if you would like this to be a higher priority.
 
 ## Screenshots
 Nothing here.

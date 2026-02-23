@@ -35,6 +35,11 @@ func open_modal(modal_path: String) -> Control:
 	return modal
 
 func fade_free_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME) -> void:
+	if "is_busy" in modal and modal.is_busy is Callable:
+		if modal.is_busy.call():
+			alert(modal)
+			return
+
 	var _stack = stack
 	_stack.erase(modal)
 	for i in len(_stack):
@@ -42,8 +47,14 @@ func fade_free_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME) -> 
 	await _fade_out_modal(modal, tween_time)
 	modal.queue_free()
 
-func alert(modal: Control, time: float = 2.0, intensity: float = 1.0) -> void:
-	pass
+func alert(modal: Control, time: float = 0.2, intensity: float = 1.0) -> void:
+	var tween := create_tween().set_ease(Tween.EASE_IN)
+	tween.tween_property(modal, "scale", Vector2.ONE, 0.1)
+	tween.tween_property(modal, "scale", Vector2.ONE * 1.1 * intensity, time * 0.4)
+	tween.tween_property(modal, "scale", Vector2.ONE * 1.1 * intensity, time * 0.2)
+	tween.tween_property(modal, "scale", Vector2.ONE, time * 0.25)
+	tween.tween_property(modal, "scale", Vector2.ONE * 1.1 * intensity, time * 0.2)
+	tween.tween_property(modal, "scale", Vector2.ONE, time * 0.25)
 
 func _fade_out_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME, depth: int = 1) -> void:
 	if not is_instance_valid(modal):
