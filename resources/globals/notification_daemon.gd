@@ -65,8 +65,6 @@ func show_toast_progress(message: String, max_value: float = 1.0) -> Callable:
 	toast.show()
 	toast.pivot_offset_ratio = Vector2.ONE * 0.5
 
-	await Lib.frame
-
 	toast.modulate.a = 0.0
 	toast.scale = Vector2.ONE * 1.3
 	

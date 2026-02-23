@@ -1,5 +1,12 @@
 class_name User extends Resource
 
+static var LOCAL_USER_PATH: String = "user://local_main_user.res"
+static var local_main_user: User:
+	get:
+		if not local_main_user and ResourceLoader.exists(LOCAL_USER_PATH):
+			return load(LOCAL_USER_PATH)
+		return null
+
 const PROPERTIES: Array[String] = [
 	"id",
 	"name",
@@ -9,12 +16,29 @@ const PROPERTIES: Array[String] = [
 
 @export var id: String
 @export var name: String = "Invalid User"
+@export var display_name: String
 @export var avatar: Texture
+@export_multiline var bio: String
+@export var tagline: String
 
 @export var member_join_date_time: String = "Invalid Date"
 
+var local_volume: float = -1.0:
+	set(new):
+		if local_volume != new:
+			local_volume = new
+
+			FS.get_pref("member_volumes.%s" % id, 100.0)
+var local_soundboard_volume: float = -1.0:
+	set(new):
+		if local_soundboard_volume != new:
+			local_soundboard_volume = new
+			
+			FS.set_pref("member_volumes.%s_soundboard" % id, new)
+
 func _init() -> void:
 	local_volume = FS.get_pref("member_volumes.%s" % id, 100.0)
+	local_soundboard_volume = FS.get_pref("member_volumes.%s_soundboard" % id, 50.0)
 
 func is_online_in_server(server: Server) -> bool:
 	for peer_id: int in server.online_users:
@@ -33,13 +57,6 @@ func get_direct_message_channel(server: Server) -> Channel:
 		if found_users == 2:
 			return channel
 	return null
-
-var local_volume: float = -1.0:
-	set(new):
-		if local_volume != new:
-			local_volume = new
-
-			FS.get_pref("member_volumes.%s" % id, 100.0)
 
 # func save() -> void:
 # 	assert(HeadlessServer.is_headless_server, "Cannot save user as a client")

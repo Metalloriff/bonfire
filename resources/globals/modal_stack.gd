@@ -42,6 +42,9 @@ func fade_free_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME) -> 
 	await _fade_out_modal(modal, tween_time)
 	modal.queue_free()
 
+func alert(modal: Control, time: float = 2.0, intensity: float = 1.0) -> void:
+	pass
+
 func _fade_out_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME, depth: int = 1) -> void:
 	if not is_instance_valid(modal):
 		return

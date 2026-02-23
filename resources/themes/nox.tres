@@ -6,6 +6,25 @@
 [ext_resource type="Texture2D" uid="uid://cim2sbvcc0hjr" path="res://icons/checkBox.png" id="3_710he"]
 [ext_resource type="Texture2D" uid="uid://83u8jer8llru" path="res://icons/checkBoxOutlineBlank.png" id="4_eppvg"]
 
+[sub_resource type="StyleBox" id="StyleBox_cpoh6"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+script = ExtResource("2_5gc66")
+color = Color(0.04484524, 0.04484205, 0.06986917, 1)
+corner_radius_top_left = 25
+corner_radius_top_right = 25
+corner_radius_bottom_right = 25
+corner_radius_bottom_left = 25
+corner_curvature_top_left = 2.25
+corner_curvature_top_right = 2.25
+corner_curvature_bottom_right = 2.25
+corner_curvature_bottom_left = 2.25
+shadow_blur = 0
+
 [sub_resource type="StyleBox" id="StyleBox_qlc1u"]
 resource_local_to_scene = false
 resource_name = ""
@@ -724,6 +743,7 @@ corner_radius_bottom_left = 99
 default_font = ExtResource("1_ug2aw")
 Button/constants/h_separation = 5
 Button/constants/icon_max_width = 25
+Button/styles/disabled = SubResource("StyleBox_cpoh6")
 Button/styles/focus = SubResource("StyleBox_qlc1u")
 Button/styles/hover = SubResource("StyleBox_qlc1u")
 Button/styles/normal = SubResource("StyleBox_710he")

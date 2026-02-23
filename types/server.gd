@@ -36,10 +36,14 @@ func _init() -> void:
 var left: bool
 var online_users: Dictionary[int, String] = {}
 var voice_chat_participants: Dictionary = {}
+var is_server_authority: bool
 
 var user_id: String:
 	get:
 		return (FS.get_pref("auth.username") + ":" + FS.get_pref("auth.pw_hash")).sha256_text()
+var local_user: User:
+	get:
+		return get_user(user_id)
 
 var com_node: ServerComNode:
 	get:
@@ -140,6 +144,11 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				save_to_disk()
 			
 			HeadlessServer.instance._sync_online_users()
+
+			if user_id == HeadlessServer.instance.get_config_entry("profile.owner"):
+				HeadlessServer.send_api_message("accept_authority", {
+					owner = true
+				}, peer_id)
 		"send_message":
 			if not "channel_id" in data or not "content" in data:
 				return
@@ -219,19 +228,28 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				messages = messages
 			}, peer_id)
 		"receive_user_profile_update":
-			assert("user_id" in data, "No user_id provided for user profile update")
+			assert(peer_id in online_users, "User profile update received from an offline user")
 
-			var user: User = get_user(data.user_id)
+			var user_id: String = online_users[peer_id]
+			var user: User = get_user(user_id)
 
-			if "avatar_data" in data and "avatar_extension" in data:
-				var image: Image = Image.new()
-				image.load_png_from_buffer(data.avatar_data)
-				user.avatar = ImageTexture.create_from_image(image)
+			if not is_instance_valid(user):
+				user = User.new()
 
-			if "profile" in data:
-				for key in data.profile:
-					if key in user:
-						user[key] = data.profile[key]
+			if "avatar_data" in data and data.avatar_data:
+				if len(data.avatar_data) > Lib.readable_to_bytes("1MB"):
+					prints("user", peer_id, "tried to send avatar data that is too large")
+					return
+				else:
+					var image: Image = Image.new()
+					image.load_png_from_buffer(data.avatar_data)
+					user.avatar = ImageTexture.create_from_image(image)
+			if "display_name" in data:
+				user.display_name = data.display_name.substr(0, 32)
+			if "tagline" in data:
+				user.tagline = data.tagline.substr(0, 100)
+			if "bio" in data:
+				user.bio = data.bio.substr(0, 2000)
 			
 			var existing_user_index: int = users.find_custom(func(u: User) -> bool: return u.id == user.id)
 			if existing_user_index != -1:
@@ -240,8 +258,11 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				users.append(user)
 
 			HeadlessServer.send_api_message("receive_user_profile", {
-				user_id = data.user_id,
-				bytes = var_to_bytes_with_objects(user)
+				user_id = user_id,
+				display_name = user.display_name,
+				tagline = user.tagline,
+				bio = user.bio,
+				avatar_data = data.avatar_data if "avatar_data" in data else "",
 			})
 
 			save_to_disk(false)
@@ -467,19 +488,28 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 
 				Notifications.play_sound("ping")
 		"receive_user_profile":
-			prints("received user profile update with size", data.bytes.size())
-
-			var user: User = bytes_to_var_with_objects(data.bytes)
-			var existing_user: User = get_user(data.user_id)
-
-			if is_instance_valid(existing_user):
-				for property in user.get_property_list():
-					if property.name in existing_user:
-						prints("new prop", property.name, user.get(property.name))
-						existing_user.set(property.name, user.get(property.name))
+			var user: User = get_user(data.user_id)
+			if not is_instance_valid(user):
+				print("User profile update received from an invalid user")
 				return
 			
-			users.append(user)
+			data.display_name = data.display_name.substr(0, 32)
+			data.tagline = data.tagline.substr(0, 100)
+			data.bio = data.bio.substr(0, 2000)
+
+			if data.avatar_data:
+				var image: Image = Image.new()
+				image.load_png_from_buffer(data.avatar_data)
+				user.avatar = ImageTexture.create_from_image(image)
+			
+			if App.selected_server == self:
+				ChatFrame.instance.queue_redraw()
+				MemberList.instance.queue_redraw()
+			
+			if data.user_id == user_id:
+				if is_instance_valid(UserProfileModal.instance):
+					ModalStack.fade_free_modal(UserProfileModal.instance)
+				LocalUserContainer.instance.queue_redraw()
 		"message_deleted": # I know one of you mfers are going to mod this.
 			if not "channel_id" in data or not "message_id" in data:
 				return
@@ -543,6 +573,8 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 				return
 			
 			channel._media_meta_cache[data.media_id] = media
+		"accept_authority":
+			is_server_authority = true
 
 func leave_server(purge_all_messages: bool = false) -> void:
 	assert(is_instance_valid(com_node), "Not connected to a server!")

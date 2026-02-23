@@ -1,0 +1,182 @@
+[gd_scene format=3 uid="uid://cgnilgeu5oj6b"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_h8fi7"]
+[ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="2_3cvbx"]
+[ext_resource type="Script" uid="uid://6p107dvqx0jt" path="res://interface/modals/user_profile_modal.gd" id="2_i1ecv"]
+[ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="3_qqeyg"]
+[ext_resource type="Texture2D" uid="uid://cxcegwu4gppx8" path="res://icons/openInNew.png" id="4_ybkb1"]
+[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="5_3cvbx"]
+[ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="6_ybkb1"]
+[ext_resource type="Texture2D" uid="uid://cim2sbvcc0hjr" path="res://icons/checkBox.png" id="7_i1ecv"]
+
+[node name="UserProfileModal" unique_id=649999717 instance=ExtResource("1_h8fi7")]
+script = ExtResource("2_i1ecv")
+
+[node name="MarginContainer" parent="Modal" parent_id_path=PackedInt32Array(18995346) index="0" unique_id=1793144273]
+custom_minimum_size = Vector2(800, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" index="0" unique_id=1394109105]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer" index="0" unique_id=744810079]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_3cvbx")
+theme_override_font_sizes/font_size = 20
+text = "User Profile"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="1" unique_id=2087411457]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="0" unique_id=266935013]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0" unique_id=320590951]
+clip_children = 1
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
+theme_type_variation = &"CircleMask"
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/PanelContainer" index="0" unique_id=858156807]
+layout_mode = 2
+
+[node name="AvatarPreview" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/PanelContainer" index="1" unique_id=1201268642]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture = ExtResource("3_qqeyg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1558628694]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0" unique_id=918631507]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="0" unique_id=56269606]
+layout_mode = 2
+theme_override_constants/separation = -2
+alignment = 1
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0" unique_id=1969112831]
+layout_mode = 2
+text = "Display name"
+
+[node name="Label2" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1" unique_id=746770352]
+modulate = Color(1, 1, 1, 0.38039216)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "(blank for default)"
+horizontal_alignment = 1
+
+[node name="DisplayName" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1413638985]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Username"
+max_length = 32
+
+[node name="PickPFPButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1" unique_id=682028576]
+layout_mode = 2
+text = "Choose Image"
+icon = ExtResource("4_ybkb1")
+
+[node name="Label2" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="2" unique_id=1329087737]
+modulate = Color(1, 1, 1, 0.38039216)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "(profile picture will be scaled down to 256x256)"
+horizontal_alignment = 1
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="1" unique_id=825951279]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer3" index="0" unique_id=1996456083]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_3cvbx")
+theme_override_font_sizes/font_size = 22
+text = "Bio"
+
+[node name="BioCharLength" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer3" index="1" unique_id=1189687521]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.38039216)
+custom_minimum_size = Vector2(0, 18.16)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "(0/2000)"
+vertical_alignment = 2
+
+[node name="Bio" type="TextEdit" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="2" unique_id=1090062495]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+placeholder_text = "BBCode formatting accepted, along with link formatting."
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="3" unique_id=1829424636]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer4" index="0" unique_id=992355742]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("5_3cvbx")
+theme_override_font_sizes/font_size = 22
+text = "Tagline"
+
+[node name="TaglineCharLength" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer4" index="1" unique_id=1358695858]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.38039216)
+custom_minimum_size = Vector2(0, 18.16)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "(0/100)"
+vertical_alignment = 2
+
+[node name="Tagline" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="4" unique_id=1401981886]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Will show underneath your username or on hover, depending on location."
+max_length = 100
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="5" unique_id=402278949]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="CancelButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" index="0" unique_id=261772422]
+layout_mode = 2
+text = "Cancel"
+icon = ExtResource("6_ybkb1")
+
+[node name="SaveChangesButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2" index="1" unique_id=1880473487]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Button_Important"
+text = "Save Changes"
+icon = ExtResource("7_i1ecv")
+
+[node name="FileDialog" type="FileDialog" parent="." index="2" unique_id=803933770]
+title = "Choose Profile Avatar"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.jpg", "*.jpeg", "*.png", "*.webp", "*.bmp")
+use_native_dialog = true
+
+[connection signal="gui_input" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/AvatarPreview" to="." method="_on_avatar_preview_gui_input"]
+[connection signal="text_changed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/DisplayName" to="." method="_on_display_name_text_changed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/PickPFPButton" to="." method="_on_pick_pfp_button_pressed"]
+[connection signal="text_changed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/Bio" to="." method="_on_bio_text_changed"]
+[connection signal="text_changed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/Tagline" to="." method="_on_tagline_text_changed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/SaveChangesButton" to="." method="_on_save_changes_button_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

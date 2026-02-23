@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bvdbogspriemp" path="res://interface/components/context_menu/context_menu_base.tscn" id="1_wqdd7"]
 [ext_resource type="Script" uid="uid://d2rdmtwv1qfbo" path="res://interface/components/context_menu/voice_member_context_menu.gd" id="2_peenj"]
+[ext_resource type="Texture2D" uid="uid://c0vymk766ixdy" path="res://icons/moreHoriz.png" id="3_1kstg"]
 
 [node name="VoiceMemberContextMenu" unique_id=319957489 instance=ExtResource("1_wqdd7")]
 script = ExtResource("2_peenj")
@@ -21,4 +22,28 @@ unique_name_in_owner = true
 layout_mode = 2
 value = 100.0
 
+[node name="BoostVolume" type="CheckButton" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="3" unique_id=1855734613]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Boost volume"
+
+[node name="Label3" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="4" unique_id=1546055999]
+layout_mode = 2
+text = "Soundboard Volume"
+
+[node name="SoundboardVolumeSlider" type="HSlider" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="5" unique_id=2047965287]
+unique_name_in_owner = true
+layout_mode = 2
+value = 50.0
+
+[node name="MoreOptionsButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="6" unique_id=1148994112]
+layout_mode = 2
+text = "More Options"
+icon = ExtResource("3_1kstg")
+alignment = 0
+expand_icon = true
+
 [connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/VolumeSlider" to="." method="_on_volume_slider_value_changed"]
+[connection signal="toggled" from="PanelContainer/MarginContainer/VBoxContainer/BoostVolume" to="." method="_on_boost_volume_toggled"]
+[connection signal="value_changed" from="PanelContainer/MarginContainer/VBoxContainer/SoundboardVolumeSlider" to="." method="_on_soundboard_volume_slider_value_changed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/MoreOptionsButton" to="." method="_on_more_options_button_pressed"]

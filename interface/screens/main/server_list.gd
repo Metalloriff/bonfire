@@ -1,6 +1,7 @@
 class_name ServerList extends VBoxContainer
 
 static var instance: ServerList
+static var servers: Array[Server] = []
 
 func _ready() -> void:
 	instance = self
@@ -12,6 +13,8 @@ func _draw():
 		
 		child.free()
 	
+	servers.clear()
+	
 	for server_resource_path: String in DirAccess.get_files_at("user://servers"):
 		var server: Server = load("user://servers/%s" % server_resource_path)
 		var control: Button = load("res://interface/components/servers/server_item.tscn").instantiate()
@@ -22,6 +25,8 @@ func _draw():
 		control.pressed.connect(func() -> void:
 			App.selected_server = Server.get_server(server.id)
 		)
+
+		servers.append(server)
 
 		add_child(control)
 		move_child(control, 0)

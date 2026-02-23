@@ -130,6 +130,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Username"
 
+[node name="ProfileButton" type="Button" parent="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1773851946]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+icon = ExtResource("6_3x0ov")
+expand_icon = true
+
 [node name="SettingsButton" type="Button" parent="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1139410926]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -177,6 +183,7 @@ layout_mode = 2
 text = "You are not currently connected to this server!"
 
 [connection signal="drag_ended" from="MarginContainer/SplitContainer" to="." method="_on_split_container_drag_ended"]
+[connection signal="pressed" from="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/ProfileButton" to="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer" method="_on_profile_button_pressed"]
 [connection signal="pressed" from="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/SettingsButton" to="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer" method="_on_settings_button_pressed"]
 
 [editable path="MarginContainer/SplitContainer/Servers/ScrollContainer/MarginContainer/ServerList"]

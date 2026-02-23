@@ -114,11 +114,6 @@ func _init(server_id: String) -> void:
 			server._handle_api_message_client(message.endpoint, message, peer_id)
 		)
 
-func _ready() -> void:
-	Settings.make_setting_link_method("profile", "avatar_picture", func(new_value: String) -> void:
-		_send_avatar_to_server(new_value)
-	, false)
-
 func _process(delta: float) -> void:
 	connected_time += delta
 
@@ -185,28 +180,25 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 		})
 
 		_has_authenticated = true
+		
+		await Lib.seconds(1.0)
 
-		var avatar_path: String = Settings.get_value("profile", "avatar_picture")
-		if avatar_path.strip_edges() and FileAccess.file_exists(avatar_path):
-			await Lib.seconds(1.0)
+		var main_local_user: User = User.local_main_user
+		if is_instance_valid(server.local_user) and is_instance_valid(main_local_user) and server.local_user.id == main_local_user.id:
+			for property in ["avatar", "display_name", "tagline", "bio"]:
+				if server.local_user[property] != main_local_user[property]:
+					_send_user_profile_update(main_local_user)
+					break
 
-			_send_avatar_to_server(avatar_path)
+func _send_user_profile_update(new_user: User) -> void:
+	var avatar_data: PackedByteArray = []
 
-func _send_avatar_to_server(avatar_path: String) -> void:
-	assert(avatar_path.strip_edges() and FileAccess.file_exists(avatar_path), "Avatar path is invalid!")
-
-	var avatar_image: Image = Image.load_from_file(avatar_path)
+	if new_user.avatar is ImageTexture:
+		avatar_data = new_user.avatar.get_image().save_png_to_buffer()
 	
-	if avatar_image.get_size().x > 512 or avatar_image.get_size().y > 512:
-		avatar_image.resize(512, 512, Image.INTERPOLATE_BILINEAR)
-	
-	assert(avatar_image.get_data_size() <= 1024 * 1024, "Avatar image is too large!")
-	
-	for user: User in server.users:
-		if user.id == server.user_id:
-			if not user.avatar or not user.avatar is ImageTexture or user.avatar.get_image().get_data_size() != avatar_image.get_data_size():
-				server.send_api_message("receive_user_profile_update", {
-					user_id = user.id,
-					avatar_data = avatar_image.save_png_to_buffer(),
-					avatar_extension = avatar_path.get_extension()
-				})
+	server.send_api_message("receive_user_profile_update", {
+		avatar_data = avatar_data,
+		display_name = new_user.display_name,
+		tagline = new_user.tagline,
+		bio = new_user.bio
+	})

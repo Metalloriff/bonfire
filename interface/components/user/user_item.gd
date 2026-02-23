@@ -19,6 +19,10 @@ func _draw() -> void:
 	%StatusIndicator.visible = is_instance_valid(server) and user.id in server.online_users.values()
 	%Avatar.texture = user.avatar
 
+	%Tagline.visible = len(user.tagline.strip_edges()) > 0
+	%Tagline.text = user.tagline
+	%Tagline.tooltip_text = user.tagline
+
 	if not user.avatar:
 		%PlaceholderAvatar.show()
 		%PlaceholderAvatar.get_child(0).text = user.name[0].to_upper() + user.name[-1].to_upper()
