@@ -47,6 +47,10 @@ window/handheld/orientation=5
 
 enabled=PackedStringArray("res://addons/StyleboxFancy/plugin.cfg", "res://addons/awesome_input_icons/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/material_icons_importer/plugin.cfg", "res://addons/miniyaml/plugin.cfg")
 
+[input_devices]
+
+pointing/android/enable_long_press_as_right_click=true
+
 [network]
 
 limits/tcp/connect_timeout_seconds=10

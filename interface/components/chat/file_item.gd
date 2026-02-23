@@ -75,11 +75,11 @@ func _ready() -> void:
 			%FileType.text = "video"
 			%Icon.texture = preload("res://icons/videoFile.png")
 
-			if media.size > Lib.readable_to_bytes("20MB") and not force_load:
+			if media.size > Lib.readable_to_bytes("20MB") and not force_load or OS.get_name() == "Android":
 				%FileTooLargeContainer.show()
 			else:
 				if FileAccess.file_exists(cache_path):
-					var stream: FFmpegVideoStream = FFmpegVideoStream.new()
+					var stream = ClassDB.instantiate("FFmpegVideoStream")
 					stream.file = cache_path
 					_create_video_item(stream)
 				else:
@@ -123,7 +123,7 @@ func _create_audio_item(stream: AudioStream) -> void:
 	%ControlsContainer.show()
 	%Icon.hide()
 
-func _create_video_item(stream: FFmpegVideoStream) -> void:
+func _create_video_item(stream) -> void:
 	var video_player = preload("res://interface/components/chat/video_player.tscn").instantiate()
 	video_player.stream = stream
 

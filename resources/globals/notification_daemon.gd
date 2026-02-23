@@ -30,23 +30,25 @@ func show_toast(message: String, type: NotificationType = NotificationType.Defau
 		toast["theme_override_styles/panel"] = panel
 	
 	toasts.add_child(toast)
+	toast.pivot_offset_ratio = Vector2.ONE * 0.5
+	toast.modulate.a = 0.0
 	
 	await Lib.frame
 
 	toast.show()
-	toast.position.x = get_window().size.x
-
+	toast.scale = Vector2.ONE * 1.3
 	
-	var tween := create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BOUNCE)
-	tween.tween_property(toast, "position:x", get_window().size.x - (toast.size.x * 2.0) + 25.0, 1.0)
+	var tween := create_tween().set_ease(Tween.EASE_IN).set_parallel()
+	tween.tween_property(toast, "modulate:a", 1.0, 0.25)
+	tween.tween_property(toast, "scale", Vector2.ONE, 0.25)
 	
 	create_tween().tween_property(toast.get_node("ProgressBar"), "value", 100.0, lifetime)
 	
 	await get_tree().create_timer(lifetime).timeout
 	
-	tween = create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC).set_parallel()
-	tween.tween_property(toast, "position:x", get_window().size.x, 1.0)
-	tween.tween_property(toast, "modulate:a", 0.0, 1.0)
+	tween = create_tween().set_ease(Tween.EASE_IN).set_parallel()
+	tween.tween_property(toast, "modulate:a", 0.0, 0.5)
+	tween.tween_property(toast, "scale", Vector2.ONE * 1.35, 0.5)
 	
 	await tween.finished
 	toast.queue_free()
@@ -61,15 +63,23 @@ func show_toast_progress(message: String, max_value: float = 1.0) -> Callable:
 
 	toasts.add_child(toast)
 	toast.show()
+	toast.pivot_offset_ratio = Vector2.ONE * 0.5
+
+	await Lib.frame
+
+	toast.modulate.a = 0.0
+	toast.scale = Vector2.ONE * 1.3
 	
-	var tween := create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BOUNCE)
-	tween.tween_property(toast, "position:x", 0.0, 1.0)
+	var tween := create_tween().set_ease(Tween.EASE_IN).set_parallel()
+	tween.tween_property(toast, "modulate:a", 1.0, 0.25)
+	tween.tween_property(toast, "scale", Vector2.ONE, 0.25)
 
 	var end: Callable = func() -> void:
 		if not is_instance_valid(toast): return
-
-		var t := create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CIRC)
-		t.tween_property(toast, "position:x", get_window().size.x * 0.4, 1.0)
+		
+		var t := create_tween().set_ease(Tween.EASE_IN).set_parallel()
+		t.tween_property(toast, "modulate:a", 0.0, 0.5)
+		t.tween_property(toast, "scale", Vector2.ONE * 1.35, 0.5)
 
 		await t.finished
 

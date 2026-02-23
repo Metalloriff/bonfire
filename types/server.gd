@@ -441,6 +441,7 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			
 			channel.messages_loading = false
 			channel.messages_loaded = true
+			channel.messages.clear()
 			
 			for message in data.messages:
 				if channel.is_private and channel.private_key and not message.encrypted:

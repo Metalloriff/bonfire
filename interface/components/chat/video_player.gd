@@ -1,6 +1,6 @@
 extends VBoxContainer
 
-var stream: FFmpegVideoStream:
+var stream:
 	set(new):
 		if new == stream:
 			return
