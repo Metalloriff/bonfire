@@ -1,12 +1,5 @@
 class_name User extends Resource
 
-static var LOCAL_USER_PATH: String = "user://local_main_user.res"
-static var local_main_user: User:
-	get:
-		if not local_main_user and ResourceLoader.exists(LOCAL_USER_PATH):
-			return load(LOCAL_USER_PATH)
-		return null
-
 const PROPERTIES: Array[String] = [
 	"id",
 	"name",

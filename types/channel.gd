@@ -131,10 +131,7 @@ func get_media_file_data_then(media_id: String, callback: Callable, progress_cal
 	assert(media_id, "No media id provided")
 
 	if not media_id in _media_response_cache:
-		_media_response_cache[media_id] = await server.com_node.file_server.request_file({
-			username = FS.get_pref("auth.username"),
-			password_hash = FS.get_pref("auth.pw_hash")
-		}, id, media_id, progress_callback)
+		_media_response_cache[media_id] = await server.com_node.file_server.request_file(AuthPortal.get_auth(server.id), id, media_id, progress_callback)
 
 		prints("got media response", media_id, _media_response_cache[media_id])
 	

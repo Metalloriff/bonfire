@@ -54,10 +54,20 @@ layout_mode = 2
 layout_mode = 2
 text = "Password"
 
+[node name="Label2" type="Label" parent="Contents/Password" unique_id=53685684]
+modulate = Color(1, 1, 1, 0.5294118)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "It's HIGHLY recommended to use a strong
+password and USE A PASSWORD MANAGER.
+If you lose access to this password, you will
+lose access to your per-server data."
+
 [node name="LineEdit" type="LineEdit" parent="Contents/Password" unique_id=1868956123]
 layout_mode = 2
 placeholder_text = "Password"
-max_length = 32
+max_length = 128
+virtual_keyboard_type = 6
 secret = true
 
 [node name="Error" type="Label" parent="Contents/Password" unique_id=1787229792]
@@ -67,24 +77,54 @@ layout_mode = 2
 text = "Invalid password!"
 horizontal_alignment = 1
 
-[node name="PasswordConfirm" type="VBoxContainer" parent="Contents" unique_id=1283286526]
+[node name="PinCode" type="VBoxContainer" parent="Contents" unique_id=762417351]
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Contents/PasswordConfirm" unique_id=1436596201]
+[node name="Label" type="Label" parent="Contents/PinCode" unique_id=372439649]
 layout_mode = 2
-text = "Confirm Password"
+text = "PIN Code"
 
-[node name="LineEdit" type="LineEdit" parent="Contents/PasswordConfirm" unique_id=1899179132]
+[node name="PinRegLabel" type="Label" parent="Contents/PinCode" unique_id=728830117]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.5294118)
 layout_mode = 2
-placeholder_text = "Password"
-max_length = 32
+theme_override_font_sizes/font_size = 12
+text = "You will need to enter this code every time
+you start the app. Your PIN code can be
+changed at any time using your password."
+
+[node name="LineEdit" type="LineEdit" parent="Contents/PinCode" unique_id=8174878]
+layout_mode = 2
+placeholder_text = "PIN Code"
+max_length = 16
+virtual_keyboard_type = 2
 secret = true
 
-[node name="Error" type="Label" parent="Contents/PasswordConfirm" unique_id=1955694162]
+[node name="Error" type="Label" parent="Contents/PinCode" unique_id=1072274570]
 visible = false
 modulate = Color(0.88, 0.21472001, 0.1672, 1)
 layout_mode = 2
-text = "Passwords do not match!"
+text = "PIN must be 4-16 digits."
+horizontal_alignment = 1
+
+[node name="PinConfirm" type="VBoxContainer" parent="Contents" unique_id=1283286526]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Contents/PinConfirm" unique_id=1436596201]
+layout_mode = 2
+text = "Confirm PIN"
+
+[node name="LineEdit" type="LineEdit" parent="Contents/PinConfirm" unique_id=1899179132]
+layout_mode = 2
+placeholder_text = "Confirm PIN"
+max_length = 32
+secret = true
+
+[node name="Error" type="Label" parent="Contents/PinConfirm" unique_id=1955694162]
+visible = false
+modulate = Color(0.88, 0.21472001, 0.1672, 1)
+layout_mode = 2
+text = "PIN codes do not match!"
 horizontal_alignment = 1
 
 [node name="AutoUpdate" type="CheckButton" parent="Contents" unique_id=2143258135]
@@ -156,25 +196,7 @@ offset_right = 61.0
 offset_bottom = 20.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 27
-text = "Create Account"
-
-[node name="PasswordWarning" type="Label" parent="." unique_id=2126192821]
-unique_name_in_owner = true
-modulate = Color(0.8784314, 0.21568628, 0.16862746, 1)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.5
-anchor_right = 0.5
-offset_left = -61.0
-offset_top = 150.0
-offset_right = 61.0
-offset_bottom = 20.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 20
-text = "NOTE: There is no way to reset your password.
-If you forget your password, you will
-lose access to your identity on servers."
-horizontal_alignment = 1
+text = "Welcome to Bonfire."
 
 [connection signal="toggled" from="Contents/AutoUpdate" to="." method="_on_auto_update_toggled"]
 [connection signal="toggled" from="Contents/PreRelease" to="." method="_on_pre_release_toggled"]

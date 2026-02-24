@@ -174,20 +174,17 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 	prints(name, "Received server info!", local_multiplayer.get_unique_id())
 
 	if not _has_authenticated:
-		server.send_api_message("authenticate", {
-			"username": FS.get_pref("auth.username"),
-			"password_hash": FS.get_pref("auth.pw_hash")
-		})
+		server.send_api_message("authenticate", AuthPortal.get_auth(server.id))
 
 		_has_authenticated = true
 		
 		await Lib.seconds(1.0)
 
-		var main_local_user: User = User.local_main_user
-		if is_instance_valid(server.local_user) and is_instance_valid(main_local_user) and server.local_user.id == main_local_user.id:
+		var local_user: User = server.local_stored_user
+		if is_instance_valid(server.local_user) and is_instance_valid(local_user) and server.local_user.id == local_user.id:
 			for property in ["avatar", "display_name", "tagline", "bio"]:
-				if server.local_user[property] != main_local_user[property]:
-					_send_user_profile_update(main_local_user)
+				if server.local_user[property] != local_user[property]:
+					_send_user_profile_update(local_user)
 					break
 
 func _send_user_profile_update(new_user: User) -> void:

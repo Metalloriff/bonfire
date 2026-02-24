@@ -40,10 +40,20 @@ var is_server_authority: bool
 
 var user_id: String:
 	get:
-		return (FS.get_pref("auth.username") + ":" + FS.get_pref("auth.pw_hash")).sha256_text()
+		var auth: Dictionary = AuthPortal.get_auth(id)
+		return ("%s:%s" % [auth.username, auth.password_hash]).sha256_text()
 var local_user: User:
 	get:
 		return get_user(user_id)
+var local_stored_user_path: String:
+	get:
+		FS.mkdir("user://local_user_profiles")
+		return "user://local_user_profiles/%s.res" % user_id
+var local_stored_user: User:
+	get:
+		if not is_instance_valid(local_stored_user) and ResourceLoader.exists(local_stored_user_path):
+			local_stored_user = load(local_stored_user_path)
+		return local_stored_user
 
 var com_node: ServerComNode:
 	get:
@@ -577,16 +587,25 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			is_server_authority = true
 
 func leave_server(purge_all_messages: bool = false) -> void:
-	assert(is_instance_valid(com_node), "Not connected to a server!")
+	if purge_all_messages:
+		assert(is_instance_valid(com_node), "Not connected to a server!")
 	assert(not HeadlessServer.is_headless_server, "Cannot leave server from headless server!")
 
 	left = true
 
-	send_api_message("leave_server", {
-		purge_all_messages = purge_all_messages
-	})
+	if is_instance_valid(com_node):
+		send_api_message("leave_server", {
+			purge_all_messages = purge_all_messages
+		})
 
 	await Lib.seconds(1.0)
+
+	var private_profiles: Dictionary = FS.get_pref("auth.private_profiles", {})
+	if id in private_profiles:
+		private_profiles.erase(id)
+		FS.set_pref("auth.private_profiles", private_profiles)
+	if id in AuthPortal.private_profiles:
+		AuthPortal.private_profiles.erase(id)
 
 	var cache_path: String = "user://servers/%s.res" % id
 	if ResourceLoader.exists(cache_path):

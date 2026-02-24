@@ -23,6 +23,11 @@ var _added_messages: Array[Message] = []
 # 	tween.tween_property(self , "modulate:a", 1.0, 0.5)
 
 func _ready() -> void:
+	if not author:
+		author = User.new()
+		author.name = "Unknown User"
+		return
+
 	for node in [_avatar_node, _avatar_placeholder_node, _username_node]:
 		ContextMenu.attach_listener(node, preload("res://interface/components/context_menu/user_context_menu.tscn"), func(menu: ContextMenu) -> void:
 			menu.user = author

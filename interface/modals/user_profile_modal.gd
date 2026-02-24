@@ -54,7 +54,8 @@ func _on_save_changes_button_pressed() -> void:
 	user.tagline = %Tagline.text
 	user.bio = %Bio.text
 
-	ResourceSaver.save(user, User.LOCAL_USER_PATH)
+	FS.mkdir("user://local_user_profiles")
+	ResourceSaver.save(user, "user://local_user_profiles/%s.res" % user.id)
 	%SaveChangesButton.disabled = true
 
 func _on_cancel_button_pressed() -> void:

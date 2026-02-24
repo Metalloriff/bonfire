@@ -46,6 +46,7 @@ func _ready() -> void:
 
 	if not FileAccess.file_exists(config_path):
 		print("No config file found! Creating a new one...")
+		config = defaults
 		save_config()
 	
 	config = YAML.load_file(config_path)

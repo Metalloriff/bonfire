@@ -11,10 +11,7 @@ func _ready() -> void:
 
 	%Label.text = file_path.get_file().get_basename()
 
-	var auth: Dictionary = {
-		username = FS.get_pref("auth.username"),
-		password_hash = FS.get_pref("auth.pw_hash")
-	}
+	var auth: Dictionary = AuthPortal.get_auth(server.id)
 
 	server.com_node.file_server.upload_file(
 		auth,

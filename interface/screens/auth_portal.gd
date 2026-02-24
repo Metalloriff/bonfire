@@ -1,9 +1,20 @@
 class_name AuthPortal extends Control
 
+static var username: String
 static var private_key: String
+static var password_hash: String
+static var private_profiles: Dictionary = {}
 
-@onready var _username: String = FS.get_pref("auth.username", "")
-@onready var _password_hash: String = FS.get_pref("auth.pw_hash", "")
+static func get_auth(server_id: String) -> Dictionary:
+	if server_id in private_profiles:
+		return private_profiles[server_id]
+	
+	return {
+		username = username,
+		password_hash = password_hash
+	}
+
+var sign_in: bool
 
 func _init() -> void:
 	if OS.has_feature("android"):
@@ -15,20 +26,24 @@ func _ready() -> void:
 		get_tree().change_scene_to_file("res://interface/headless_server.tscn")
 		return
 	
+	username = FS.get_pref("auth.username", "")
+	
 	%AutoUpdate.button_pressed = Settings.get_value("system", "automatically_check_for_updates")
 	%PreRelease.button_pressed = Settings.get_value("system", "include_prereleases")
 
-	if _username and _password_hash:
+	if username and FS.get_pref("auth.pw_encrypted", ""):
 		$Contents/Username.hide()
-		$Contents/PasswordConfirm.hide()
+		$Contents/Password.hide()
+		$Contents/PinConfirm.hide()
+		%PinRegLabel.hide()
 
 		%SubmitButton.text = "Login"
-		$Label.text = "Hello, %s." % _username
+		$Label.text = "Hello, %s." % username
 		$Label.visible_characters = 0
-		%PasswordWarning.hide()
 
 		create_tween().tween_property($Label, "visible_characters", len($Label.text), 1.5)
-		$Contents/Password/LineEdit.grab_focus()
+		$Contents/PinCode/LineEdit.grab_focus()
+		sign_in = true
 	else:
 		$Contents/Username/LineEdit.grab_focus()
 
@@ -37,48 +52,81 @@ func _input(event: InputEvent) -> void:
 		_on_submit_button_pressed()
 
 func _on_submit_button_pressed() -> void:
-	var password: String = $Contents/Password/LineEdit.text
-	var password_hash: String = password.sha256_text()
-
-	# This isn't secure, but it needs to be different from the password hash, and the server needs to be unable to decipher it without client access.
-	# This is basically a "password" that is only used to encrypt the private key for PMs, which is then used to decrypt the private key.
-	# It's a better way than storing your password in memory, but it's not good. If anyone who is smarter than a shoe (unlike me) can help me figure out a better solution, I'll be happy to implement it.
-	private_key = (password + password_hash).sha256_text()
-
-	if not _password_hash:
-		var username: String = $Contents/Username/LineEdit.text
-		var password_confirm: String = $Contents/PasswordConfirm/LineEdit.text
+	if sign_in:
+		var pin_code: String = $Contents/PinCode/LineEdit.text
 		
-		if not username or len(username) > 32:
-			$Contents/Username/Error.show()
-			$Contents/Username/Error.text = "Username must be between 1 and 32 characters long."
+		if not pin_code.strip_edges():
+			$Contents/PinCode/Error.show()
+			$Contents/PinCode/Error.text = "PIN Code cannot be empty."
 			return
 		
-		if len(password) < 4:
-			$Contents/Password/Error.show()
-			$Contents/Password/Error.text = "Password must be at least 4 characters long."
-			return
-		
-		if password != password_confirm:
-			$Contents/PasswordConfirm/Error.show()
-			$Contents/PasswordConfirm/Error.text = "Passwords do not match."
-			return
-		
-		FS.set_pref("auth.username", username)
-		FS.set_pref("auth.pw_hash", password_hash)
+		var password_encrypted: String = FS.get_pref("auth.pw_encrypted", "")
+		var password_decrypted: String = EncryptionTools.decrypt_string(Marshalls.base64_to_raw(password_encrypted), pin_code)
 
-		_username = username
-		_password_hash = password_hash
+		if not password_decrypted or "�" in password_decrypted:
+			$Contents/PinCode/Error.show()
+			$Contents/PinCode/Error.text = "Incorrect PIN Code."
+			return
+		
+		password_hash = password_decrypted.sha256_text()
+		private_key = (password_decrypted + password_hash).sha256_text()
+
+		_init_private_profiles(password_decrypted)
 	else:
-		if password_hash != _password_hash:
-			$Contents/Password/Error.show()
-			$Contents/Password/Error.text = "Incorrect password."
+		var _username: String = $Contents/Username/LineEdit.text
+		var password: String = $Contents/Password/LineEdit.text
+		var pin_code: String = $Contents/PinCode/LineEdit.text
+		var pin_confirm: String = $Contents/PinConfirm/LineEdit.text
+		
+		if len(_username) < 4 or len(_username) > 128:
+			$Contents/Username/Error.show()
+			$Contents/Username/Error.text = "Username must be between 4 and 128 characters long."
 			return
-	
+		
+		if len(password) < 10:
+			$Contents/Password/Error.show()
+			$Contents/Password/Error.text = "Password must be at least 10 characters long."
+			return
+		
+		if len(pin_code) < 4 or len(pin_code) > 16:
+			$Contents/PinCode/Error.show()
+			$Contents/PinCode/Error.text = "PIN must be 4-16 digits."
+			return
+		
+		if pin_confirm != pin_code:
+			$Contents/PinConfirm/Error.show()
+			$Contents/PinConfirm/Error.text = "PINs do not match."
+			return
+		
+		var encrypted_password: String = Marshalls.raw_to_base64(EncryptionTools.encrypt_string(password, pin_code))
+		
+		FS.set_pref("auth.username", _username)
+		FS.set_pref("auth.pw_encrypted", encrypted_password)
+
+		username = _username
+		password_hash = password.sha256_text()
+		private_key = (password + password_hash).sha256_text()
+
+		_init_private_profiles(password)
+
 	_continue()
 
+func _init_private_profiles(password: String) -> void:
+	var profiles: Dictionary = FS.get_pref("auth.private_profiles", {})
+	private_profiles = {}
+
+	for server_id in profiles:
+		var password_decrypted: String = EncryptionTools.decrypt_string(Marshalls.base64_to_raw(profiles[server_id].encrypted_password), password)
+		if not password_decrypted or "�" in password_decrypted:
+			continue
+		
+		private_profiles[server_id] = {
+			username = profiles[server_id].username,
+			password_hash = password_decrypted.sha256_text()
+		}
+
 func _continue() -> void:
-	if not _username or not _password_hash:
+	if not username or not password_hash or not private_key:
 		return
 	
 	await ModalStack._fade_out_modal(self )

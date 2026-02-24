@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_uhtjb"]
 [ext_resource type="Script" uid="uid://c564nkx6br8pl" path="res://interface/modals/join_server_modal.gd" id="2_qpq2g"]
+[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="3_5cdxq"]
 
 [node name="JoinServerModal" type="Control" unique_id=649999717]
 layout_mode = 3
@@ -94,10 +95,86 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "Use private profile for this server"
 
-[node name="UniqueProfileSettings" type="Label" parent="Modal/MarginContainer/VBoxContainer" unique_id=1371827996]
+[node name="PrivateProfileSettings" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer" unique_id=672367985]
+unique_name_in_owner = true
 visible = false
 layout_mode = 2
-text = "Feature not yet implemented!"
+
+[node name="Label3" type="Label" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=1574959453]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_5cdxq")
+text = "Private Profile"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=1422296435]
+layout_mode = 2
+text = "Username"
+
+[node name="PrivateUsername" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=741027402]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Private profile username"
+max_length = 32
+
+[node name="UsernameError" type="Label" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=1484573427]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.8784314, 0.21568628, 0.16862746, 1)
+layout_mode = 2
+text = "Username must be between 4-32 characters."
+
+[node name="Label2" type="Label" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=1906575751]
+layout_mode = 2
+text = "Password"
+
+[node name="PrivatePassword" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=2103933662]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Private profile password"
+max_length = 128
+
+[node name="PasswordError" type="Label" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=527296440]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.8784314, 0.21568628, 0.16862746, 1)
+layout_mode = 2
+text = "Password must be between 6-128 characters."
+
+[node name="Label4" type="Label" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=392848927]
+layout_mode = 2
+text = "Local Password"
+
+[node name="LocalPassword" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=1645734289]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Your password"
+max_length = 128
+secret = true
+
+[node name="LocalPasswordError" type="Label" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=487432288]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.8784314, 0.21568628, 0.16862746, 1)
+layout_mode = 2
+text = "Password must be between 6-128 characters."
+
+[node name="Label5" type="Label" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=582190930]
+layout_mode = 2
+text = "Local PIN"
+
+[node name="LocalPin" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=202990587]
+unique_name_in_owner = true
+layout_mode = 2
+placeholder_text = "Your PIN"
+max_length = 128
+secret = true
+
+[node name="LocalPinError" type="Label" parent="Modal/MarginContainer/VBoxContainer/PrivateProfileSettings" unique_id=1870344540]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.8784314, 0.21568628, 0.16862746, 1)
+layout_mode = 2
+text = "Password must be between 6-128 characters."
 
 [node name="JoinButton" type="Button" parent="Modal/MarginContainer/VBoxContainer" unique_id=805936941]
 layout_mode = 2
