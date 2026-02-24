@@ -8,21 +8,22 @@ static func get_server(server_id: String) -> Server:
 func _init() -> void:
 	if HeadlessServer.is_headless_server:
 		return
-	
-	var new_private_channels: Array[Channel] = []
-	for pm in private_channels:
-		if pm.is_private:
-			for participant in pm.pm_participants:
-				if participant.user_id == user_id:
-					new_private_channels.append(pm)
-					break
-	
-	private_channels = new_private_channels
 
 @export var id: String = Lib.create_uid(32)
 @export var name: String = "Invalid Server"
 @export var channels: Array[Channel] = []
-@export var private_channels: Array[Channel] = []
+@export var private_channels: Array[Channel] = []:
+	get:
+		if HeadlessServer.is_headless_server:
+			return private_channels
+		
+		return private_channels.filter(func(channel: Channel) -> bool:
+			for participant in channel.pm_participants:
+				if participant.user_id == user_id:
+					return true
+			
+			return false
+		)
 @export var users: Array[User] = []
 @export var icon: ImageTexture
 @export var max_file_upload_size: int = Lib.readable_to_bytes("1GB")
@@ -371,6 +372,7 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			]
 
 			private_channels.append(channel)
+			channel._initialize_messages_database()
 
 			var private_key: String = EncryptionTools.generate_token()
 			for pid in [peer_id, get_peer_id_by_user_id(user_b.id)]:
