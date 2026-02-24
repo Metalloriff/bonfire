@@ -163,6 +163,7 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 
 	instances[server.id] = self
 
+	prints("HERE YOU GO CAL", "rules:", server.rules, "hash:", server.accepted_rules_hash, "expected hash:", JSON.stringify(server.rules).sha256_text())
 	if server.rules and server.accepted_rules_hash != JSON.stringify(server.rules).sha256_text():
 		if not server.id in ServerRulesModal.prompted_servers:
 			var modal = ModalStack.open_modal("res://interface/modals/server_rules_modal.tscn")
