@@ -93,7 +93,9 @@ func find_message(message_id_or_timestamp: int) -> Message:
 
 func _load_messages_from_db(limit: int = 50, offset: int = 0) -> Array[Dictionary]:
 	# TODO implement pagination
-	assert(is_instance_valid(_db), "Database not initialized")
+	if not is_instance_valid(_db):
+		return []
+	
 	assert(limit < 100, "Cannot load more than 100 messages at once")
 
 	var serialized_messages: Array[Dictionary] = []
