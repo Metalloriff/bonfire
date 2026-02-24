@@ -493,12 +493,14 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			var channel: Channel = get_channel(data.channel_id)
 			var message: Message = Message.new().deserialize(data.message)
 			
-			if channel.is_private and channel.private_key and not message.encrypted:
-				message.content = EncryptionTools.decrypt_string(Marshalls.base64_to_raw(message.content), channel.private_key)
+			if channel.is_private:
 				PrivateChannelList.instance.queue_redraw()
-			if channel.is_private and not channel.private_key:
-				channel.last_message_timestamp = message.timestamp
-				return
+				
+				if channel.private_key and not message.encrypted:
+					message.content = EncryptionTools.decrypt_string(Marshalls.base64_to_raw(message.content), channel.private_key)
+				if not channel.private_key:
+					channel.last_message_timestamp = message.timestamp
+					return
 
 			channel.messages.append(message)
 			channel.message_received.emit(message)
