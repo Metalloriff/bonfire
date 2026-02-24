@@ -18,6 +18,7 @@ var file_server: FileServer:
 			file_server.ip_address = address
 			file_server.port = port
 			add_child(file_server)
+
 		return file_server
 
 var _has_authenticated: bool
@@ -66,7 +67,7 @@ func _init(server_id: String) -> void:
 			var message: Dictionary = bytes_to_var(packet)
 
 			if peer_id != 1:
-				prints("api request send from non-authority peer", peer_id)
+				prints("api request send from non-authority peer", peer_id, local_multiplayer.get_unique_id())
 				return
 
 			if not "endpoint" in message:
@@ -171,14 +172,15 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 
 	prints(name, "Received server info!", local_multiplayer.get_unique_id())
 
+	if not local_multiplayer.get_unique_id() in server.online_users:
+		server.send_api_message("authenticate", AuthPortal.get_auth(server.id))
+
 	if not _has_authenticated:
 		if server.rules and server.accepted_rules_hash != JSON.stringify(server.rules).sha256_text():
 			if not server.id in ServerRulesModal.prompted_servers:
 				var modal = ModalStack.open_modal("res://interface/modals/server_rules_modal.tscn")
 				modal.server = server
 				ServerRulesModal.prompted_servers.append(server.id)
-		
-		server.send_api_message("authenticate", AuthPortal.get_auth(server.id))
 
 		_has_authenticated = true
 		

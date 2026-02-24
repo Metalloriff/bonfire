@@ -15,7 +15,7 @@ func _ready() -> void:
 	)
 
 func _draw() -> void:
-	%Username.text = user.name
+	%Username.text = user.username
 	%StatusIndicator.visible = is_instance_valid(server) and user.id in server.online_users.values()
 	%Avatar.texture = user.avatar
 
@@ -25,6 +25,6 @@ func _draw() -> void:
 
 	if not user.avatar:
 		%PlaceholderAvatar.show()
-		%PlaceholderAvatar.get_child(0).text = user.name[0].to_upper() + user.name[-1].to_upper()
+		%PlaceholderAvatar.get_child(0).text = user.username[0].to_upper() + user.username[-1].to_upper()
 
 	tooltip_text = user.id

@@ -13,7 +13,7 @@ func _ready() -> void:
 		queue_free()
 		return
 	
-	%UsernameLabel.text = user.name.substr(0, 20)
+	%UsernameLabel.text = user.username.substr(0, 20)
 
 	if user.id == server.user_id:
 		%PrivateMessageButton.hide()

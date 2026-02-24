@@ -14,6 +14,17 @@ const PROPERTIES: Array[String] = [
 @export_multiline var bio: String
 @export var tagline: String
 
+var username: String:
+	get:
+		var nickname: String = FS.get_pref("user_nicknames.%s" % id, "")
+		if nickname:
+			return nickname
+		
+		if display_name:
+			return display_name
+		
+		return name
+
 @export var member_join_date_time: String = "Invalid Date"
 
 var local_volume: float = -1.0:

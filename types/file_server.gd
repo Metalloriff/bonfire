@@ -37,13 +37,13 @@ func _handle_api_request_server(client: StreamPeerTCP) -> void:
 	var request_data: Dictionary = JSON.parse_string(client.get_string())
 
 	if not "auth" in request_data or not "username" in request_data.auth or not "password_hash" in request_data.auth:
-		print("Invalid auth data!")
+		print("Invalid auth data! User did not provide username and password hash.")
 		return
 	
 	var user_id: String = (request_data.auth.username + ":" + request_data.auth.password_hash).sha256_text()
 	var user: User = server.get_user(user_id)
 	if not is_instance_valid(user) or not user.is_online_in_server(server):
-		print("Invalid auth data!")
+		prints("Invalid auth data! User could not be found.", user_id)
 		return
 	
 	match request_data.endpoint:
@@ -178,6 +178,7 @@ func send_api_message(endpoint: String, request_data: Dictionary = {}) -> Stream
 		print("Error: Could not connect to TCP server!")
 	else:
 		while client.get_status() == StreamPeerTCP.STATUS_CONNECTING:
+			print("Connecting to TCP server...")
 			client.poll()
 			await Lib.frame
 		

@@ -18,7 +18,7 @@ signal message_received(message: Message)
 			for user in pm_participants:
 				if user.user_id != server.user_id:
 					var u: User = server.get_user(user.user_id)
-					return u.name if is_instance_valid(u) else "Invalid User"
+					return u.username if is_instance_valid(u) else "Invalid User"
 		return name
 @export var type: int = Type.TEXT
 @export var is_private: bool

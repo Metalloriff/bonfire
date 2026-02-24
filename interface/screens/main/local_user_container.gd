@@ -27,7 +27,7 @@ func _draw() -> void:
 
 	if is_instance_valid(local_user.avatar):
 		avatar.texture = local_user.avatar
-	username.text = local_user.name
+	username.text = local_user.username
 
 func _on_settings_button_pressed() -> void:
 	Settings.ui.open()
