@@ -173,6 +173,9 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			if not is_instance_valid(channel):
 				return
 			
+			if not channel.server:
+				channel.server = self
+			
 			var user: User = get_user_by_peer_id(peer_id)
 			if not is_instance_valid(user):
 				prints("user", peer_id, "tried to send message to channel", data.channel_id, "but is not online")
