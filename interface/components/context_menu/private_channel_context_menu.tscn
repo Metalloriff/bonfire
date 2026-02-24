@@ -2,9 +2,11 @@
 
 [ext_resource type="PackedScene" uid="uid://bvdbogspriemp" path="res://interface/components/context_menu/context_menu_base.tscn" id="1_13jm2"]
 [ext_resource type="Texture2D" uid="uid://d3vb2bm6jy37n" path="res://icons/edit.png" id="2_mpibw"]
+[ext_resource type="Script" uid="uid://bkemhetqbwe5w" path="res://interface/components/context_menu/private_channel_context_menu.gd" id="2_r602i"]
 [ext_resource type="Texture2D" uid="uid://bfykibbbwvwkg" path="res://icons/delete.png" id="3_r602i"]
 
 [node name="PrivateChannelContextMenu" unique_id=319957489 instance=ExtResource("1_13jm2")]
+script = ExtResource("2_r602i")
 
 [node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="0" unique_id=497492322]
 layout_mode = 2

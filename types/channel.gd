@@ -23,6 +23,7 @@ signal message_received(message: Message)
 @export var type: int = Type.TEXT
 @export var is_private: bool
 @export var pm_participants: Array[Dictionary] = []
+@export var last_message_timestamp: int = -1
 
 var server: Server
 var messages: Array[Message] = []

@@ -24,7 +24,9 @@ func _draw() -> void:
 	if not is_instance_valid(App.selected_server):
 		return
 	
-	for channel in App.selected_server.private_channels:
+	var sorted := App.selected_server.private_channels.duplicate()
+	sorted.sort_custom(func(a, b): return a.last_message_timestamp > b.last_message_timestamp)
+	for channel in sorted:
 		channel.server = App.selected_server
 
 		var control: VBoxContainer = load("res://interface/components/servers/channel_button.tscn").instantiate()

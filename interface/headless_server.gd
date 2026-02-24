@@ -80,11 +80,17 @@ func _ready() -> void:
 		general_voice_channel.server = server
 		server.channels.append(general_voice_channel)
 
-		server.save_to_disk()
+		server.save_to_disk(false)
 	
 	for channel in server.channels + server.private_channels:
 		channel.server = server
 		channel._initialize_messages_database()
+
+		# TODO remove this
+		channel.last_message_timestamp = int(Time.get_unix_time_from_system())
+		
+		for message in channel._load_messages_from_db(1, 0):
+			channel.last_message_timestamp = message.timestamp
 
 	if get_config_entry("network.upnp_enabled"):
 		print("Attempting to open uPnP port mapping...")
