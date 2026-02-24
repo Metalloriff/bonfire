@@ -16,6 +16,8 @@ signal message_received(message: Message)
 				return "..."
 			
 			for user in pm_participants:
+				if not is_instance_valid(user):
+					return "Invalid User"
 				if user.user_id != server.user_id:
 					return server.get_user(user.user_id).name
 		return name
