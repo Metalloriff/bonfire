@@ -2,6 +2,8 @@ class_name ChannelList extends VBoxContainer
 
 static var instance: ChannelList
 
+var last_channel_selected: Channel
+
 func _ready() -> void:
 	instance = self
 
@@ -9,6 +11,15 @@ func _ready() -> void:
 
 	App.instance.server_selected.connect(func(_server: Server) -> void:
 		queue_redraw()
+	)
+
+	visibility_changed.connect(func() -> void:
+		await Lib.frame
+
+		if not is_visible_in_tree():
+			return
+		
+		ChatFrame.instance.selected_channel = last_channel_selected
 	)
 
 func _draw():
@@ -30,7 +41,14 @@ func _draw():
 	
 	for channel in App.selected_server.channels:
 		channel.server = App.selected_server
+
+		if not last_channel_selected:
+			last_channel_selected = channel
+			ChatFrame.instance.selected_channel = channel
 		
 		var control: VBoxContainer = load("res://interface/components/servers/channel_button.tscn").instantiate()
 		control.channel = channel
+		control.get_node("Button").pressed.connect(func() -> void:
+			last_channel_selected = channel
+		)
 		add_child(control)

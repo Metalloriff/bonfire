@@ -2,6 +2,9 @@ class_name PrivateChannelList extends VBoxContainer
 
 static var instance: PrivateChannelList
 
+var last_channel_selected: Channel
+var skip_one_for_some_reason: bool = true
+
 func _ready() -> void:
 	instance = self
 
@@ -9,6 +12,15 @@ func _ready() -> void:
 
 	App.instance.server_selected.connect(func(server: Server):
 		queue_redraw()
+	)
+
+	visibility_changed.connect(func() -> void:
+		await Lib.frame
+		
+		if not is_visible_in_tree():
+			return
+		
+		ChatFrame.instance.selected_channel = last_channel_selected
 	)
 
 func _draw() -> void:
@@ -29,6 +41,12 @@ func _draw() -> void:
 	for channel in sorted:
 		channel.server = App.selected_server
 
-		var control: VBoxContainer = load("res://interface/components/servers/channel_button.tscn").instantiate()
+		if not last_channel_selected:
+			last_channel_selected = channel
+
+		var control: Button = preload("res://interface/components/servers/private_channel_button.tscn").instantiate()
 		control.channel = channel
+		control.pressed.connect(func() -> void:
+			last_channel_selected = channel
+		)
 		add_child(control)

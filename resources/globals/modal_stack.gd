@@ -45,7 +45,9 @@ func fade_free_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME) -> 
 	for i in len(_stack):
 		_fade_in_modal(_stack[i], DEFAULT_TWEEN_TIME, len(_stack) - i - 1)
 	await _fade_out_modal(modal, tween_time)
-	modal.queue_free()
+
+	if is_instance_valid(modal):
+		modal.queue_free()
 
 func alert(modal: Control, time: float = 0.2, intensity: float = 1.0) -> void:
 	var tween := create_tween().set_ease(Tween.EASE_IN)

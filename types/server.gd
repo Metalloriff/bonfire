@@ -436,6 +436,46 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			com_node._peer.disconnect_peer(peer_id, true)
 			users.erase(get_user_by_peer_id(peer_id))
 			save_to_disk()
+		"purge_channel_messages":
+			if not "channel_id" in data:
+				return
+			
+			var user_id: String = online_users[peer_id]
+			var channel: Channel = get_channel(data.channel_id)
+			if not is_instance_valid(channel) or not channel.is_private:
+				return
+			
+			var user_allowed: bool = false
+			for participant in channel.pm_participants:
+				if participant.user_id == user_id:
+					user_allowed = true
+					break
+			
+			if not user_allowed:
+				prints("User", peer_id, "tried to purge private channel", data.channel_id, "but is not allowed to.")
+				return
+			
+			channel.purge_messages()
+		"delete_channel":
+			if not "channel_id" in data:
+				return
+			
+			var user_id: String = online_users[peer_id]
+			var channel: Channel = get_channel(data.channel_id)
+			if not is_instance_valid(channel) or not channel.is_private:
+				return
+
+			var user_allowed: bool = false
+			for participant in channel.pm_participants:
+				if participant.user_id == user_id:
+					user_allowed = true
+					break
+			
+			if not user_allowed:
+				prints("User", peer_id, "tried to delete private channel", data.channel_id, "but is not allowed to.")
+				return
+			
+			channel.delete_channel()
 
 func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int) -> void:
 	if HeadlessServer.is_headless_server:
@@ -598,6 +638,19 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			channel._media_meta_cache[data.media_id] = media
 		"accept_authority":
 			is_server_authority = true
+		"purge_channel_messages":
+			if not "channel_id" in data:
+				return
+			
+			var channel: Channel = get_channel(data.channel_id)
+			if not is_instance_valid(channel):
+				return
+			
+			channel.messages.clear()
+
+			if ChatFrame.instance.selected_channel == channel:
+				ChatFrame.instance.last_channel = null
+				ChatFrame.instance.queue_redraw()
 
 func leave_server(purge_all_messages: bool = false) -> void:
 	if purge_all_messages:

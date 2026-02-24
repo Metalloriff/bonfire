@@ -24,7 +24,7 @@ var text_content: String:
 		for match: RegExMatch in reply_regex.search_all(new):
 			if match.get_start() > last_end:
 				var before: String = new.substr(last_end, match.get_start() - last_end)
-				result.append(before)
+				result.append(before.strip_edges())
 			
 			var reply: Dictionary = {
 				node_type = "reply",
@@ -35,7 +35,7 @@ var text_content: String:
 			last_end = match.get_end()
 		
 		if last_end < len(new):
-			result.append(new.substr(last_end))
+			result.append(new.substr(last_end).strip_edges())
 		
 		if not len(result):
 			result = [new]

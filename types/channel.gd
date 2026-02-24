@@ -93,6 +93,81 @@ func find_message(message_id_or_timestamp: int) -> Message:
 			return message
 	return null
 
+func purge_messages() -> void:
+	if HeadlessServer.is_headless_server:
+		_db.delete_rows("messages", "*")
+		_db.query("SELECT * FROM media")
+		for media_result in _db.query_result:
+			var media_path: String = _get_media_path(media_result.media_id)
+			if FileAccess.file_exists(media_path):
+				DirAccess.remove_absolute(media_path)
+		_db.delete_rows("media", "*")
+
+		server.save_to_disk(false)
+
+		if is_private:
+			for participant in pm_participants:
+				var pid: int = server.get_peer_id_by_user_id(participant.user_id)
+
+				if pid > 0:
+					HeadlessServer.send_api_message("purge_channel_messages", {
+						channel_id = id
+					}, pid)
+		else:
+			HeadlessServer.send_api_message("purge_channel_messages", {
+				channel_id = id
+			})
+	else:
+		if is_private:
+			var allowed: bool = false
+			for participant in pm_participants:
+				if participant.user_id == server.user_id:
+					allowed = true
+					break
+			
+			if not allowed:
+				return
+			
+			server.send_api_message("purge_channel_messages", {
+				channel_id = id
+			})
+		else:
+			# TODO implement based on user permissions
+			return
+
+func delete_channel() -> void:
+	if HeadlessServer.is_headless_server:
+		purge_messages()
+
+		await Lib.seconds(2.0)
+		
+		if self in server.private_channels:
+			server.private_channels.erase(self )
+		elif self in server.channels:
+			server.channels.erase(self )
+		else:
+			prints("channel", id, "not found in server", server.id)
+			return
+
+		server.save_to_disk()
+	else:
+		if is_private:
+			var allowed: bool = false
+			for participant in pm_participants:
+				if participant.user_id == server.user_id:
+					allowed = true
+					break
+			
+			if not allowed:
+				return
+			
+			server.send_api_message("delete_channel", {
+				channel_id = id
+			})
+		else:
+			# TODO implement based on user permissions
+			return
+
 func _load_messages_from_db(limit: int = 50, offset: int = 0) -> Array[Dictionary]:
 	# TODO implement pagination
 	if not is_instance_valid(_db):

@@ -164,6 +164,10 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 	instances[server.id] = self
 
 	ServerList.instance.queue_redraw()
+	ChannelList.instance.queue_redraw()
+	PrivateChannelList.instance.queue_redraw()
+	ChatFrame.instance.queue_redraw()
+	MemberList.instance.queue_redraw()
 
 	prints(name, "Received server info!", local_multiplayer.get_unique_id())
 

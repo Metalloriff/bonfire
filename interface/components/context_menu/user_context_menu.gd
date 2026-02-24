@@ -18,7 +18,7 @@ func _ready() -> void:
 	if user.id == server.user_id:
 		%PrivateMessageButton.hide()
 	
-	if not user.is_online_in_server(server):
+	if not user.is_online_in_server(server) and not is_instance_valid(user.get_direct_message_channel(server)):
 		%PrivateMessageButton.disabled = true
 		%PrivateMessageButton.tooltip_text = "Private message is not available for offline users. Wait for them to go online."
 
@@ -40,6 +40,8 @@ func _on_private_message_button_pressed() -> void:
 
 	PrivateChannelList.instance.show()
 	PrivateChannelList.instance.queue_redraw()
+
+	fade_free()
 
 func _on_copy_user_id_button_pressed() -> void:
 	DisplayServer.clipboard_set(user.id)
