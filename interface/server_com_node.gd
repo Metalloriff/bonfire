@@ -163,18 +163,17 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 
 	instances[server.id] = self
 
-	prints("HERE YOU GO CAL", "rules:", server.rules, "hash:", server.accepted_rules_hash, "expected hash:", JSON.stringify(server.rules).sha256_text())
-	if server.rules and server.accepted_rules_hash != JSON.stringify(server.rules).sha256_text():
-		if not server.id in ServerRulesModal.prompted_servers:
-			var modal = ModalStack.open_modal("res://interface/modals/server_rules_modal.tscn")
-			modal.server = server
-			ServerRulesModal.prompted_servers.append(server.id)
-
 	ServerList.instance.queue_redraw()
 
 	prints(name, "Received server info!", local_multiplayer.get_unique_id())
 
 	if not _has_authenticated:
+		if server.rules and server.accepted_rules_hash != JSON.stringify(server.rules).sha256_text():
+			if not server.id in ServerRulesModal.prompted_servers:
+				var modal = ModalStack.open_modal("res://interface/modals/server_rules_modal.tscn")
+				modal.server = server
+				ServerRulesModal.prompted_servers.append(server.id)
+		
 		server.send_api_message("authenticate", AuthPortal.get_auth(server.id))
 
 		_has_authenticated = true
