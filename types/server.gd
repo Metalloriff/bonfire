@@ -497,6 +497,7 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 				message.content = EncryptionTools.decrypt_string(Marshalls.base64_to_raw(message.content), channel.private_key)
 				PrivateChannelList.instance.queue_redraw()
 			if channel.is_private and not channel.private_key:
+				channel.last_message_timestamp = message.timestamp
 				return
 
 			channel.messages.append(message)
