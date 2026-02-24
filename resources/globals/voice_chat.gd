@@ -70,6 +70,12 @@ func _ready() -> void:
 
 		if user_id == multiplayer.get_unique_id():
 			$Input.play()
+			
+			for connection in multiplayer.server_disconnected.get_connections():
+				multiplayer.server_disconnected.disconnect(connection.callable)
+			multiplayer.server_disconnected.connect(func() -> void:
+				disconnect_from_channel()
+			)
 
 			if not __DEBUG_MODE:
 				return
@@ -108,11 +114,13 @@ func connect_to_channel(channel: Channel) -> void:
 	if active_channel == channel or channel.id in channel.server.voice_chat_participants and multiplayer.get_unique_id() in channel.server.voice_chat_participants[channel.id]:
 		return
 	
-	_pending_updates = true
-	
 	if is_instance_valid(active_channel):
 		disconnect_from_channel()
-		await Lib.frame
+
+		while is_instance_valid(active_channel):
+			await Lib.frame
+	
+	_pending_updates = true
 	
 	active_channel = channel
 
@@ -132,6 +140,19 @@ func disconnect_from_channel() -> void:
 	if _pending_updates:
 		return
 	_pending_updates = true
+
+	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
+		await Lib.seconds(0.1)
+		
+		_pending_updates = false
+		if active_channel.id in active_channel.server.voice_chat_participants:
+			for pid in active_channel.server.voice_chat_participants[active_channel.id]:
+				user_left.emit(active_channel.id, pid)
+		else:
+			user_left.emit(active_channel.id, multiplayer.get_unique_id())
+		
+		active_channel.server.voice_chat_participants = {}
+		return
 	
 	_user_leave_request.rpc_id(1, active_channel.id)
 
