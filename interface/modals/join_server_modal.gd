@@ -69,6 +69,12 @@ func _on_join_button_pressed() -> void:
 	prints("sending handshake request to", address, port)
 	var server_id: String = await ServerHandshake.instance.handshake(address, port)
 
+	for server in ServerList.instance.servers:
+		if server.id == server_id:
+			%Address/Error.show()
+			%Address/Error.text = "Cannot join the same server twice!"
+			return
+
 	if not server_id:
 		%Address/Error.show()
 		%Address/Error.text = "Failed to connect to %s:%d!" % [address, port]
