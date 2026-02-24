@@ -114,7 +114,7 @@ func send_api_message(endpoint: String, data: Dictionary) -> void:
 		return
 
 	data.endpoint = endpoint
-	com_node.local_multiplayer.send_bytes(var_to_bytes(data))
+	com_node.local_multiplayer.send_bytes(var_to_bytes(data), 1)
 
 func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int) -> void:
 	if not HeadlessServer.is_headless_server:
@@ -556,9 +556,9 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 				print("User profile update received from an invalid user")
 				return
 			
-			data.display_name = data.display_name.substr(0, 32)
-			data.tagline = data.tagline.substr(0, 100)
-			data.bio = data.bio.substr(0, 2000)
+			user.display_name = data.display_name.substr(0, 32)
+			user.tagline = data.tagline.substr(0, 100)
+			user.bio = data.bio.substr(0, 2000)
 
 			if data.avatar_data:
 				var image: Image = Image.new()
