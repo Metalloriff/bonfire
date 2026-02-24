@@ -10,6 +10,7 @@ func _ready() -> void:
 	await get_tree().process_frame
 
 	App.instance.server_selected.connect(func(_server: Server) -> void:
+		last_channel_selected = null
 		queue_redraw()
 	)
 

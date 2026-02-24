@@ -546,7 +546,7 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			channel.message_received.emit(message)
 			channel.last_message_timestamp = message.timestamp
 
-			if ChatFrame.instance.selected_channel.id == data.channel_id or is_instance_valid(VoiceChat.active_channel) and VoiceChat.active_channel.id == data.channel_id:
+			if ChatFrame.instance.selected_channel and ChatFrame.instance.selected_channel.id == data.channel_id or is_instance_valid(VoiceChat.active_channel) and VoiceChat.active_channel.id == data.channel_id:
 				ChatFrame.instance.queue_redraw()
 
 				Notifications.play_sound("ping")

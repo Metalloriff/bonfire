@@ -240,6 +240,36 @@ border_width_top = 1
 border_width_bottom = 1
 border_color = Color(0.49600002, 0.59226674, 0.8, 0.08235294)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_woyf0"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.29000002, 0.68050015, 1, 0.40392157)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0.49600002, 0.59226674, 0.8, 0.08235294)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_mu0c4"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.1539, 0.51475513, 0.81, 0.7137255)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0.49600002, 0.59226674, 0.8, 0.08235294)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cpoh6"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0, 0.35200012, 0.64, 0.40392157)
+border_width_top = 1
+border_width_bottom = 1
+border_color = Color(0.49600002, 0.59226674, 0.8, 0.08235294)
+
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qlc1u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5gc66"]
@@ -760,6 +790,10 @@ Button_Translucent/base_type = &"Button"
 Button_Translucent/styles/hover = SubResource("StyleBoxFlat_710he")
 Button_Translucent/styles/normal = SubResource("StyleBoxFlat_psdgn")
 Button_Translucent/styles/pressed = SubResource("StyleBoxFlat_psdgn")
+Button_Translucent_Important/base_type = &"Button"
+Button_Translucent_Important/styles/hover = SubResource("StyleBoxFlat_woyf0")
+Button_Translucent_Important/styles/normal = SubResource("StyleBoxFlat_mu0c4")
+Button_Translucent_Important/styles/pressed = SubResource("StyleBoxFlat_cpoh6")
 CheckButton/icons/checked = ExtResource("3_710he")
 CheckButton/icons/unchecked = ExtResource("4_eppvg")
 CheckButton/styles/focus = SubResource("StyleBoxEmpty_qlc1u")

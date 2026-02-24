@@ -4,7 +4,14 @@ var channel: Channel = Channel.new()
 
 @onready var _button: Button = $Button
 
+func _ready() -> void:
+	ChatFrame.instance.channel_selected.connect(func(selected: Channel) -> void:
+		_button.theme_type_variation = "Button_Translucent_Important" if selected == channel else "Button_Translucent"
+	)
+
 func _draw() -> void:
+	_button.theme_type_variation = "Button_Translucent_Important" if ChatFrame.instance.selected_channel == channel else "Button_Translucent"
+	
 	match channel.type:
 		Channel.Type.TEXT:
 			_button.icon = preload("res://icons/chat.png")

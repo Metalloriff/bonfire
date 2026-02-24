@@ -7,24 +7,29 @@ var stream:
 		stream = new
 
 		if is_instance_valid(stream):
-			$VideoStreamPlayer.stream = stream
+			%VideoStreamPlayer.stream = stream
 
-			var duration: float = $VideoStreamPlayer.get_stream_length()
+			var duration: float = %VideoStreamPlayer.get_stream_length()
 			%Timeline.max_value = duration
 			%Time.text = "%02d:%02d" % [floorf(duration / 60.0), fmod(duration, 60.0)]
 
-			$VideoStreamPlayer.play()
+			var video_size: Vector2 = %VideoStreamPlayer.get_video_texture().get_size()
+			var ratio: float = video_size.y / video_size.x
+			
+			custom_minimum_size = Vector2(500, 500 * ratio)
+
+			%VideoStreamPlayer.play()
 			await Lib.frame
-			$VideoStreamPlayer.paused = true
+			%VideoStreamPlayer.paused = true
 		else:
-			$VideoStreamPlayer.stream = null
+			%VideoStreamPlayer.stream = null
 
 			%Timeline.max_value = 1.0
 			%Time.text = "00:00"
 		%Timeline.value = 0.0
 		%Time.text = "00:00"
 
-@onready var player: VideoStreamPlayer = $VideoStreamPlayer
+@onready var player: VideoStreamPlayer = %VideoStreamPlayer
 
 func _ready() -> void:
 	%VolumeSlider.value = FS.get_pref("media_audio_volume", 0.75)

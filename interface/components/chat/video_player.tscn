@@ -12,8 +12,10 @@ theme = ExtResource("1_epr8r")
 script = ExtResource("2_88oqt")
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="." unique_id=2052123426]
+unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
+expand = true
 buffering_msec = 1000
 
 [node name="Timeline" type="HSlider" parent="." unique_id=1435715986]

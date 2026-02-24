@@ -2,10 +2,13 @@ class_name ChatFrame extends PanelContainer
 
 static var instance: ChatFrame
 
+signal channel_selected(channel: Channel)
+
 var selected_channel: Channel:
 	set(new):
 		if selected_channel != new:
 			selected_channel = new
+			channel_selected.emit(selected_channel)
 
 			instance.queue_redraw()
 			

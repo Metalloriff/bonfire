@@ -11,6 +11,7 @@ func _ready() -> void:
 	await Lib.frame
 
 	App.instance.server_selected.connect(func(server: Server):
+		last_channel_selected = null
 		queue_redraw()
 	)
 
