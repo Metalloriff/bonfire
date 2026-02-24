@@ -16,7 +16,8 @@ var stream:
 			var video_size: Vector2 = %VideoStreamPlayer.get_video_texture().get_size()
 			var ratio: float = video_size.y / video_size.x
 			
-			custom_minimum_size = Vector2(500, 500 * ratio)
+			%VideoStreamPlayer.custom_minimum_size = Vector2(500, 500 * ratio)
+			%VideoStreamPlayer.size = %VideoStreamPlayer.custom_minimum_size
 
 			%VideoStreamPlayer.play()
 			await Lib.frame

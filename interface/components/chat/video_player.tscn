@@ -15,6 +15,7 @@ script = ExtResource("2_88oqt")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 300)
 layout_mode = 2
+size_flags_vertical = 3
 expand = true
 buffering_msec = 1000
 
