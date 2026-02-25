@@ -25,6 +25,7 @@ func _init() -> void:
 			return false
 		)
 @export var users: Array[User] = []
+@export var roles: Array[Role] = []
 @export var icon: ImageTexture
 @export var max_file_upload_size: int = Lib.readable_to_bytes("1GB")
 @export var rules: Array = []
@@ -37,7 +38,6 @@ func _init() -> void:
 var left: bool
 var online_users: Dictionary[int, String] = {}
 var voice_chat_participants: Dictionary = {}
-var is_server_authority: bool
 
 var user_id: String:
 	get:
@@ -108,6 +108,12 @@ func get_peer_id_by_user_id(user_id: String) -> int:
 			return peer_id
 	return -1
 
+func get_role(role_id: String) -> Role:
+	for role in roles:
+		if role.id == role_id:
+			return role
+	return null
+
 func send_api_message(endpoint: String, data: Dictionary) -> void:
 	if not is_instance_valid(com_node):
 		print("Attempted to send API message to server %s but it is not connected!" % id)
@@ -153,13 +159,32 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				user.name = data.username
 				users.append(user)
 				save_to_disk()
+
+				existing_user = user
 			
 			HeadlessServer.instance._sync_online_users()
 
 			if user_id == HeadlessServer.instance.get_config_entry("profile.owner"):
-				HeadlessServer.send_api_message("accept_authority", {
-					owner = true
-				}, peer_id)
+				if not "owner" in existing_user.roles:
+					existing_user.roles.append("owner")
+
+					HeadlessServer.send_api_message("update_user_roles", {
+						user_id = user_id,
+						roles = existing_user.roles
+					})
+
+					await Lib.seconds(1.0)
+					save_to_disk(false)
+			elif "owner" in existing_user.roles:
+				existing_user.roles.erase("owner")
+
+				HeadlessServer.send_api_message("update_user_roles", {
+					user_id = user_id,
+					roles = existing_user.roles
+				})
+
+				await Lib.seconds(1.0)
+				save_to_disk(false)
 		"send_message":
 			if not "channel_id" in data or not "content" in data:
 				return
@@ -476,6 +501,26 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				return
 			
 			channel.delete_channel()
+		"fetch_message_count_since":
+			if not "channel_ids" in data or not "timestamp" in data or not len(data.channel_ids):
+				return
+			
+			var response: Dictionary = {}
+
+			for channel_id in data.channel_ids:
+				var channel: Channel = get_channel(channel_id)
+				if not is_instance_valid(channel):
+					continue
+				
+				response[channel_id] = await channel.get_message_count_since(data.timestamp)
+			
+			if not response:
+				return
+			
+			HeadlessServer.send_api_message("fetch_message_count_since_response", {
+				channel_ids = data.channel_ids,
+				counts = response
+			}, peer_id)
 
 func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int) -> void:
 	if HeadlessServer.is_headless_server:
@@ -546,10 +591,13 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			channel.message_received.emit(message)
 			channel.last_message_timestamp = message.timestamp
 
-			if ChatFrame.instance.selected_channel and ChatFrame.instance.selected_channel.id == data.channel_id or is_instance_valid(VoiceChat.active_channel) and VoiceChat.active_channel.id == data.channel_id:
+			if ChatFrame.instance.selected_channel and ChatFrame.instance.selected_channel.id == data.channel_id or is_instance_valid(VoiceChat.active_channel) and VoiceChat.active_channel.id == data.channel_id or channel.is_private:
 				ChatFrame.instance.queue_redraw()
 
-				Notifications.play_sound("ping")
+				if channel.is_private:
+					Notifications.play_sound("ping_important")
+				else:
+					Notifications.play_sound("ping")
 		"receive_user_profile":
 			var user: User = get_user(data.user_id)
 			if not is_instance_valid(user):
@@ -636,8 +684,6 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 				return
 			
 			channel._media_meta_cache[data.media_id] = media
-		"accept_authority":
-			is_server_authority = true
 		"purge_channel_messages":
 			if not "channel_id" in data:
 				return
@@ -651,6 +697,28 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			if ChatFrame.instance.selected_channel == channel:
 				ChatFrame.instance.last_channel = null
 				ChatFrame.instance.queue_redraw()
+		"fetch_message_count_since_response":
+			if not "channel_ids" in data or not "counts" in data:
+				return
+			
+			for channel_id in data.channel_ids:
+				var channel: Channel = get_channel(channel_id)
+				if not is_instance_valid(channel):
+					continue
+				
+				channel._message_count_since_response = data.counts[channel_id]
+		"update_user_roles":
+			if not "user_id" in data or not "roles" in data:
+				return
+			
+			var user: User = get_user(data.user_id)
+			if not is_instance_valid(user):
+				return
+			
+			user.roles = data.roles
+
+			MemberList.instance.queue_redraw()
+			ChatFrame.instance.queue_redraw()
 
 func leave_server(purge_all_messages: bool = false) -> void:
 	if purge_all_messages:

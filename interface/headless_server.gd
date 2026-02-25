@@ -88,6 +88,15 @@ func _ready() -> void:
 		
 		for message in channel._load_messages_from_db(1, 0):
 			channel.last_message_timestamp = message.timestamp
+	
+	if not server.get_role("owner"):
+		var owner_role: Role = Role.new()
+		owner_role.id = "owner"
+		owner_role.name = "Server Owner"
+		owner_role.permissions.add_permission("*")
+		server.roles.append(owner_role)
+
+		server.save_to_disk(false)
 
 	if get_config_entry("network.upnp_enabled"):
 		print("Attempting to open uPnP port mapping...")

@@ -24,7 +24,10 @@ func _ready() -> void:
 func _draw() -> void:
 	if selected_channel == last_channel:
 		for child in get_children():
-			child.queue_redraw()
+			if child is TextChatScreen:
+				child.render()
+			else:
+				child.queue_redraw()
 		return
 	
 	last_channel = selected_channel

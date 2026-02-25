@@ -17,12 +17,12 @@ script = ExtResource("1_2mj15")
 
 [node name="ping" type="AudioStreamPlayer" parent="Sounds" unique_id=292800763]
 stream = ExtResource("1_48368")
-volume_db = -6.0
+volume_db = -4.0
 max_polyphony = 3
 
 [node name="ping_important" type="AudioStreamPlayer" parent="Sounds" unique_id=905626796]
 stream = ExtResource("2_2mj15")
-volume_db = -6.0
+volume_db = -4.0
 max_polyphony = 3
 
 [node name="vc_member_join" type="AudioStreamPlayer" parent="Sounds" unique_id=1566632351]

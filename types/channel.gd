@@ -7,6 +7,7 @@ enum Type {
 }
 
 signal message_received(message: Message)
+signal unread_count_updated()
 
 @export var id: String = Lib.create_uid(32)
 @export var name: String = "Invalid Channel":
@@ -30,11 +31,49 @@ var messages: Array[Message] = []
 var messages_loaded: bool
 var messages_loading: bool
 var private_key: String
+var last_read_message_timestamp: int = -1:
+	set(new):
+		if new == last_read_message_timestamp:
+			return
+		last_read_message_timestamp = new
+
+		FS.set_pref("%s.lrmt_%s" % [server.id, id], new)
+var unread_count: int = -1:
+	set(new):
+		if new == unread_count:
+			return
+		unread_count = new
+
+		if unread_count >= 0:
+			unread_count_updated.emit()
 
 var _db_path: String:
 	get:
 		return HeadlessServer.instance.server_data_path.path_join("private_channels" if is_private else "channels").path_join(id + ".db")
 var _db: SQLite
+
+func _init() -> void:
+	if HeadlessServer.is_headless_server:
+		return
+	
+	message_received.connect(func(message: Message) -> void:
+		if ChatFrame.instance.selected_channel == self:
+			last_read_message_timestamp = message.timestamp
+		else:
+			unread_count += 1
+	)
+
+func get_unread_count() -> int:
+	if unread_count == -1:
+		if last_read_message_timestamp == -1:
+			last_read_message_timestamp = FS.get_pref("%s.lrmt_%s" % [server.id, id], last_message_timestamp)
+		unread_count = -2
+		unread_count = await get_message_count_since(last_read_message_timestamp)
+
+	while unread_count < 0:
+		await Lib.frame
+	
+	return unread_count
 
 func send_message(content: String, encryption_key: String = "", attachments: Array[String] = []) -> void:
 	assert(not HeadlessServer.is_headless_server, "Cannot send message from headless server")
@@ -223,6 +262,24 @@ func get_media_file_data_then(media_id: String, callback: Callable, meta: Media 
 		prints("got media response", media_id, _media_response_cache[media_id])
 	
 	callback.call(_media_response_cache[media_id])
+
+var _message_count_since_response: int = -1
+func get_message_count_since(timestamp: int) -> int:
+	if HeadlessServer.is_headless_server:
+		_db.query("SELECT COUNT(*) FROM messages WHERE timestamp > %d" % timestamp)
+		return _db.query_result[0]["COUNT(*)"]
+	else:
+		_message_count_since_response = -1
+		server.send_api_message("fetch_message_count_since", {
+			channel_ids = [id],
+			timestamp = timestamp
+		})
+
+		var timeout: float = 0.0
+		while _message_count_since_response == -1 and timeout < 3.0:
+			timeout += await Lib.frame_with_delta()
+
+		return _message_count_since_response
 
 func _load_media_meta_from_db(media_id: String) -> Dictionary:
 	assert(HeadlessServer.is_headless_server, "Cannot load media item from db as a client")

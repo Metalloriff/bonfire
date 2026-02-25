@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://fvt2vky3bg7n" path="res://icons/chat.png" id="1_tj6h4"]
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_xtd3y"]
 [ext_resource type="Script" uid="uid://ww8nm1fm52qb" path="res://interface/components/servers/channel_button.gd" id="2_u22o2"]
+[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="4_nhexl"]
 
 [node name="ChannelItem" type="VBoxContainer" unique_id=1828171145]
 offset_right = 40.0
@@ -19,24 +20,50 @@ icon = ExtResource("1_tj6h4")
 alignment = 0
 expand_icon = true
 
-[node name="OpenTextChatButton" type="Button" parent="Button" unique_id=1155082422]
+[node name="MarginContainer" type="MarginContainer" parent="Button" unique_id=1251419700]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Button/MarginContainer" unique_id=1771937580]
+layout_mode = 2
+alignment = 2
+
+[node name="OpenTextChatButton" type="Button" parent="Button/MarginContainer/HBoxContainer" unique_id=1155082422]
+unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(40, 40)
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -20.0
-offset_top = -10.0
-offset_bottom = 10.0
-grow_horizontal = 0
-grow_vertical = 2
+layout_mode = 2
 tooltip_text = "Open Text Chat"
 icon = ExtResource("1_tj6h4")
 flat = true
 expand_icon = true
+
+[node name="UnreadContainer" type="PanelContainer" parent="Button/MarginContainer/HBoxContainer" unique_id=369143328]
+unique_name_in_owner = true
+visible = false
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_type_variation = &"PanelSolid"
+
+[node name="UnreadCount" type="Label" parent="Button/MarginContainer/HBoxContainer/UnreadContainer" unique_id=2026975420]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_fonts/font = ExtResource("4_nhexl")
+theme_override_font_sizes/font_size = 10
+text = "99+"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VoiceMembers" type="FoldableContainer" parent="." unique_id=1317391829]
 visible = false
@@ -50,4 +77,4 @@ layout_mode = 2
 theme_override_constants/separation = 0
 
 [connection signal="pressed" from="Button" to="." method="_on_pressed"]
-[connection signal="pressed" from="Button/OpenTextChatButton" to="." method="_on_open_text_chat_button_pressed"]
+[connection signal="pressed" from="Button/MarginContainer/HBoxContainer/OpenTextChatButton" to="." method="_on_open_text_chat_button_pressed"]

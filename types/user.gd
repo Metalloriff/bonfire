@@ -13,6 +13,7 @@ const PROPERTIES: Array[String] = [
 @export var avatar: Texture
 @export_multiline var bio: String
 @export var tagline: String
+@export var roles: PackedStringArray
 
 var username: String:
 	get:
@@ -61,6 +62,16 @@ func get_direct_message_channel(server: Server) -> Channel:
 		if found_users == 2:
 			return channel
 	return null
+
+func has_permission(server: Server, permission: StringName) -> bool:
+	if not is_instance_valid(server):
+		return false
+
+	for role_id in roles:
+		var role: Role = server.get_role(role_id)
+		if role and role.permissions.has_permission(permission):
+			return true
+	return false
 
 # func save() -> void:
 # 	assert(HeadlessServer.is_headless_server, "Cannot save user as a client")

@@ -22,7 +22,6 @@ func _cache_directory(path: String) -> Dictionary:
 	var dir: DirAccess = DirAccess.open(path)
 	if not dir:
 		#print("Directory not found! Directory: " + path)
-		
 		return {
 			"directories": [],
 			"files": []
@@ -178,12 +177,17 @@ func load_data(path: String, default: Variant = {}):
 		return default
 	return json.get_data()
 
+var _prefs_cache: Dictionary = {}
+
 func get_pref(prop_name: String, default_value: Variant = null, save_if_default: bool = false) -> Variant:
+	if HeadlessServer.is_headless_server:
+		return default_value
+
 	var split = prop_name.split(".")
 	var file_name = split[0] if len(split) > 1 else "prefs"
 	var pref_name = split[1] if len(split) > 1 else split[0]
 	
-	var data = load_data("prefs/" + file_name)
+	var data = _prefs_cache[file_name] if file_name in _prefs_cache else load_data("prefs/" + file_name)
 	
 	if pref_name in data:
 		return data[pref_name]
@@ -198,7 +202,7 @@ func set_pref(prop_name: String, value: Variant) -> void:
 	var file_name = split[0] if len(split) > 1 else "prefs"
 	var pref_name = split[1] if len(split) > 1 else split[0]
 	
-	var data = load_data("prefs/" + file_name)
+	var data = _prefs_cache[file_name] if file_name in _prefs_cache else load_data("prefs/" + file_name)
 	data[pref_name] = value
 	save_data("prefs/" + file_name, data)
 

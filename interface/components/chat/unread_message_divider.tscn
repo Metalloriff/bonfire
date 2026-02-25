@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bkkb8ud2xm06t"]
+
+[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="1_mtu00"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_61y44"]
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.16862746, 0.56078434, 0.8784314, 1)
+corner_radius_top_left = 100
+corner_radius_top_right = 100
+corner_radius_bottom_right = 100
+corner_radius_bottom_left = 100
+
+[node name="UnreadMessageDivider" type="HBoxContainer" unique_id=563392976]
+
+[node name="HSeparator" type="HSeparator" parent="." unique_id=1379779400]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxFlat_61y44")
+
+[node name="Label" type="Label" parent="." unique_id=1056851977]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.16862746, 0.56078434, 0.8784314, 1)
+theme_override_fonts/font = ExtResource("1_mtu00")
+theme_override_font_sizes/font_size = 12
+text = "x new messages"
+
+[node name="HSeparator2" type="HSeparator" parent="." unique_id=993196457]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/separator = SubResource("StyleBoxFlat_61y44")

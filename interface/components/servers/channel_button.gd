@@ -9,6 +9,20 @@ func _ready() -> void:
 		_button.theme_type_variation = "Button_Translucent_Important" if selected == channel else "Button_Translucent"
 	)
 
+	ContextMenu.attach_listener(_button, preload("res://interface/components/context_menu/channel_context_menu.tscn"), func(menu: ContextMenu) -> void:
+		menu.channel = channel
+	)
+
+	channel.unread_count_updated.connect(func() -> void:
+		var unread_count: int = channel.unread_count
+		%UnreadContainer.visible = unread_count > 0
+		%UnreadCount.text = str(unread_count) if unread_count < 100 else "99+"
+	)
+
+	var unread_count: int = await channel.get_unread_count()
+	%UnreadContainer.visible = unread_count > 0
+	%UnreadCount.text = str(unread_count) if unread_count < 100 else "99+"
+
 func _draw() -> void:
 	_button.theme_type_variation = "Button_Translucent_Important" if ChatFrame.instance.selected_channel == channel else "Button_Translucent"
 	
@@ -23,7 +37,7 @@ func _draw() -> void:
 				prints("server com node not valid")
 				return
 
-			$Button/OpenTextChatButton.show()
+			%OpenTextChatButton.show()
 
 			$VoiceMembers.show()
 			$VoiceMembers.title = "Participants (%d)" % (len(channel.server.voice_chat_participants[channel.id]) if channel.id in channel.server.voice_chat_participants else 0)
