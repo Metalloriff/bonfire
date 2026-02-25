@@ -47,3 +47,8 @@ func _on_copy_user_id_button_pressed() -> void:
 	DisplayServer.clipboard_set(user.id)
 	NotificationDaemon.show_toast("User ID copied to clipboard")
 	fade_free()
+
+func _on_view_profile_button_pressed() -> void:
+	var modal = ModalStack.open_modal("res://interface/modals/user_public_profile_modal.tscn")
+	modal.user = user
+	fade_free()

@@ -8,7 +8,10 @@ static var selected_server: Server:
 			instance.server_selected.emit(selected_server)
 
 			# TODO make this remember the last channel you were on
-			ChatFrame.instance.selected_channel = new.channels[0]
+			if is_instance_valid(new):
+				ChatFrame.instance.selected_channel = new.channels[0]
+			else:
+				ChatFrame.instance.selected_channel = null
 
 			ChannelList.instance.queue_redraw()
 			ChatFrame.instance.queue_redraw()

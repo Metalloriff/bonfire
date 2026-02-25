@@ -11,6 +11,7 @@ var selected_channel: Channel:
 			channel_selected.emit(selected_channel)
 
 			instance.queue_redraw()
+			MemberList.instance.queue_redraw()
 			
 			if is_instance_valid(MobileControlsContainer.instance):
 				await Lib.frame

@@ -9,10 +9,11 @@ var user: User:
 var server: Server
 
 func _ready() -> void:
-	ContextMenu.attach_listener(self , load("res://interface/components/context_menu/user_context_menu.tscn"), func(menu: ContextMenu) -> void:
-		menu.user = user
-		menu.server = server
-	)
+	for node in [ self , %Tagline]:
+		ContextMenu.attach_listener(node, load("res://interface/components/context_menu/user_context_menu.tscn"), func(menu: ContextMenu) -> void:
+			menu.user = user
+			menu.server = server
+		)
 
 func _draw() -> void:
 	%Username.text = user.username

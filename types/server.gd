@@ -745,7 +745,15 @@ func leave_server(purge_all_messages: bool = false) -> void:
 			purge_all_messages = purge_all_messages
 		})
 
-	await Lib.seconds(1.0)
+	await Lib.seconds(0.5)
+
+	if is_instance_valid(com_node):
+		if com_node.local_multiplayer.multiplayer_peer and com_node.local_multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
+			com_node.local_multiplayer.multiplayer_peer.close()
+			com_node.local_multiplayer.multiplayer_peer = null
+		
+		com_node.queue_free()
+		ServerComNode.instances.erase(id)
 
 	var private_profiles: Dictionary = FS.get_pref("auth.private_profiles", {})
 	if id in private_profiles:
@@ -757,6 +765,8 @@ func leave_server(purge_all_messages: bool = false) -> void:
 	var cache_path: String = "user://servers/%s.res" % id
 	if ResourceLoader.exists(cache_path):
 		DirAccess.remove_absolute(cache_path)
+	
+	App.selected_server = null
 	
 	await Lib.frame
 

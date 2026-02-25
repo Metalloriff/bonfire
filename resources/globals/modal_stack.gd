@@ -81,3 +81,8 @@ func _fade_in_modal(modal: Control, tween_time: float = DEFAULT_TWEEN_TIME, dept
 	tween.tween_property(modal, "scale", Vector2.ONE * (1.0 - (0.1 * depth)), tween_time)
 
 	await tween.finished
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
+		if len(stack) > 1:
+			fade_free_modal(stack[len(stack) - 1])

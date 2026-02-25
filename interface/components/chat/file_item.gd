@@ -67,6 +67,18 @@ func _ready() -> void:
 					var image: Image = Image.new()
 					image["load_%s_from_buffer" % media.ext.to_lower().replace("jpeg", "jpg")].call(data)
 					texture_rect.texture = ImageTexture.create_from_image(image)
+					texture_rect.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+
+					texture_rect.gui_input.connect(func(event: InputEvent) -> void:
+						if (event is InputEventMouseButton or event is InputEventScreenTouch) and event.is_pressed():
+							if event is InputEventMouseButton and event.button_index != MOUSE_BUTTON_LEFT:
+								return
+							
+							if event.is_pressed():
+								var modal = ModalStack.open_modal("res://interface/modals/image_viewer_modal.tscn")
+								modal.image = texture_rect.texture
+								modal.file_name = %FileName.text.validate_filename()
+					)
 				else:
 					channel.get_media_file_data_then(media.media_id, func(data: PackedByteArray) -> void:
 						var file: FileAccess = FileAccess.open(cache_path, FileAccess.WRITE)

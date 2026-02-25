@@ -1,4 +1,4 @@
-extends VBoxContainer
+class_name MessageItem extends VBoxContainer
 
 var author: User
 var message: Message
@@ -80,6 +80,9 @@ func _create_rich_label(text: String) -> void:
 	label.fit_content = true
 	label.selection_enabled = true
 	label.text = text
+	label.meta_hover_started.connect(_on_meta_hover_started)
+	label.meta_hover_ended.connect(_on_meta_hover_ended)
+	label.meta_clicked.connect(_on_meta_clicked)
 	label.gui_input.connect(gui_input.get_connections()[0].callable)
 	$TextContents.add_child(label)
 
@@ -150,12 +153,23 @@ func _process(delta: float) -> void:
 	if is_instance_valid(MainTextArea.editing_message) and MainTextArea.editing_message == message:
 		$EditingContainer.modulate.a = sin(Time.get_ticks_msec() * 0.001) * 0.5 + 0.5
 
-func _process_message_content(content: String) -> String:
-	var regex = RegEx.new()
-	regex.compile("https?:\\/\\/(?:www\\.)?((?:[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)))")
-	content = regex.sub(content, "[url=$0]$1[/url]", true)
+static func _process_message_content(content: String) -> String:
+	var link_regex = RegEx.new()
+	link_regex.compile("([^url\"?=]|^)https?:\\/\\/(?:www\\.)?((?:[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)))")
+	content = link_regex.sub(content, "$1[url=$0]$0[/url]", true)
 
 	return content
+
+func _on_meta_hover_started(meta: Variant) -> void:
+	if meta is String and meta.strip_edges().begins_with("https://"):
+		$TextContents.tooltip_text = meta
+
+func _on_meta_hover_ended(meta: Variant) -> void:
+	$TextContents.tooltip_text = ""
+
+func _on_meta_clicked(meta: Variant) -> void:
+	if meta is String and meta.strip_edges().begins_with("https://"):
+		OS.shell_open(meta)
 
 func delete() -> void:
 	var tween := create_tween().set_trans(Tween.TRANS_CUBIC)

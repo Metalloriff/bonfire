@@ -1,12 +1,5 @@
 class_name User extends Resource
 
-const PROPERTIES: Array[String] = [
-	"id",
-	"name",
-	"avatar",
-	"member_join_date_time"
-]
-
 @export var id: String
 @export var name: String = "Invalid User"
 @export var display_name: String

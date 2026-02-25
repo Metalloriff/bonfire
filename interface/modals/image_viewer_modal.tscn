@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://k1piyddd4xcf"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_hi06m"]
+[ext_resource type="Texture2D" uid="uid://bvmdg22gaa36n" path="res://icon.svg" id="2_fcpsd"]
+[ext_resource type="Script" uid="uid://bu2c84qmiyjj0" path="res://interface/modals/image_viewer_modal.gd" id="2_g7jug"]
+[ext_resource type="Texture2D" uid="uid://bgu7u4ihraulx" path="res://icons/download.png" id="3_g7jug"]
+
+[node name="ImageViewerModal" unique_id=649999717 instance=ExtResource("1_hi06m")]
+script = ExtResource("2_g7jug")
+
+[node name="Modal" parent="." index="1" unique_id=18995346]
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=692626817]
+layout_mode = 2
+
+[node name="Image" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer" index="0" unique_id=1737877656]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("2_fcpsd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="1" unique_id=1098286363]
+layout_mode = 2
+alignment = 1
+
+[node name="SaveButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="0" unique_id=1346180122]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Save Image"
+icon = ExtResource("3_g7jug")
+
+[node name="FileDialog" type="FileDialog" parent="." index="2" unique_id=2002388128]
+title = "Save Image"
+access = 2
+use_native_dialog = true
+
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

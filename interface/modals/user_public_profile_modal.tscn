@@ -1,0 +1,110 @@
+[gd_scene format=3 uid="uid://dsys0tvhhakwf"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_uryr6"]
+[ext_resource type="Script" uid="uid://qiwxoe72adw8" path="res://interface/modals/user_public_profile_modal.gd" id="2_2yrtv"]
+[ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="2_n6ewa"]
+[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="3_2yrtv"]
+[ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="4_rfqq7"]
+
+[node name="UserPublicProfileModal" unique_id=649999717 instance=ExtResource("1_uryr6")]
+script = ExtResource("2_2yrtv")
+
+[node name="MarginContainer" parent="Modal" parent_id_path=PackedInt32Array(18995346) index="0" unique_id=1793144273]
+custom_minimum_size = Vector2(800, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" index="0" unique_id=1936406795]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="0" unique_id=1851137629]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HFlowContainer" type="HFlowContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="0" unique_id=1623040580]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer" index="0" unique_id=2045580752]
+clip_children = 1
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
+theme_type_variation = &"PanelSolid"
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/PanelContainer" index="0" unique_id=1224454903]
+layout_mode = 2
+
+[node name="Avatar" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/PanelContainer" index="1" unique_id=438668680]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture = ExtResource("2_n6ewa")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer" index="1" unique_id=1003091541]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Username" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer" index="0" unique_id=1940787819]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_2yrtv")
+theme_override_font_sizes/font_size = 24
+text = "Username"
+
+[node name="Tagline" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer" index="1" unique_id=26896995]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_rfqq7")
+theme_override_font_sizes/font_size = 12
+text = "Example tagline, very long, very cool. Very awesome. Cal eat his own fecal matter off of his hands."
+autowrap_mode = 3
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="1" unique_id=1054451994]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer3" index="0" unique_id=86203629]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_2yrtv")
+theme_override_font_sizes/font_size = 22
+text = "Bio"
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="2" unique_id=254421948]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/PanelContainer" index="0" unique_id=1958153909]
+layout_mode = 2
+
+[node name="Bio" type="RichTextLabel" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/PanelContainer/MarginContainer" index="0" unique_id=427335071]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+focus_mode = 2
+bbcode_enabled = true
+text = "No bio provided."
+selection_enabled = true
+
+[node name="RolesLabel" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="3" unique_id=1216684465]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("3_2yrtv")
+theme_override_font_sizes/font_size = 22
+text = "Roles"
+
+[node name="RolesContainer" type="HFlowContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="4" unique_id=919680512]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[connection signal="gui_input" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/PanelContainer/Avatar" to="." method="_on_avatar_gui_input"]
+[connection signal="meta_clicked" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/PanelContainer/MarginContainer/Bio" to="." method="_on_bio_meta_clicked"]
+[connection signal="meta_hover_ended" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/PanelContainer/MarginContainer/Bio" to="." method="_on_bio_meta_hover_ended"]
+[connection signal="meta_hover_started" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/PanelContainer/MarginContainer/Bio" to="." method="_on_bio_meta_hover_started"]

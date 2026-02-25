@@ -8,6 +8,13 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
 		fade_free()
 
+func _process(_delta: float) -> void:
+	# This is fucking revolutionary
+	var panel: PanelContainer = $PanelContainer
+	var window_height: float = get_viewport_rect().size.y
+	if global_position.y + panel.size.y > window_height:
+		global_position.y -= 20.0
+
 func fade_free() -> void:
 	mouse_filter = MOUSE_FILTER_IGNORE
 
