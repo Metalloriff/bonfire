@@ -55,9 +55,11 @@ func _on_quote_reply_button_pressed() -> void:
 func _on_delete_button_pressed() -> void:
 	assert(message.author_id == ChatFrame.instance.selected_channel.server.user_id or ChatFrame.instance.selected_channel.server.local_user.has_permission(ChatFrame.instance.selected_channel.server, Permissions.MESSAGE_DELETE), "Cannot delete messages from other users")
 
-	# TODO ask for confirmation
-	ChatFrame.instance.selected_channel.delete_message(message)
-	fade_free()
+	if Input.is_key_pressed(KEY_SHIFT):
+		_on_confirm_delete_button_pressed()
+		return
+	
+	%DeleteConfirmation.show()
 
 func _on_edit_button_pressed() -> void:
 	assert(not message.encrypted, "Cannot edit encrypted messages")
@@ -72,3 +74,10 @@ func _on_edit_button_pressed() -> void:
 	message_item.get_node("MediaContents").hide()
 
 	fade_free()
+
+func _on_confirm_delete_button_pressed() -> void:
+	ChatFrame.instance.selected_channel.delete_message(message)
+	fade_free()
+
+func _on_cancel_delete_button_pressed() -> void:
+	%DeleteConfirmation.hide()

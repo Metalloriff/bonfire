@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://c4amr7563yjjg" path="res://interface/components/context_menu/channel_context_menu.gd" id="2_i7dqt"]
 [ext_resource type="Texture2D" uid="uid://d3vb2bm6jy37n" path="res://icons/edit.png" id="2_mc5os"]
 [ext_resource type="Texture2D" uid="uid://bfykibbbwvwkg" path="res://icons/delete.png" id="3_mc5os"]
+[ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="5_05rye"]
 
 [node name="ChannelContextMenu" unique_id=319957489 instance=ExtResource("1_pe7e5")]
 script = ExtResource("2_i7dqt")
@@ -29,3 +30,36 @@ text = "Purge Messages"
 icon = ExtResource("3_mc5os")
 alignment = 0
 expand_icon = true
+
+[node name="PurgeConfirmation" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="3" unique_id=1732936655]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/PurgeConfirmation" index="0" unique_id=234731339]
+layout_mode = 2
+text = "Are you sure?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/PurgeConfirmation" index="1" unique_id=1912510881]
+layout_mode = 2
+
+[node name="CanclePurgeButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/PurgeConfirmation/HBoxContainer" index="0" unique_id=1938280287]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "No"
+icon = ExtResource("5_05rye")
+alignment = 0
+
+[node name="ConfirmPurgeButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/PurgeConfirmation/HBoxContainer" index="1" unique_id=1658287351]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Button_Red"
+text = "Yes"
+icon = ExtResource("3_mc5os")
+alignment = 0
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/EditButton" to="." method="_on_edit_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/PurgeButton" to="." method="_on_purge_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/PurgeConfirmation/HBoxContainer/CanclePurgeButton" to="." method="_on_cancle_purge_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/PurgeConfirmation/HBoxContainer/ConfirmPurgeButton" to="." method="_on_confirm_purge_button_pressed"]

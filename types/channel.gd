@@ -166,13 +166,12 @@ func purge_messages() -> void:
 			
 			if not allowed:
 				return
-			
-			server.send_api_message("purge_channel_messages", {
-				channel_id = id
-			})
-		else:
-			# TODO implement based on user permissions
+		elif not server.local_user.has_permission(server, Permissions.MESSAGE_PURGE):
 			return
+			
+		server.send_api_message("purge_channel_messages", {
+			channel_id = id
+		})
 
 func delete_channel() -> void:
 	if HeadlessServer.is_headless_server:

@@ -52,3 +52,10 @@ func _draw() -> void:
 		message_item.message = message
 		message_item.channel = channel
 		_messages_container_node.add_child(message_item)
+
+func delete() -> void:
+	var tween := create_tween().set_trans(Tween.TRANS_CUBIC)
+	tween.tween_property(self , "modulate:a", 0.0, 0.5)
+	await tween.finished
+
+	queue_free()

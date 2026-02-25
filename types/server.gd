@@ -468,15 +468,20 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				return
 			
 			var user_id: String = online_users[peer_id]
+			var user: User = get_user(user_id)
 			var channel: Channel = get_channel(data.channel_id)
-			if not is_instance_valid(channel) or not channel.is_private:
+			if not is_instance_valid(channel) or not is_instance_valid(user):
 				return
 			
 			var user_allowed: bool = false
-			for participant in channel.pm_participants:
-				if participant.user_id == user_id:
-					user_allowed = true
-					break
+
+			if channel.is_private:
+				for participant in channel.pm_participants:
+					if participant.user_id == user_id:
+						user_allowed = true
+						break
+			else:
+				user_allowed = user.has_permission(self , Permissions.MESSAGE_PURGE)
 			
 			if not user_allowed:
 				prints("User", peer_id, "tried to purge private channel", data.channel_id, "but is not allowed to.")
@@ -639,7 +644,13 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			
 			for message_item in ChatFrame.instance.get_tree().get_nodes_in_group("message_item"):
 				if message_item.message == message:
-					message_item.delete()
+					var message_group: MessageGroupNode = message_item.get_parent().owner
+					message_group.messages.erase(message)
+
+					if len(message_group.messages) == 0:
+						message_group.delete()
+					else:
+						message_item.delete()
 		"message_updated":
 			if not "channel_id" in data or not "message_id" in data:
 				return
