@@ -95,7 +95,7 @@ func send_message(content: String, encryption_key: String = "", attachments: Arr
 
 func delete_message(message: Message) -> void:
 	assert(is_instance_valid(server.com_node), "No server connection")
-	assert(message.author_id == server.user_id, "Cannot delete messages from other users")
+	assert(message.author_id == server.user_id or server.local_user.has_permission(server, Permissions.MESSAGE_DELETE), "Cannot delete messages from other users")
 
 	server.send_api_message("delete_message", {
 		channel_id = id,

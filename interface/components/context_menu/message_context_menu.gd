@@ -31,9 +31,12 @@ func _ready() -> void:
 			_selected_text = child.get_selected_text()
 			break
 	
+	var is_mine: bool = ChatFrame.instance.selected_channel.server.user_id == message.author_id
+	var can_delete: bool = ChatFrame.instance.selected_channel.server.local_user.has_permission(ChatFrame.instance.selected_channel.server, Permissions.MESSAGE_DELETE)
+
 	%QuoteReplyButton.visible = len(_selected_text.strip_edges()) > 0
-	%OwnMessageContainer.visible = message.author_id == ChatFrame.instance.selected_channel.server.user_id
-	%EditButton.visible = not message.encrypted
+	%OwnMessageContainer.visible = is_mine or can_delete
+	%EditButton.visible = not message.encrypted and is_mine
 
 	show()
 
@@ -50,7 +53,7 @@ func _on_quote_reply_button_pressed() -> void:
 	fade_free()
 
 func _on_delete_button_pressed() -> void:
-	assert(message.author_id == ChatFrame.instance.selected_channel.server.user_id, "Cannot edit messages from other users")
+	assert(message.author_id == ChatFrame.instance.selected_channel.server.user_id or ChatFrame.instance.selected_channel.server.local_user.has_permission(ChatFrame.instance.selected_channel.server, Permissions.MESSAGE_DELETE), "Cannot delete messages from other users")
 
 	# TODO ask for confirmation
 	ChatFrame.instance.selected_channel.delete_message(message)

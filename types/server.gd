@@ -320,8 +320,8 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			
 			var message_data: Dictionary = channel._db.query_result[0]
 			
-			if not peer_id in online_users or message_data.author != online_users[peer_id]:
-				print("Message delete (ID %d) was attempted by a user (%s) who is not the author (%s)" % [data.message_id, online_users[peer_id] if peer_id in online_users else str(peer_id), message_data.author])
+			if not peer_id in online_users or message_data.author != online_users[peer_id] and not get_user(online_users[peer_id]).has_permission(self , Permissions.MESSAGE_DELETE):
+				print("Message delete (ID %d) was attempted by a user (%s) who is not the author (%s) or does not have permission" % [data.message_id, online_users[peer_id] if peer_id in online_users else str(peer_id), message_data.author])
 				return
 			
 			if "attachments" in message_data and message_data.attachments:
@@ -332,6 +332,8 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 					channel._db.delete_rows("media", "media_id = '%s'" % attachment_id)
 			
 			channel._db.delete_rows("messages", "timestamp = '%d'" % data.message_id)
+
+			await Lib.seconds(0.1)
 
 			HeadlessServer.send_api_message("message_deleted", {
 				channel_id = data.channel_id,
