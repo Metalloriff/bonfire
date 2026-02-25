@@ -30,12 +30,13 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="0" unique_id=266935013]
+[node name="HFlowContainer" type="HFlowContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer" index="0" unique_id=744270218]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
 alignment = 1
 
-[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0" unique_id=320590951]
+[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer" index="0" unique_id=320590951]
 clip_children = 1
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
@@ -43,10 +44,10 @@ size_flags_horizontal = 0
 mouse_default_cursor_shape = 2
 theme_type_variation = &"CircleMask"
 
-[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/PanelContainer" index="0" unique_id=858156807]
+[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/PanelContainer" index="0" unique_id=858156807]
 layout_mode = 2
 
-[node name="AvatarPreview" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/PanelContainer" index="1" unique_id=1201268642]
+[node name="AvatarPreview" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/PanelContainer" index="1" unique_id=1201268642]
 unique_name_in_owner = true
 layout_mode = 2
 mouse_default_cursor_shape = 2
@@ -54,44 +55,44 @@ texture = ExtResource("3_qqeyg")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1558628694]
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer" index="1" unique_id=1558628694]
 custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0" unique_id=918631507]
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer" index="0" unique_id=918631507]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="0" unique_id=56269606]
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer/HBoxContainer" index="0" unique_id=56269606]
 layout_mode = 2
 theme_override_constants/separation = -2
 alignment = 1
 
-[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0" unique_id=1969112831]
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="0" unique_id=1969112831]
 layout_mode = 2
 text = "Display name"
 
-[node name="Label2" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1" unique_id=746770352]
+[node name="Label2" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1" unique_id=746770352]
 modulate = Color(1, 1, 1, 0.38039216)
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
 text = "(blank for default)"
 horizontal_alignment = 1
 
-[node name="DisplayName" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1413638985]
+[node name="DisplayName" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1413638985]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Username"
 max_length = 32
 
-[node name="PickPFPButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="1" unique_id=682028576]
+[node name="PickPFPButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer" index="1" unique_id=682028576]
 layout_mode = 2
 text = "Choose Image"
 icon = ExtResource("4_ybkb1")
 
-[node name="Label2" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer" index="2" unique_id=1329087737]
+[node name="Label2" type="Label" parent="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer" index="2" unique_id=1329087737]
 modulate = Color(1, 1, 1, 0.38039216)
 layout_mode = 2
 theme_override_font_sizes/font_size = 10
@@ -166,15 +167,15 @@ text = "Save Changes"
 icon = ExtResource("7_i1ecv")
 
 [node name="FileDialog" type="FileDialog" parent="." index="2" unique_id=803933770]
-title = "Choose Profile Avatar"
+title = "Open a File"
 file_mode = 0
 access = 2
 filters = PackedStringArray("*.jpg", "*.jpeg", "*.png", "*.webp", "*.bmp")
 use_native_dialog = true
 
-[connection signal="gui_input" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/PanelContainer/AvatarPreview" to="." method="_on_avatar_preview_gui_input"]
-[connection signal="text_changed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/DisplayName" to="." method="_on_display_name_text_changed"]
-[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/VBoxContainer/PickPFPButton" to="." method="_on_pick_pfp_button_pressed"]
+[connection signal="gui_input" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/PanelContainer/AvatarPreview" to="." method="_on_avatar_preview_gui_input"]
+[connection signal="text_changed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer/HBoxContainer/DisplayName" to="." method="_on_display_name_text_changed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer/PickPFPButton" to="." method="_on_pick_pfp_button_pressed"]
 [connection signal="text_changed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/Bio" to="." method="_on_bio_text_changed"]
 [connection signal="text_changed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/Tagline" to="." method="_on_tagline_text_changed"]
 [connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/CancelButton" to="." method="_on_cancel_button_pressed"]

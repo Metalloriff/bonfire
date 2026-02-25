@@ -9,6 +9,10 @@ var unsaved_changes: bool
 func _ready() -> void:
 	await Lib.frame
 
+	if OS.get_name() == "Android":
+		$Modal/MarginContainer.custom_minimum_size = Vector2(0, 0)
+		$Modal.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+
 	if not is_instance_valid(user) or is_instance_valid(instance):
 		queue_free()
 		return

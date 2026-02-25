@@ -11,7 +11,9 @@ var cache_path: String:
 
 func _ready() -> void:
 	if OS.get_name() == "Android":
-		set_anchors_and_offsets_preset(PRESET_TOP_WIDE)
+		Lib.frame.connect(func() -> void:
+			set_anchors_and_offsets_preset(PRESET_TOP_WIDE)
+		, CONNECT_ONE_SHOT)
 
 	FS.mkdir(cache_path.get_base_dir())
 

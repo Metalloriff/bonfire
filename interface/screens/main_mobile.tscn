@@ -40,6 +40,7 @@ size_flags_vertical = 3
 script = ExtResource("3_fn5t8")
 
 [node name="MobileChannelList" type="MarginContainer" parent="VirtKbSepContainer/MobileContainer" unique_id=1522963908]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -156,6 +157,7 @@ icon = ExtResource("8_remya")
 expand_icon = true
 
 [node name="MobileMemberList" type="MarginContainer" parent="VirtKbSepContainer/MobileContainer" unique_id=1642732582]
+unique_name_in_owner = true
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -171,6 +173,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="MobileChatContainer" type="PanelContainer" parent="VirtKbSepContainer/MobileContainer" unique_id=1258899384]
+unique_name_in_owner = true
 z_index = 1
 layout_mode = 1
 anchors_preset = 15

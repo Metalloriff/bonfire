@@ -14,6 +14,8 @@ func open_modal(modal_path: String) -> Control:
 	var modal: Control = load(modal_path).instantiate()
 	var background: ColorRect = modal.get_node_or_null("Background")
 
+	modal.z_index += 10
+
 	if is_instance_valid(background):
 		background.gui_input.connect(func(event: InputEvent) -> void:
 			if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:

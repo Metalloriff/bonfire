@@ -39,7 +39,7 @@ func _input(event: InputEvent) -> void:
 		if not event.pressed:
 			# This is spaghetti, but I am not a mobile developer and it works
 			if _main_focused:
-				if absf($MobileChatContainer.global_position.x) < PX_THRESHOLD and absf(_velocity.x) < VELOCITY_THRESHOLD:
+				if absf($MobileChatContainer.global_position.x) < PX_THRESHOLD:
 					fade_to_chat()
 				else:
 					if $MobileChatContainer.global_position.x > 0:
@@ -49,7 +49,9 @@ func _input(event: InputEvent) -> void:
 			else:
 				var width: float = get_viewport().size.x / Engine.get_main_loop().root.content_scale_factor
 
-				if absf($MobileChatContainer.global_position.x) < width - PX_THRESHOLD or absf(_velocity.x) > VELOCITY_THRESHOLD:
+				# print(absf(_velocity.x))
+
+				if absf($MobileChatContainer.global_position.x) < width - PX_THRESHOLD:
 					fade_to_chat()
 				else:
 					if $MobileChatContainer.global_position.x > 0:
@@ -70,3 +72,10 @@ func fade_to_member_list() -> void:
 	var width: float = get_viewport().size.x / Engine.get_main_loop().root.content_scale_factor
 	create_tween().set_trans(Tween.TRANS_BOUNCE).tween_property($MobileChatContainer, "global_position:x", -width, TRANSITION_TIME)
 	_main_focused = false
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		var event := InputEventKey.new()
+		event.keycode = KEY_ESCAPE
+		event.pressed = true
+		get_viewport().push_input(event)

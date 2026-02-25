@@ -47,6 +47,12 @@ func _input(event: InputEvent) -> void:
 func open() -> void:
 	if is_transitioning: return
 	is_transitioning = true
+
+	if OS.get_name() == "Android":
+		$MarginContainer.set("theme_override_constants/margin_left", 0)
+		$MarginContainer.set("theme_override_constants/margin_right", 0)
+		$MarginContainer.set("theme_override_constants/margin_top", 0)
+		$MarginContainer.set("theme_override_constants/margin_bottom", 0)
 	
 	show()
 	settings.visible = true
