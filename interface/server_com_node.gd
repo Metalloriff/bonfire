@@ -120,6 +120,9 @@ func _process(delta: float) -> void:
 
 	if local_multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
 		_connection_timeout += delta
+		
+		if local_multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTING:
+			return
 
 		if _connection_timeout > _connection_try_delay:
 			_peer.create_client(address, port)

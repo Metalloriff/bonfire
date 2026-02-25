@@ -12,6 +12,7 @@ var defaults: Dictionary = {
 	},
 	network = {
 		upnp_enabled = true,
+		upnp_refresh_interval_minutes = -1,
 		port = 26969,
 		password = ""
 	},
@@ -101,26 +102,14 @@ func _ready() -> void:
 	if get_config_entry("network.upnp_enabled"):
 		print("Attempting to open uPnP port mapping...")
 
-		var upnp_thread := Thread.new()
-		upnp_thread.start(_do_upnp_mapping)
-		var timeout: float = 0.0
-
-		while upnp_thread.is_alive():
-			timeout += await Lib.frame_with_delta()
-
-			if timeout > 5.0:
-				print("uPnP port mapping timed out! Shutting down server...")
-				get_tree().quit()
-				return
+		await _upnp()
 		
-		var output: String = upnp_thread.wait_to_finish()
-		if "Error" in output:
-			print("uPnP port mapping failed! Shutting down server...")
-			print("Consider disabling uPnP in server.yml and manually forwarding ports.")
-			get_tree().quit()
-			return
-		else:
-			print("uPnP port mapping successful. Server will now listen on %s" % output)
+		if get_config_entry("network.upnp_refresh_interval_minutes") > 0:
+			var timer: Timer = Timer.new()
+			timer.wait_time = get_config_entry("network.upnp_refresh_interval_minutes") * 60.0
+			timer.autostart = true
+			timer.timeout.connect(_upnp)
+			add_child(timer)
 
 	var peer = ENetMultiplayerPeer.new()
 	var err = peer.create_server(get_config_entry("network.port"))
@@ -186,6 +175,28 @@ func _ready() -> void:
 	multiplayer.peer_packet.connect(_packet_received)
 
 	server.com_node = ServerComNode.new(server.id)
+
+func _upnp() -> void:
+	var upnp_thread := Thread.new()
+	upnp_thread.start(_do_upnp_mapping)
+	var timeout: float = 0.0
+
+	while upnp_thread.is_alive():
+		timeout += await Lib.frame_with_delta()
+
+		if timeout > 5.0:
+			print("uPnP port mapping timed out! Shutting down server...")
+			get_tree().quit()
+			return
+	
+	var output: String = upnp_thread.wait_to_finish()
+	if "Error" in output:
+		print("uPnP port mapping failed! Shutting down server...")
+		print("Consider disabling uPnP in server.yml and manually forwarding ports.")
+		get_tree().quit()
+		return
+	else:
+		print("uPnP port mapping successful. Server will now listen on %s" % output)
 
 func _do_upnp_mapping() -> Variant:
 	var err := func(msg: String) -> String:
