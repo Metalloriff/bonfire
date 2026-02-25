@@ -226,7 +226,11 @@ func _packet_received(peer_id: int, packet: PackedByteArray) -> void:
 
 func _process(_delta: float) -> void:
 	if not multiplayer.multiplayer_peer:
+		print("MDUD: Multiplayer peer is null")
 		return
+	
+	if multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_CONNECTED:
+		prints("MDUD: Multiplayer peer is not connected. Status:", multiplayer.multiplayer_peer.get_connection_status())
 
 func save_config() -> void:
 	YAML.save_file(config, config_path)
