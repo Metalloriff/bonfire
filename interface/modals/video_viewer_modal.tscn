@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://c0n37vy06pkjv"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_ikmpo"]
+[ext_resource type="Script" uid="uid://dygwkh7nw6ojm" path="res://interface/modals/video_viewer_modal.gd" id="2_ejjkr"]
+[ext_resource type="PackedScene" uid="uid://dun72lm0syynn" path="res://interface/components/chat/video_player.tscn" id="2_l1i2w"]
+[ext_resource type="Texture2D" uid="uid://bgu7u4ihraulx" path="res://icons/download.png" id="3_ejjkr"]
+
+[node name="VideoViewerModal" unique_id=649999717 instance=ExtResource("1_ikmpo")]
+script = ExtResource("2_ejjkr")
+
+[node name="Modal" parent="." index="1" unique_id=18995346]
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=1463480750]
+layout_mode = 2
+
+[node name="VideoPlayer" parent="Modal/MarginContainer/VBoxContainer" index="0" unique_id=1072541983 instance=ExtResource("2_l1i2w")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+conform_to_player_size = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="1" unique_id=804899529]
+layout_mode = 2
+alignment = 1
+
+[node name="SaveButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="0" unique_id=1221511181]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Save Video"
+icon = ExtResource("3_ejjkr")
+
+[node name="FileDialog" type="FileDialog" parent="." index="2" unique_id=1317937739]
+title = "Save Video"
+access = 2
+use_native_dialog = true
+
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

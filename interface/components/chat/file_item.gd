@@ -177,6 +177,7 @@ func _create_audio_item(stream: AudioStream) -> void:
 func _create_video_item(stream) -> void:
 	var video_player = preload("res://interface/components/chat/video_player.tscn").instantiate()
 	video_player.stream = stream
+	video_player.file_path = cache_path
 
 	%ControlsContainer.add_child(video_player)
 	%ControlsContainer.show()

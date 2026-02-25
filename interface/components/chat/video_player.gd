@@ -1,10 +1,15 @@
 extends VBoxContainer
 
+@export var conform_to_player_size: bool = false
+var file_path: String
+
 var stream:
 	set(new):
 		if new == stream:
 			return
 		stream = new
+
+		var player_size: Vector2 = %VideoStreamPlayer.size
 
 		if is_instance_valid(stream):
 			%VideoStreamPlayer.stream = stream
@@ -16,12 +21,29 @@ var stream:
 			var video_size: Vector2 = %VideoStreamPlayer.get_video_texture().get_size()
 			var ratio: float = video_size.y / video_size.x
 			
-			%VideoStreamPlayer.custom_minimum_size = Vector2(500, 500 * ratio)
-			%VideoStreamPlayer.size = %VideoStreamPlayer.custom_minimum_size
+			if conform_to_player_size:
+				var ratio_x: float = player_size.x / video_size.x
+				var s: Vector2 = Vector2(player_size.y * ratio_x, player_size.y)
+				var sub: float = s.x - player_size.x
+
+				if sub > 0:
+					s.x -= sub
+					s.y -= sub * ratio
+
+				%VideoStreamPlayer.custom_minimum_size = s
+				%VideoStreamPlayer.size = s
+			else:
+				%VideoStreamPlayer.custom_minimum_size = Vector2(500, 500 * ratio)
+				%VideoStreamPlayer.size = %VideoStreamPlayer.custom_minimum_size
 
 			%VideoStreamPlayer.play()
 			await Lib.frame
 			%VideoStreamPlayer.paused = true
+
+			await Lib.frame
+
+			if conform_to_player_size:
+				_on_pause_play_pressed()
 		else:
 			%VideoStreamPlayer.stream = null
 
@@ -34,6 +56,7 @@ var stream:
 
 func _ready() -> void:
 	%VolumeSlider.value = FS.get_pref("media_audio_volume", 0.75)
+	%FullScreenButton.visible = not conform_to_player_size
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(stream):
@@ -54,7 +77,7 @@ func _on_pause_play_pressed() -> void:
 	player.paused = not player.paused
 	if not player.paused:
 		player.play()
-		player.stream_position = %Timeline.value
+		player.stream_position = %Timeline.value if %Timeline.value / %Timeline.max_value < 0.99 else 0.0
 
 	%PausePlay.icon = load("res://icons/playArrow.png") if player.paused else load("res://icons/pause.png")
 
@@ -79,3 +102,9 @@ func _on_video_stream_player_gui_input(event: InputEvent) -> void:
 		_on_pause_play_pressed()
 	if event is InputEventScreenTouch and event.is_pressed():
 		_on_pause_play_pressed()
+
+func _on_full_screen_button_pressed() -> void:
+	var modal = ModalStack.open_modal("res://interface/modals/video_viewer_modal.tscn")
+	modal.stream = stream
+	modal.raw = FileAccess.get_file_as_bytes(file_path)
+	modal.file_name = file_path.get_file()
