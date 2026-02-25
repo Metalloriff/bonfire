@@ -10,10 +10,47 @@ var cache_path: String:
 		return "user://cache/media/%s/%s" % [channel.id, media.media_id]
 
 func _ready() -> void:
+	if OS.get_name() == "Android":
+		set_anchors_and_offsets_preset(PRESET_TOP_WIDE)
+
 	FS.mkdir(cache_path.get_base_dir())
 
 	%FileName.text = "%s.%s" % [media.file_name, media.ext]
 	%FileSize.text = Lib.bytes_to_readable(media.size)
+
+	if media.encrypted and not media.decryption_key:
+		%Icon.texture = preload("res://icons/lock.png")
+		%EncryptedContainer.show()
+		%DownloadContainer.hide()
+		%FileName.hide()
+
+		%Password.text_changed.connect(func(_t: String) -> void:
+			%EncryptedContainer/ErrorText.hide()
+		)
+
+		%EncryptedContainer/Encrypted/Button.pressed.connect(func() -> void:
+			var decryption_key: String = %Password.text
+			var decrypted_file_name: String = EncryptionTools.decrypt_string(Marshalls.base64_to_raw(media.file_name), decryption_key)
+
+			prints(media.file_name, decrypted_file_name)
+
+			if "�" in decrypted_file_name or not decrypted_file_name:
+				%EncryptedContainer/ErrorText.show()
+				return
+			
+			media.file_name = decrypted_file_name
+			media.decryption_key = decryption_key
+
+			%Icon.texture = preload("res://icons/insertDriveFile.png")
+			%EncryptedContainer.hide()
+			%DownloadContainer.show()
+			%FileName.show()
+
+			_ready.call_deferred()
+		)
+
+		%FileType.text = "encrypted"
+		return
 
 	match media.ext:
 		"png", "jpg", "jpeg", "svg", "webp":
@@ -35,7 +72,7 @@ func _ready() -> void:
 						file.close()
 
 						_ready.call_deferred()
-					)
+					, media)
 		"mp3", "wav", "ogg", "flac", "opus", "midi":
 			%FileType.text = "audio"
 			%Icon.texture = preload("res://icons/audioFile.png")
@@ -70,7 +107,7 @@ func _ready() -> void:
 							file.close()
 
 							_ready.call_deferred()
-						)
+						, media)
 		"mp4", "webm", "mkv", "avi", "mov", "flv", "wmv", "3gp", "m4v", "m4a", "mpg", "mpeg":
 			%FileType.text = "video"
 			%Icon.texture = preload("res://icons/videoFile.png")
@@ -89,7 +126,7 @@ func _ready() -> void:
 						file.close()
 
 						_ready.call_deferred()
-					)
+					, media)
 		"exe", "x86_64", "appimage":
 			%FileType.text = "executable(!)"
 			%FileType.modulate = Color.html("#e02b4f")
@@ -153,7 +190,7 @@ func _on_file_dialog_file_selected(path: String) -> void:
 		var file: FileAccess = FileAccess.open(path, FileAccess.WRITE)
 		file.store_buffer(data)
 		file.close()
-		,
+		, media,
 		NotificationDaemon.show_toast_progress("Downloading file...")
 	)
 

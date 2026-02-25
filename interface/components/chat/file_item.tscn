@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_ebvyp"]
 [ext_resource type="Script" uid="uid://b7io4juq30p2e" path="res://interface/components/chat/file_item.gd" id="2_dwpma"]
 [ext_resource type="Texture2D" uid="uid://bgu7u4ihraulx" path="res://icons/download.png" id="2_ebvyp"]
+[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="5_cgj61"]
 [ext_resource type="Texture2D" uid="uid://cqr51vyo67pvs" path="res://icons/info.png" id="5_snaum"]
 
 [node name="FileItem" type="PanelContainer" unique_id=1944873929]
@@ -18,10 +19,10 @@ layout_mode = 2
 
 [node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer" unique_id=441185668]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(180, 180)
+custom_minimum_size = Vector2(180, 100)
 layout_mode = 2
 texture = ExtResource("1_dbmea")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5
 
 [node name="FileName" type="Label" parent="MarginContainer/VBoxContainer" unique_id=311169996]
@@ -36,16 +37,51 @@ visible = false
 custom_minimum_size = Vector2(180, 0)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=180702510]
+[node name="DownloadContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=180702510]
+unique_name_in_owner = true
 layout_mode = 2
 alignment = 1
 
-[node name="DownloadButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer" unique_id=1031877736]
+[node name="DownloadButton" type="Button" parent="MarginContainer/VBoxContainer/DownloadContainer" unique_id=1031877736]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Download"
 icon = ExtResource("2_ebvyp")
 alignment = 0
+
+[node name="EncryptedContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=788789438]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/EncryptedContainer" unique_id=1004848336]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_cgj61")
+text = "Encrypted File"
+horizontal_alignment = 1
+
+[node name="ErrorText" type="Label" parent="MarginContainer/VBoxContainer/EncryptedContainer" unique_id=1277056777]
+visible = false
+modulate = Color(1, 0.26999998, 0.30650014, 1)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_cgj61")
+text = "Incorrect password."
+horizontal_alignment = 1
+
+[node name="Encrypted" type="HBoxContainer" parent="MarginContainer/VBoxContainer/EncryptedContainer" unique_id=1064656688]
+layout_mode = 2
+
+[node name="Password" type="LineEdit" parent="MarginContainer/VBoxContainer/EncryptedContainer/Encrypted" unique_id=2019432738]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+placeholder_text = "Password"
+secret = true
+
+[node name="Button" type="Button" parent="MarginContainer/VBoxContainer/EncryptedContainer/Encrypted" unique_id=1275756906]
+layout_mode = 2
+theme_type_variation = &"Button_Red"
+text = "Decrypt"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=667410124]
 layout_mode = 2
@@ -85,5 +121,5 @@ layout_mode = 2
 text = "Load Anyway"
 icon = ExtResource("5_snaum")
 
-[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/DownloadButton" to="." method="_on_download_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/DownloadContainer/DownloadButton" to="." method="_on_download_button_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/FileTooLargeContainer/FileTooLargeButton" to="." method="_on_file_too_large_button_pressed"]

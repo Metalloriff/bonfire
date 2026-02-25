@@ -143,6 +143,7 @@ func _handle_api_request_server(client: StreamPeerTCP) -> void:
 			media.file_name = file_name
 			media.size = len(data)
 			media.ext = file_type
+			media.encrypted = request_data.encrypted
 
 			var hashing_context := HashingContext.new()
 			hashing_context.start(HashingContext.HASH_MD5)
@@ -232,7 +233,8 @@ func upload_file(auth: Dictionary, file_path: String, channel_id: String, file_t
 		auth = auth,
 		channel_id = channel_id,
 		file_type = file_type,
-		file_name = file_name
+		file_name = Marshalls.raw_to_base64(EncryptionTools.encrypt_string(file_name, encryption_key)) if encryption_key else file_name,
+		encrypted = len(encryption_key) > 0 and encryption_key != server.get_channel(channel_id).private_key
 	})
 	var data := FileAccess.get_file_as_bytes(file_path)
 

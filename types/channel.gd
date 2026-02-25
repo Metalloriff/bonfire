@@ -203,14 +203,22 @@ func get_media_meta(media_id: String) -> Media: # TODO optimize this
 			print("Timeout while waiting for media meta")
 			return null
 	
+	if is_private and private_key and not _media_meta_cache[media_id].encrypted:
+		print("should decrypt media meta")
+		_media_meta_cache[media_id].decryption_key = private_key
+		_media_meta_cache[media_id].file_name = EncryptionTools.decrypt_string(Marshalls.base64_to_raw(_media_meta_cache[media_id].file_name), private_key)
+	
 	return _media_meta_cache[media_id]
 
 var _media_response_cache: Dictionary = {}
-func get_media_file_data_then(media_id: String, callback: Callable, progress_callback: Callable = func(_v: float) -> void: pass ) -> void:
+func get_media_file_data_then(media_id: String, callback: Callable, meta: Media = null, progress_callback: Callable = func(_v: float) -> void: pass ) -> void:
 	assert(media_id, "No media id provided")
 
 	if not media_id in _media_response_cache:
 		_media_response_cache[media_id] = await server.com_node.file_server.request_file(AuthPortal.get_auth(server.id), id, media_id, progress_callback)
+
+		if is_instance_valid(meta) and meta.decryption_key:
+			_media_response_cache[media_id] = EncryptionTools.decrypt_raw_data(_media_response_cache[media_id], meta.decryption_key)
 
 		prints("got media response", media_id, _media_response_cache[media_id])
 	

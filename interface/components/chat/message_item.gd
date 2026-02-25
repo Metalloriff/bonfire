@@ -94,7 +94,7 @@ func _ready() -> void:
 	for attachment_id in message.attachment_ids:
 		_render_attachment(attachment_id)
 
-	if message.encrypted:
+	if message.encrypted and len(message.content.strip_edges()) > 0:
 		$TextContents.hide()
 		$Encryption.show()
 

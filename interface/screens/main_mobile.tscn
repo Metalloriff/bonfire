@@ -72,6 +72,7 @@ size_flags_horizontal = 3
 [node name="TabContainer" type="TabContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer" unique_id=684160487]
 layout_mode = 2
 size_flags_vertical = 3
+tab_alignment = 1
 current_tab = 0
 
 [node name="Public" type="VBoxContainer" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/TabContainer" unique_id=1038953838]
@@ -142,6 +143,12 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Username"
 
+[node name="ProfileButton" type="Button" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=374155810]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+icon = ExtResource("7_isgh4")
+expand_icon = true
+
 [node name="SettingsButton" type="Button" parent="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=243007743]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -192,6 +199,7 @@ layout_mode = 2
 layout_mode = 2
 script = ExtResource("12_nbw81")
 
+[connection signal="pressed" from="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/ProfileButton" to="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer" method="_on_profile_button_pressed"]
 [connection signal="pressed" from="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/SettingsButton" to="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer" method="_on_settings_button_pressed"]
 
 [editable path="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/Servers/ScrollContainer/MarginContainer/ServerList"]

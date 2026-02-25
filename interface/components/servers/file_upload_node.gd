@@ -12,13 +12,20 @@ func _ready() -> void:
 	%Label.text = file_path.get_file().get_basename()
 
 	var auth: Dictionary = AuthPortal.get_auth(server.id)
+	var encryption_key: String = ""
+
+	if MessageEncryptionContextMenu.encrypt_message_enabled:
+		encryption_key = MessageEncryptionContextMenu.encryption_key
+	elif channel.is_private:
+		encryption_key = channel.private_key
 
 	server.com_node.file_server.upload_file(
 		auth,
 		file_path,
 		channel.id,
 		file_path.get_extension(),
-		file_path.get_file().get_basename(), MessageEncryptionContextMenu.encryption_key if MessageEncryptionContextMenu.encrypt_message_enabled else "",
+		file_path.get_file().get_basename(),
+		encryption_key,
 		func(progress: float, offset: int, length: int, media_id: String
 	) -> void:
 		%ProgressBar.value = progress

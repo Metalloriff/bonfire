@@ -10,6 +10,8 @@ class_name Media extends Resource
 @export var message_id: int = -1
 @export var uploader_id: String
 
+var decryption_key: String
+
 func serialize() -> Dictionary:
 	return {
 		media_id = media_id,
