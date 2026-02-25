@@ -4,6 +4,7 @@
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_y35sj"]
 [ext_resource type="Texture2D" uid="uid://blu287s7cquh0" path="res://icons/key.png" id="3_uifks"]
 [ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="4_21s4e"]
+[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="5_uifks"]
 
 [node name="TextChat" type="ScrollContainer" unique_id=467820522 groups=["text_chat_screen"]]
 anchors_preset = 15
@@ -67,8 +68,9 @@ horizontal_alignment = 1
 [node name="NoMessagesLabel" type="Label" parent="MarginContainer/List" unique_id=297632405]
 modulate = Color(1, 1, 1, 0.38431373)
 layout_mode = 2
-theme_override_font_sizes/font_size = 36
+theme_override_fonts/font = ExtResource("5_uifks")
+theme_override_font_sizes/font_size = 22
 text = "
 
-No message here."
+No messages here."
 horizontal_alignment = 1

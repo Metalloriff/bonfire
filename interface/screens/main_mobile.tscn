@@ -202,6 +202,29 @@ layout_mode = 2
 layout_mode = 2
 script = ExtResource("12_nbw81")
 
+[node name="ConnectionIssueNotice" type="PanelContainer" parent="." unique_id=710384571]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 50.0
+offset_right = 20.0
+offset_bottom = 40.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_type_variation = &"PanelContainer_Error"
+
+[node name="MarginContainer" type="MarginContainer" parent="ConnectionIssueNotice" unique_id=1495434604]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="ConnectionIssueNotice/MarginContainer" unique_id=1410946682]
+layout_mode = 2
+text = "This server is currently offline."
+
 [connection signal="pressed" from="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/ProfileButton" to="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer" method="_on_profile_button_pressed"]
 [connection signal="pressed" from="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/SettingsButton" to="VirtKbSepContainer/MobileContainer/MobileChannelList/HBoxContainer/ChannelContainer/LocalUserContainer" method="_on_settings_button_pressed"]
 

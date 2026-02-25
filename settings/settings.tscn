@@ -6,13 +6,33 @@
 [ext_resource type="Script" uid="uid://cqbujsj1jts6q" path="res://settings/ui.gd" id="2_axkxe"]
 [ext_resource type="Texture2D" uid="uid://brk34k7vjmah2" path="res://settings/icons/reset.png" id="4_11qxb"]
 [ext_resource type="Script" uid="uid://cg3y0rs5boe34" path="res://settings/project_settings_manager.gd" id="4_a11k5"]
+[ext_resource type="Script" uid="uid://cjmmhbp1b5312" path="res://addons/StyleboxFancy/StyleBorder.gd" id="5_m20js"]
 [ext_resource type="Script" uid="uid://7owmd7f3jvpl" path="res://addons/awesome_input_icons/classes/InputIconTextureRect.gd" id="6_5wv7n"]
 [ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="6_cj201"]
+[ext_resource type="Script" uid="uid://bkl6g25jwb47h" path="res://addons/StyleboxFancy/StyleBoxFancy.gd" id="6_wfl0n"]
 [ext_resource type="Script" uid="uid://j4k5urgovvep" path="res://settings/input_picker_modal.gd" id="7_0svtd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_hc83s"]
 shader = ExtResource("1_f0c1n")
 shader_parameter/blur_amount = 1.5
+
+[sub_resource type="StyleBox" id="StyleBox_8ogv8"]
+resource_local_to_scene = false
+resource_name = ""
+content_margin_left = -1.0
+content_margin_top = -1.0
+content_margin_right = -1.0
+content_margin_bottom = -1.0
+script = ExtResource("6_wfl0n")
+color = Color(0.1064, 0.1064, 0.14, 1)
+corner_radius_top_left = 55
+corner_radius_top_right = 55
+corner_radius_bottom_right = 56
+corner_radius_bottom_left = 55
+corner_curvature_top_left = 4.025
+corner_curvature_top_right = 4.025
+corner_curvature_bottom_right = 4.025
+corner_curvature_bottom_left = 4.025
 
 [node name="Settings" type="CanvasLayer" unique_id=1866238567]
 process_mode = 3
@@ -58,6 +78,7 @@ theme_override_constants/margin_right = 100
 [node name="TabContainer" type="TabContainer" parent="UI/MarginContainer" unique_id=740572149]
 unique_name_in_owner = true
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBox_8ogv8")
 current_tab = 0
 
 [node name="SettingsPage" type="MarginContainer" parent="UI/MarginContainer/TabContainer" unique_id=467472894]

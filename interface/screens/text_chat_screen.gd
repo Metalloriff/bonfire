@@ -7,6 +7,11 @@ var unread_message_divider: PackedScene = preload("res://interface/components/ch
 @onready var list: VBoxContainer = %List
 @onready var no_messages_label: Label = %List/NoMessagesLabel
 
+var _mark_as_read_debounced: Callable = Lib.create_debouncer(0.5, _mark_as_read)
+func _mark_as_read() -> void:
+	channel.last_read_message_timestamp = channel.messages[-1].timestamp
+	channel.unread_count = 0
+
 var _processed_messages: Array[Message] = []
 
 func _ready() -> void:
@@ -37,8 +42,7 @@ func render() -> void:
 		message_group.queue_redraw.call_deferred()
 	
 	if len(channel.messages):
-		channel.last_read_message_timestamp = channel.messages[-1].timestamp
-		channel.unread_count = 0
+		_mark_as_read_debounced.call()
 
 	var reverse_index: int = len(channel.messages)
 	for message in channel.messages:
