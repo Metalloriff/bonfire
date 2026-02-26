@@ -59,7 +59,46 @@ text = "Yes"
 icon = ExtResource("3_mc5os")
 alignment = 0
 
+[node name="DeleteButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="4" unique_id=409160557]
+layout_mode = 2
+theme_type_variation = &"Button_Red"
+text = "Delete Channel"
+icon = ExtResource("3_mc5os")
+alignment = 0
+expand_icon = true
+
+[node name="DeleteConfirmation" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="5" unique_id=217786313]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer/DeleteConfirmation" index="0" unique_id=818971606]
+layout_mode = 2
+text = "Are you sure?"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/DeleteConfirmation" index="1" unique_id=2030819583]
+layout_mode = 2
+
+[node name="CancelDeleteButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/DeleteConfirmation/HBoxContainer" index="0" unique_id=1262574141]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "No"
+icon = ExtResource("5_05rye")
+alignment = 0
+
+[node name="ConfirmDeleteButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/DeleteConfirmation/HBoxContainer" index="1" unique_id=1709846328]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Button_Red"
+text = "Yes"
+icon = ExtResource("3_mc5os")
+alignment = 0
+
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/EditButton" to="." method="_on_edit_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/PurgeButton" to="." method="_on_purge_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/PurgeConfirmation/HBoxContainer/CanclePurgeButton" to="." method="_on_cancle_purge_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/PurgeConfirmation/HBoxContainer/ConfirmPurgeButton" to="." method="_on_confirm_purge_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/DeleteButton" to="." method="_on_delete_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/DeleteConfirmation/HBoxContainer/CancelDeleteButton" to="." method="_on_cancel_delete_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/DeleteConfirmation/HBoxContainer/ConfirmDeleteButton" to="." method="_on_confirm_delete_button_pressed"]

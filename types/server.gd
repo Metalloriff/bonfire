@@ -493,21 +493,44 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				return
 			
 			var user_id: String = online_users[peer_id]
+			var user: User = get_user(user_id)
 			var channel: Channel = get_channel(data.channel_id)
-			if not is_instance_valid(channel) or not channel.is_private:
+			if not is_instance_valid(channel) or not is_instance_valid(user):
 				return
 
 			var user_allowed: bool = false
-			for participant in channel.pm_participants:
-				if participant.user_id == user_id:
-					user_allowed = true
-					break
+			if channel.is_private:
+				for participant in channel.pm_participants:
+					if participant.user_id == user_id:
+						user_allowed = true
+						break
+			else:
+				user_allowed = user.has_permission(self , Permissions.CHANNEL_MANAGE)
 			
 			if not user_allowed:
 				prints("User", peer_id, "tried to delete private channel", data.channel_id, "but is not allowed to.")
 				return
 			
 			channel.delete_channel()
+		"edit_channel":
+			if not "channel_id" in data or not "name" in data:
+				return
+			
+			if len(data.name) > 32:
+				return
+			
+			var user_id: String = online_users[peer_id]
+			var user: User = get_user(user_id)
+			var channel: Channel = get_channel(data.channel_id)
+			if not is_instance_valid(channel) or not is_instance_valid(user):
+				return
+			
+			if not user.has_permission(self , Permissions.CHANNEL_MANAGE):
+				prints("User", peer_id, "tried to edit channel", data.channel_id, "but is not allowed to.")
+				return
+			
+			channel.name = data.name
+			save_to_disk()
 		"fetch_message_count_since":
 			if not "channel_ids" in data or not "timestamp" in data or not len(data.channel_ids):
 				return
@@ -528,6 +551,54 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				channel_ids = data.channel_ids,
 				counts = response
 			}, peer_id)
+		"create_channel":
+			if not "name" in data or not "channel_type" in data:
+				return
+			
+			if not data.channel_type in Channel.CHANNEL_TYPE_TITLES:
+				return
+			
+			if len(data.name) > 32:
+				return
+			
+			var user_id: String = online_users[peer_id]
+			var user: User = get_user(user_id)
+			if not is_instance_valid(user):
+				return
+			
+			if not user.has_permission(self , Permissions.CHANNEL_MANAGE):
+				prints("User", peer_id, "tried to create channel but is not allowed to.")
+				return
+			
+			var channel: Channel = Channel.new()
+			channel.name = data.name
+			channel.type = data.channel_type
+			channel.server = self
+			channel._initialize_messages_database()
+			channels.append(channel)
+
+			save_to_disk()
+		"reorder_channel":
+			if not "index_a" in data or not "channel_a" in data or not "index_b" in data or not "channel_b" in data:
+				return
+			
+			var user_id: String = online_users[peer_id]
+			var user: User = get_user(user_id)
+			if not is_instance_valid(user):
+				return
+			
+			if not user.has_permission(self , Permissions.CHANNEL_MANAGE):
+				prints("User", peer_id, "tried to reorder channel", data.channel_a, "but is not allowed to.")
+				return
+			
+			var channel_a: Channel = get_channel(data.channel_a)
+			var channel_b: Channel = get_channel(data.channel_b)
+			if not is_instance_valid(channel_a) or not is_instance_valid(channel_b):
+				return
+			
+			channels[data.index_a] = channel_a
+			channels[data.index_b] = channel_b
+			save_to_disk()
 
 func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int) -> void:
 	if HeadlessServer.is_headless_server:

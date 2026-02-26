@@ -4,6 +4,28 @@ enum Type {
 	TEXT,
 	VOICE,
 	MEDIA,
+	ENCRYPTED_TEXT
+}
+
+const CHANNEL_TYPE_TITLES: Dictionary = {
+	Type.TEXT: "Text Channel",
+	Type.VOICE: "Voice Channel",
+	Type.MEDIA: "Media Channel",
+	Type.ENCRYPTED_TEXT: "Encrypted Text Channel"
+}
+
+const CHANNEL_TYPE_DESCRIPTIONS: Dictionary = {
+	Type.TEXT: "Send and receive text messages and files.",
+	Type.VOICE: "Connect with other users to talk in a voice channel. Also includes a text chat.",
+	Type.MEDIA: "(NOT YET IMPLEMENTED) A media gallery where you can send and receive images, videos, and audio.",
+	Type.ENCRYPTED_TEXT: "(NOT YET IMPLEMENTED) A password-protected text channel where all messages are encrypted."
+}
+
+const CHANNEL_TYPE_ICONS: Dictionary = {
+	Type.TEXT: preload("res://icons/chat.png"),
+	Type.VOICE: preload("res://icons/call.png"),
+	Type.MEDIA: preload("res://icons/photoSizeSelectActual.png"),
+	Type.ENCRYPTED_TEXT: preload("res://icons/lock.png")
 }
 
 signal message_received(message: Message)
@@ -177,7 +199,7 @@ func delete_channel() -> void:
 	if HeadlessServer.is_headless_server:
 		purge_messages()
 
-		await Lib.seconds(2.0)
+		await Lib.seconds(1.0)
 		
 		if self in server.private_channels:
 			server.private_channels.erase(self )
@@ -203,8 +225,12 @@ func delete_channel() -> void:
 				channel_id = id
 			})
 		else:
-			# TODO implement based on user permissions
-			return
+			if not server.local_user.has_permission(server, Permissions.CHANNEL_MANAGE):
+				return
+			
+			server.send_api_message("delete_channel", {
+				channel_id = id
+			})
 
 func _load_messages_from_db(limit: int = 50, offset: int = 0) -> Array[Dictionary]:
 	# TODO implement pagination

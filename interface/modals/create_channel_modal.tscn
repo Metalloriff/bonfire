@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://fr2kobq2v4o2"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_lbvgg"]
+[ext_resource type="Script" uid="uid://b62pgy8rsovm0" path="res://interface/modals/create_channel_modal.gd" id="2_kx4v0"]
+[ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="2_sglf5"]
+[ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="3_kx4v0"]
+[ext_resource type="Texture2D" uid="uid://c5hetv6646ij2" path="res://icons/playlistAddCheck.png" id="4_ukm2a"]
+
+[node name="CreateChannelModal" unique_id=649999717 instance=ExtResource("1_lbvgg")]
+script = ExtResource("2_kx4v0")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=78007104]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Modal/MarginContainer/VBoxContainer" index="0" unique_id=994825921]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_sglf5")
+text = "Create Channel"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="1" unique_id=1634842052]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="0" unique_id=928961570]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Type"
+
+[node name="Type" type="OptionButton" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1718017756]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+expand_icon = true
+
+[node name="Description" type="Label" parent="Modal/MarginContainer/VBoxContainer" index="2" unique_id=1168502885]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 1, 1, 0.5411765)
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="3" unique_id=429114135]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="0" unique_id=1237195484]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Name"
+
+[node name="Name" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="1" unique_id=1222993091]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+placeholder_text = "Example: General"
+max_length = 32
+
+[node name="Control" type="Control" parent="Modal/MarginContainer/VBoxContainer" index="4" unique_id=1385285515]
+layout_mode = 2
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="5" unique_id=1613932909]
+layout_mode = 2
+alignment = 1
+
+[node name="CancelButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer3" index="0" unique_id=492333251]
+layout_mode = 2
+text = "Cancel"
+icon = ExtResource("3_kx4v0")
+
+[node name="CreateButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer3" index="1" unique_id=1581771581]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Button_Important"
+text = "Create"
+icon = ExtResource("4_ukm2a")
+
+[connection signal="item_selected" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Type" to="." method="_on_type_item_selected"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HBoxContainer3/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HBoxContainer3/CreateButton" to="." method="_on_create_button_pressed"]

@@ -3,9 +3,18 @@ class_name ChannelList extends VBoxContainer
 static var instance: ChannelList
 
 var last_channel_selected: Channel
+var re_order_mode: bool
 
 func _ready() -> void:
 	instance = self
+
+	ContextMenu.attach_listener(self , preload("res://interface/components/context_menu/channel_list_context_menu.tscn"), func(menu: ContextMenu) -> void:
+		if not App.instance.selected_server.local_user.has_permission(App.instance.selected_server, Permissions.CHANNEL_MANAGE):
+			menu.queue_free()
+			return
+		
+		menu.server = App.selected_server
+	)
 
 	await get_tree().process_frame
 
@@ -48,8 +57,14 @@ func _draw():
 			ChatFrame.instance.selected_channel = channel
 		
 		var control: VBoxContainer = load("res://interface/components/servers/channel_button.tscn").instantiate()
+
 		control.channel = channel
-		control.get_node("Button").pressed.connect(func() -> void:
-			last_channel_selected = channel
-		)
+
+		if re_order_mode:
+			control.get_node("Button").mouse_filter = Control.MOUSE_FILTER_IGNORE
+		else:
+			control.get_node("Button").pressed.connect(func() -> void:
+				last_channel_selected = channel
+			)
+
 		add_child(control)

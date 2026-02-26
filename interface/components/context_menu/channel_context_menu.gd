@@ -20,7 +20,9 @@ func _on_purge_button_pressed() -> void:
 	%PurgeConfirmation.show()
 
 func _on_edit_button_pressed() -> void:
-	pass # Replace with function body.
+	var modal = ModalStack.open_modal("res://interface/modals/create_channel_modal.tscn")
+	modal.existing_channel = channel
+	fade_free()
 
 func _on_confirm_purge_button_pressed() -> void:
 	channel.purge_messages()
@@ -28,3 +30,13 @@ func _on_confirm_purge_button_pressed() -> void:
 
 func _on_cancle_purge_button_pressed() -> void:
 	%PurgeConfirmation.hide()
+
+func _on_delete_button_pressed() -> void:
+	%DeleteConfirmation.show()
+
+func _on_confirm_delete_button_pressed() -> void:
+	channel.delete_channel()
+	fade_free()
+
+func _on_cancel_delete_button_pressed() -> void:
+	%DeleteConfirmation.hide()
