@@ -28,14 +28,16 @@ func _on_create_button_pressed() -> void:
 	if existing_channel:
 		App.selected_server.send_api_message("edit_channel", {
 			channel_id = existing_channel.id,
-			name = name
+			name = name,
+			icon = %IconButton.icon.resource_path.get_file()
 		})
 	else:
 		var channel_type: int = type_dropdown.get_item_id(type_dropdown.selected)
 
 		App.selected_server.send_api_message("create_channel", {
 			channel_type = channel_type,
-			name = name
+			name = name,
+			icon = %IconButton.icon.resource_path.get_file()
 		})
 
 	ModalStack.fade_free_modal(self )
@@ -44,3 +46,11 @@ func _on_type_item_selected(index: int) -> void:
 	var channel_type: int = type_dropdown.get_item_id(index)
 
 	%Description.text = Channel.CHANNEL_TYPE_DESCRIPTIONS[channel_type]
+	%IconButton.icon = Channel.CHANNEL_TYPE_ICONS[channel_type]
+
+func _on_icon_button_pressed() -> void:
+	var modal = ModalStack.open_modal("res://interface/modals/icon_picker_modal.tscn")
+	var icon_name: String = await modal.icon_selected
+
+	if icon_name:
+		%IconButton.icon = load("res://icons/%s" % icon_name)

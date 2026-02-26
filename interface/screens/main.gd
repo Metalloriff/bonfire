@@ -55,5 +55,20 @@ func _ready() -> void:
 	if is_instance_valid(split_container):
 		split_container.split_offsets = FS.get_pref("app_split_offsets", split_container.split_offsets)
 
+	Settings.make_setting_link_method("appearance", "background_image", func(path: String) -> void:
+		if not path or not FileAccess.file_exists(path):
+			$BackgroundImage.texture = null
+			return
+		
+		var image: Image = Image.load_from_file(path)
+		var texture: ImageTexture = ImageTexture.create_from_image(image)
+		$BackgroundImage.texture = texture
+	)
+	
+	Settings.make_setting_link("appearance", "background_image_opacity", $BackgroundImage, "modulate:a")
+	Settings.make_setting_link("appearance", "background_blur_radius", $BackgroundImage, "material:shader_parameter/radius")
+	Settings.make_setting_link("appearance", "background_blur_x", $BackgroundImage, "material:shader_parameter/step:x")
+	Settings.make_setting_link("appearance", "background_blur_y", $BackgroundImage, "material:shader_parameter/step:y")
+
 func _on_split_container_drag_ended() -> void:
 	FS.set_pref("app_split_offsets", split_container.split_offsets)

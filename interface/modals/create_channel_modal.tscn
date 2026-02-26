@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://b62pgy8rsovm0" path="res://interface/modals/create_channel_modal.gd" id="2_kx4v0"]
 [ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="2_sglf5"]
 [ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="3_kx4v0"]
+[ext_resource type="Texture2D" uid="uid://fvt2vky3bg7n" path="res://icons/chat.png" id="4_kx4v0"]
 [ext_resource type="Texture2D" uid="uid://c5hetv6646ij2" path="res://icons/playlistAddCheck.png" id="4_ukm2a"]
 
 [node name="CreateChannelModal" unique_id=649999717 instance=ExtResource("1_lbvgg")]
@@ -60,10 +61,25 @@ size_flags_stretch_ratio = 2.0
 placeholder_text = "Example: General"
 max_length = 32
 
-[node name="Control" type="Control" parent="Modal/MarginContainer/VBoxContainer" index="4" unique_id=1385285515]
+[node name="HBoxContainer4" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="4" unique_id=1441614616]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer4" index="0" unique_id=1667479720]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Icon"
+
+[node name="IconButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer4" index="1" unique_id=1400795954]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/icon_max_width = 20
+icon = ExtResource("4_kx4v0")
+
+[node name="Control" type="Control" parent="Modal/MarginContainer/VBoxContainer" index="5" unique_id=1385285515]
 layout_mode = 2
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="5" unique_id=1613932909]
+[node name="HBoxContainer3" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="6" unique_id=1613932909]
 layout_mode = 2
 alignment = 1
 
@@ -80,5 +96,6 @@ text = "Create"
 icon = ExtResource("4_ukm2a")
 
 [connection signal="item_selected" from="Modal/MarginContainer/VBoxContainer/HBoxContainer/Type" to="." method="_on_type_item_selected"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HBoxContainer4/IconButton" to="." method="_on_icon_button_pressed"]
 [connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HBoxContainer3/CancelButton" to="." method="_on_cancel_button_pressed"]
 [connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HBoxContainer3/CreateButton" to="." method="_on_create_button_pressed"]

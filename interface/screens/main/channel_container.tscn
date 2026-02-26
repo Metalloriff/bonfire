@@ -1,0 +1,104 @@
+[gd_scene format=3 uid="uid://dgl57tyvhuxtx"]
+
+[ext_resource type="Script" uid="uid://d1srepb6fakhm" path="res://interface/screens/main/channel_list.gd" id="1_2tc3m"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_kevkd"]
+[ext_resource type="Texture2D" uid="uid://bv4i7gx841x8a" path="res://icons/public.png" id="2_b1kop"]
+[ext_resource type="Script" uid="uid://diw8801b53b20" path="res://interface/screens/main/private_channel_list.gd" id="2_gb521"]
+[ext_resource type="Texture2D" uid="uid://cj2t7f833etu5" path="res://icons/mailLock.png" id="3_6vmmg"]
+[ext_resource type="Script" uid="uid://bhhwjyqd08gbs" path="res://interface/screens/main/local_user_container.gd" id="3_ysv56"]
+[ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="4_kevkd"]
+[ext_resource type="Texture2D" uid="uid://cml4bx5ybxqtj" path="res://icons/settings.png" id="5_b1kop"]
+
+[node name="ChannelContainer" type="VBoxContainer" unique_id=271820007]
+theme = ExtResource("1_kevkd")
+
+[node name="TabContainer" type="TabContainer" parent="." unique_id=621000745]
+layout_mode = 2
+size_flags_vertical = 3
+tab_alignment = 1
+current_tab = 0
+tab_0/icon = ExtResource("2_b1kop")
+tab_1/icon = ExtResource("3_6vmmg")
+
+[node name="Public" type="VBoxContainer" parent="TabContainer" unique_id=155119754]
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("1_2tc3m")
+metadata/_tab_index = 0
+
+[node name="ServerInfoContainer" type="MarginContainer" parent="TabContainer/Public" unique_id=951947864]
+layout_mode = 2
+
+[node name="ServerInfo" type="VBoxContainer" parent="TabContainer/Public/ServerInfoContainer" unique_id=352029881]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="TabContainer/Public/ServerInfoContainer/ServerInfo" unique_id=1382216143]
+layout_mode = 2
+text = "Server Name"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="TabContainer/Public/ServerInfoContainer/ServerInfo" unique_id=1068203485]
+layout_mode = 2
+
+[node name="Private" type="VBoxContainer" parent="TabContainer" unique_id=799157763]
+visible = false
+layout_mode = 2
+theme_override_constants/separation = 0
+script = ExtResource("2_gb521")
+metadata/_tab_index = 1
+
+[node name="ServerInfoContainer" type="MarginContainer" parent="TabContainer/Private" unique_id=436990440]
+layout_mode = 2
+
+[node name="ServerInfo" type="VBoxContainer" parent="TabContainer/Private/ServerInfoContainer" unique_id=898384235]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="TabContainer/Private/ServerInfoContainer/ServerInfo" unique_id=559762938]
+layout_mode = 2
+text = "Private Messages"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="TabContainer/Private/ServerInfoContainer/ServerInfo" unique_id=145075168]
+layout_mode = 2
+
+[node name="LocalUserContainer" type="PanelContainer" parent="." unique_id=1179072540]
+layout_mode = 2
+script = ExtResource("3_ysv56")
+
+[node name="MarginContainer" type="MarginContainer" parent="LocalUserContainer" unique_id=1627380526]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="LocalUserContainer/MarginContainer" unique_id=1176569045]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="AvatarContainer" type="PanelContainer" parent="LocalUserContainer/MarginContainer/HBoxContainer" unique_id=818952456]
+clip_children = 1
+layout_mode = 2
+theme_type_variation = &"CircleMask"
+
+[node name="Avatar" type="TextureRect" parent="LocalUserContainer/MarginContainer/HBoxContainer/AvatarContainer" unique_id=214628650]
+layout_mode = 2
+texture = ExtResource("4_kevkd")
+expand_mode = 3
+stretch_mode = 6
+
+[node name="Username" type="Label" parent="LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1773946513]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Username"
+
+[node name="ProfileButton" type="Button" parent="LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1123721213]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+icon = ExtResource("4_kevkd")
+expand_icon = true
+
+[node name="SettingsButton" type="Button" parent="LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1157418360]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+icon = ExtResource("5_b1kop")
+expand_icon = true
+
+[connection signal="pressed" from="LocalUserContainer/MarginContainer/HBoxContainer/ProfileButton" to="LocalUserContainer" method="_on_profile_button_pressed"]
+[connection signal="pressed" from="LocalUserContainer/MarginContainer/HBoxContainer/SettingsButton" to="LocalUserContainer" method="_on_settings_button_pressed"]

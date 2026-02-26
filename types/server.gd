@@ -530,6 +530,10 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				return
 			
 			channel.name = data.name
+
+			if "icon" in data and ResourceLoader.exists("res://icons/%s" % data.icon):
+				channel.icon_name = data.icon
+
 			save_to_disk()
 		"fetch_message_count_since":
 			if not "channel_ids" in data or not "timestamp" in data or not len(data.channel_ids):
@@ -577,6 +581,9 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			channel._initialize_messages_database()
 			channels.append(channel)
 
+			if "icon" in data and ResourceLoader.exists("res://icons/%s" % data.icon):
+				channel.icon_name = data.icon
+
 			save_to_disk()
 		"reorder_channel":
 			if not "index_a" in data or not "channel_a" in data or not "index_b" in data or not "channel_b" in data:
@@ -598,6 +605,64 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			
 			channels[data.index_a] = channel_a
 			channels[data.index_b] = channel_b
+			save_to_disk()
+		"kick_user":
+			if not "user_id" in data:
+				return
+			
+			var requesting_user_id: String = online_users[peer_id]
+			var requesting_user: User = get_user(requesting_user_id)
+			if not is_instance_valid(requesting_user):
+				return
+			
+			if not requesting_user.has_permission(self , Permissions.MEMBER_KICK):
+				prints("User", peer_id, "tried to kick user", data.user_id, "but is not allowed to.")
+				return
+			
+			var user: User = get_user(data.user_id)
+			if not is_instance_valid(user):
+				return
+			
+			if user.id == requesting_user_id:
+				prints("User", peer_id, "tried to kick themselves. That's rude.")
+				return
+			
+			var pid: int = get_peer_id_by_user_id(data.user_id)
+			if pid > 0:
+				com_node.local_multiplayer.multiplayer_peer.disconnect_peer(pid, true)
+			
+			if "purge_all_messages" in data and data.purge_all_messages:
+				if requesting_user.has_permission(self , Permissions.MESSAGE_PURGE):
+					HeadlessServer.instance.purge_messages_from_user(data.user_id)
+				else:
+					prints("User", peer_id, "tried to purge messages from user", data.user_id, "but is not allowed to.")
+			
+			await Lib.seconds(0.1)
+
+			users.erase(user)
+			save_to_disk()
+		"edit_server":
+			var user_id: String = online_users[peer_id]
+			var user: User = get_user(user_id)
+			if not is_instance_valid(user):
+				return
+			
+			if not user.has_permission(self , Permissions.SERVER_PROFILE_MANAGE):
+				prints("User", peer_id, "tried to edit server but is not allowed to.")
+				return
+			
+			if "name" in data:
+				name = data.name.substr(0, 32)
+				HeadlessServer.instance.config.profile.name = name
+			
+			if "icon" in data and len(data.icon) < Lib.readable_to_bytes("1MB"):
+				var image: Image = Image.new()
+				image.load_png_from_buffer(data.icon)
+				icon = ImageTexture.create_from_image(image)
+
+				image.save_png("%s/icon.png" % HeadlessServer.instance.server_data_path)
+			
+			HeadlessServer.instance.save_config()
 			save_to_disk()
 
 func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int) -> void:

@@ -254,11 +254,14 @@ func _build_interface() -> void:
 							dialog.add_filter(filter)
 					
 					field.get_node("Button").pressed.connect(func() -> void: dialog.popup())
+					field.get_node("ClearButton").pressed.connect(func() -> void:
+						_handle_value_change(category, property, "", field)
+					)
 					
 					dialog.file_selected.connect(func(file: String) -> void:
 						_handle_value_change(category, property, file, field)
 
-						if FileAccess.file_exists(file):
+						if FileAccess.file_exists(file) and setting.type == "avatar":
 							var image: Image = Image.load_from_file(file)
 							var texture: ImageTexture = ImageTexture.create_from_image(image)
 							field.get_node("TextureRect").texture = texture

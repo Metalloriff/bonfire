@@ -21,6 +21,13 @@ func _ready() -> void:
 	if not user.is_online_in_server(server) and not is_instance_valid(user.get_direct_message_channel(server)):
 		%PrivateMessageButton.disabled = true
 		%PrivateMessageButton.tooltip_text = "Private message is not available for offline users. Wait for them to go online."
+	
+	if server.local_user.has_permission(server, Permissions.MEMBER_KICK):
+		%MemberManage.show()
+		%KickMemberButton.show()
+
+		if server.local_user.has_permission(server, Permissions.MESSAGE_PURGE):
+			%KickPurgeMessages.show()
 
 func _on_private_message_button_pressed() -> void:
 	var existing_channel: Channel = user.get_direct_message_channel(server)
@@ -52,3 +59,19 @@ func _on_view_profile_button_pressed() -> void:
 	var modal = ModalStack.open_modal("res://interface/modals/user_public_profile_modal.tscn")
 	modal.user = user
 	fade_free()
+
+func _on_kick_member_button_pressed() -> void:
+	%KickMemberPanel.show()
+
+func _on_confirm_kick_pressed() -> void:
+	var purge_all_messages: bool = %KickPurgeMessages.button_pressed and server.local_user.has_permission(server, Permissions.MESSAGE_PURGE)
+
+	server.send_api_message("kick_user", {
+		user_id = user.id,
+		purge_all_messages = purge_all_messages
+	})
+
+	fade_free()
+
+func _on_cancel_cick_pressed() -> void:
+	%KickMemberPanel.hide()

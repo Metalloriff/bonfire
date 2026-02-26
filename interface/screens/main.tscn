@@ -3,14 +3,16 @@
 [ext_resource type="Script" uid="uid://bohs8rq1l0mcd" path="res://interface/screens/main.gd" id="1_d1nne"]
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_tp7gj"]
 [ext_resource type="PackedScene" uid="uid://bt5nv2a5po3kk" path="res://interface/components/servers/server_list.tscn" id="3_3x0ov"]
-[ext_resource type="Script" uid="uid://diw8801b53b20" path="res://interface/screens/main/private_channel_list.gd" id="5_5n1j1"]
-[ext_resource type="Script" uid="uid://d1srepb6fakhm" path="res://interface/screens/main/channel_list.gd" id="5_s7lbp"]
-[ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="6_3x0ov"]
-[ext_resource type="Script" uid="uid://bhhwjyqd08gbs" path="res://interface/screens/main/local_user_container.gd" id="6_5n1j1"]
-[ext_resource type="Texture2D" uid="uid://cml4bx5ybxqtj" path="res://icons/settings.png" id="7_5n1j1"]
+[ext_resource type="Shader" uid="uid://c518n1l5y78af" path="res://resources/shaders/blur.gdshader" id="3_aes4q"]
+[ext_resource type="PackedScene" uid="uid://dgl57tyvhuxtx" path="res://interface/screens/main/channel_container.tscn" id="4_br7lb"]
 [ext_resource type="Script" uid="uid://ckln06vm8xqkx" path="res://interface/screens/main/chat_frame.gd" id="7_sqj8o"]
 [ext_resource type="PackedScene" uid="uid://cqljlwc8jrffj" path="res://interface/components/servers/text_area.tscn" id="9_3x0ov"]
 [ext_resource type="PackedScene" uid="uid://bln4u7aj8h827" path="res://interface/components/servers/member_list.tscn" id="9_aes4q"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5n1j1"]
+shader = ExtResource("3_aes4q")
+shader_parameter/step = Vector2(0, 0)
+shader_parameter/radius = 2.0
 
 [node name="Main" type="Control" unique_id=1465277677]
 layout_mode = 3
@@ -22,6 +24,17 @@ grow_vertical = 2
 pivot_offset_ratio = Vector2(0.5, 0.5)
 theme = ExtResource("1_tp7gj")
 script = ExtResource("1_d1nne")
+
+[node name="BackgroundImage" type="TextureRect" parent="." unique_id=894345096]
+material = SubResource("ShaderMaterial_5n1j1")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 6
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=1497134192]
 layout_mode = 1
@@ -35,7 +48,7 @@ size_flags_vertical = 3
 [node name="SplitContainer" type="HSplitContainer" parent="MarginContainer" unique_id=2094505634]
 unique_name_in_owner = true
 layout_mode = 2
-split_offsets = PackedInt32Array(70, 370, 1500)
+split_offsets = PackedInt32Array(70, 293, 1200)
 split_offset = 70
 
 [node name="Servers" type="PanelContainer" parent="MarginContainer/SplitContainer" unique_id=1912331874]
@@ -53,94 +66,8 @@ size_flags_vertical = 3
 [node name="ServerList" parent="MarginContainer/SplitContainer/Servers/ScrollContainer/MarginContainer" unique_id=716935970 instance=ExtResource("3_3x0ov")]
 layout_mode = 2
 
-[node name="ChannelContainer" type="VBoxContainer" parent="MarginContainer/SplitContainer" unique_id=1207690190]
+[node name="ChannelContainer" parent="MarginContainer/SplitContainer" unique_id=271820007 instance=ExtResource("4_br7lb")]
 layout_mode = 2
-
-[node name="TabContainer" type="TabContainer" parent="MarginContainer/SplitContainer/ChannelContainer" unique_id=805822590]
-layout_mode = 2
-size_flags_vertical = 3
-tab_alignment = 1
-current_tab = 0
-
-[node name="Public" type="VBoxContainer" parent="MarginContainer/SplitContainer/ChannelContainer/TabContainer" unique_id=813998620]
-layout_mode = 2
-theme_override_constants/separation = 0
-script = ExtResource("5_s7lbp")
-metadata/_tab_index = 0
-
-[node name="ServerInfoContainer" type="MarginContainer" parent="MarginContainer/SplitContainer/ChannelContainer/TabContainer/Public" unique_id=1952891382]
-layout_mode = 2
-
-[node name="ServerInfo" type="VBoxContainer" parent="MarginContainer/SplitContainer/ChannelContainer/TabContainer/Public/ServerInfoContainer" unique_id=1723194714]
-layout_mode = 2
-
-[node name="Name" type="Label" parent="MarginContainer/SplitContainer/ChannelContainer/TabContainer/Public/ServerInfoContainer/ServerInfo" unique_id=44537089]
-layout_mode = 2
-text = "Server Name"
-horizontal_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/SplitContainer/ChannelContainer/TabContainer/Public/ServerInfoContainer/ServerInfo" unique_id=387222966]
-layout_mode = 2
-
-[node name="Private" type="VBoxContainer" parent="MarginContainer/SplitContainer/ChannelContainer/TabContainer" unique_id=933133075]
-visible = false
-layout_mode = 2
-theme_override_constants/separation = 0
-script = ExtResource("5_5n1j1")
-metadata/_tab_index = 1
-
-[node name="ServerInfoContainer" type="MarginContainer" parent="MarginContainer/SplitContainer/ChannelContainer/TabContainer/Private" unique_id=532128948]
-layout_mode = 2
-
-[node name="ServerInfo" type="VBoxContainer" parent="MarginContainer/SplitContainer/ChannelContainer/TabContainer/Private/ServerInfoContainer" unique_id=40286386]
-layout_mode = 2
-
-[node name="Name" type="Label" parent="MarginContainer/SplitContainer/ChannelContainer/TabContainer/Private/ServerInfoContainer/ServerInfo" unique_id=557763253]
-layout_mode = 2
-text = "Private Messages"
-horizontal_alignment = 1
-
-[node name="HSeparator" type="HSeparator" parent="MarginContainer/SplitContainer/ChannelContainer/TabContainer/Private/ServerInfoContainer/ServerInfo" unique_id=853658215]
-layout_mode = 2
-
-[node name="LocalUserContainer" type="PanelContainer" parent="MarginContainer/SplitContainer/ChannelContainer" unique_id=2001124872]
-layout_mode = 2
-script = ExtResource("6_5n1j1")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer" unique_id=1910278376]
-layout_mode = 2
-
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer" unique_id=1366381619]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="AvatarContainer" type="PanelContainer" parent="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1370698232]
-clip_children = 1
-layout_mode = 2
-theme_type_variation = &"CircleMask"
-
-[node name="Avatar" type="TextureRect" parent="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/AvatarContainer" unique_id=1217910208]
-layout_mode = 2
-texture = ExtResource("6_3x0ov")
-expand_mode = 3
-stretch_mode = 6
-
-[node name="Username" type="Label" parent="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1758461276]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Username"
-
-[node name="ProfileButton" type="Button" parent="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1773851946]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-icon = ExtResource("6_3x0ov")
-expand_icon = true
-
-[node name="SettingsButton" type="Button" parent="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1139410926]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-icon = ExtResource("7_5n1j1")
-expand_icon = true
 
 [node name="ChatContainer" type="VBoxContainer" parent="MarginContainer/SplitContainer" unique_id=1819694883]
 layout_mode = 2
@@ -183,7 +110,5 @@ layout_mode = 2
 text = "This server is currently offline."
 
 [connection signal="drag_ended" from="MarginContainer/SplitContainer" to="." method="_on_split_container_drag_ended"]
-[connection signal="pressed" from="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/ProfileButton" to="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer" method="_on_profile_button_pressed"]
-[connection signal="pressed" from="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer/MarginContainer/HBoxContainer/SettingsButton" to="MarginContainer/SplitContainer/ChannelContainer/LocalUserContainer" method="_on_settings_button_pressed"]
 
 [editable path="MarginContainer/SplitContainer/Servers/ScrollContainer/MarginContainer/ServerList"]

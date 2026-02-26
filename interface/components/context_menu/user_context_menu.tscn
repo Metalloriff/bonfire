@@ -5,6 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://b4sx6qv0scruf" path="res://icons/textsms.png" id="2_l8waf"]
 [ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="3_qhg85"]
 [ext_resource type="Texture2D" uid="uid://4fpdtbwcl6bf" path="res://icons/fileCopy.png" id="4_a8kb2"]
+[ext_resource type="Texture2D" uid="uid://b8hy2g1b0chg0" path="res://icons/personRemove.png" id="6_xme60"]
+[ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="7_1mq2p"]
 
 [node name="UserContextMenu" unique_id=319957489 instance=ExtResource("1_0ew4m")]
 script = ExtResource("2_a8kb2")
@@ -40,6 +42,60 @@ icon = ExtResource("4_a8kb2")
 alignment = 0
 expand_icon = true
 
+[node name="MemberManage" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="4" unique_id=2070332491]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer/MemberManage" index="0" unique_id=1545762502]
+layout_mode = 2
+
+[node name="KickMemberButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/MemberManage" index="1" unique_id=54045582]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+theme_type_variation = &"Button_Red"
+text = "Kick Member"
+icon = ExtResource("6_xme60")
+alignment = 0
+expand_icon = true
+
+[node name="KickMemberPanel" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MemberManage" index="2" unique_id=1166249348]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberPanel" index="0" unique_id=269067929]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberPanel/MarginContainer" index="0" unique_id=275155059]
+layout_mode = 2
+
+[node name="KickPurgeMessages" type="CheckButton" parent="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberPanel/MarginContainer/VBoxContainer" index="0" unique_id=2019775816]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Purge all messages?"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberPanel/MarginContainer/VBoxContainer" index="1" unique_id=233327054]
+layout_mode = 2
+
+[node name="CancelCick" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberPanel/MarginContainer/VBoxContainer/HBoxContainer" index="0" unique_id=1459759300]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cancel"
+icon = ExtResource("7_1mq2p")
+
+[node name="ConfirmKick" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberPanel/MarginContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1014233765]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_type_variation = &"Button_Red"
+text = "Kick"
+icon = ExtResource("6_xme60")
+
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ViewProfileButton" to="." method="_on_view_profile_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/PrivateMessageButton" to="." method="_on_private_message_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/CopyUserIDButton" to="." method="_on_copy_user_id_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberButton" to="." method="_on_kick_member_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberPanel/MarginContainer/VBoxContainer/HBoxContainer/CancelCick" to="." method="_on_cancel_cick_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberPanel/MarginContainer/VBoxContainer/HBoxContainer/ConfirmKick" to="." method="_on_confirm_kick_pressed"]

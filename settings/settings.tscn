@@ -250,17 +250,22 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "Example File Item"
 
+[node name="ClearButton" type="Button" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/FileItem" unique_id=1784422793]
+layout_mode = 2
+text = "Clear File"
+
 [node name="Button" type="Button" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/FileItem" unique_id=66474621]
 layout_mode = 2
 text = "Pick File"
 
 [node name="FileDialog" type="FileDialog" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/FileItem" unique_id=902975490]
-title = "Open a File"
+title = "Pick File"
 initial_position = 5
 size = Vector2i(876, 660)
 ok_button_text = "Open"
 file_mode = 0
 access = 2
+use_native_dialog = true
 
 [node name="AvatarItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1258622813]
 unique_name_in_owner = true

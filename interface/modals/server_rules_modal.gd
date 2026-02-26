@@ -3,9 +3,15 @@ class_name ServerRulesModal extends Control
 static var prompted_servers: Array[String] = []
 
 var server: Server
+var viewing: bool
 
 func _ready() -> void:
 	await Lib.frame
+
+	if viewing:
+		%Buttons/Accept.hide()
+		%Buttons/Decline.hide()
+		%Buttons/Close.show()
 
 	%Title.text = "Read the rules for %s" % server.name
 
@@ -26,3 +32,6 @@ func _on_decline_pressed() -> void:
 	server.leave_server(false)
 	ModalStack.fade_free_modal(self )
 	prompted_servers.erase(server.id)
+
+func _on_close_pressed() -> void:
+	ModalStack.fade_free_modal(self )

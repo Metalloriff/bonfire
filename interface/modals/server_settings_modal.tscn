@@ -1,0 +1,171 @@
+[gd_scene format=3 uid="uid://ctylj7ymokt6s"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_8kk5p"]
+[ext_resource type="Texture2D" uid="uid://d15dcr8r5ihos" path="res://icons/infoOutline.png" id="2_1p5hq"]
+[ext_resource type="Script" uid="uid://dw2jkxtk1opdi" path="res://interface/modals/server_settings_modal.gd" id="2_8kk5p"]
+[ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="3_tvsl8"]
+[ext_resource type="Texture2D" uid="uid://bv4i7gx841x8a" path="res://icons/public.png" id="5_8kk5p"]
+[ext_resource type="Texture2D" uid="uid://cxcegwu4gppx8" path="res://icons/openInNew.png" id="5_gm0nl"]
+[ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="7_kkgin"]
+[ext_resource type="Texture2D" uid="uid://cim2sbvcc0hjr" path="res://icons/checkBox.png" id="8_qgv8q"]
+
+[node name="ServerSettingsModal" unique_id=649999717 instance=ExtResource("1_8kk5p")]
+script = ExtResource("2_8kk5p")
+
+[node name="Modal" parent="." index="1" unique_id=18995346]
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=2120262719]
+layout_mode = 2
+
+[node name="HSplitContainer" type="HSplitContainer" parent="Modal/MarginContainer/VBoxContainer" index="0" unique_id=1398274714]
+layout_mode = 2
+size_flags_vertical = 3
+split_offsets = PackedInt32Array(296)
+split_offset = 296
+
+[node name="PanelContainer2" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer" index="0" unique_id=1234672273]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer2" index="0" unique_id=1920701838]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer2/VBoxContainer" index="0" unique_id=390381549]
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+text = "Server Settings"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Button" type="Button" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer2/VBoxContainer" index="1" unique_id=2051484605]
+layout_mode = 2
+theme_type_variation = &"Button_Translucent"
+text = "Server Profile"
+icon = ExtResource("2_1p5hq")
+alignment = 0
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer" index="1" unique_id=1474013659]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer" index="0" unique_id=1593756166]
+layout_mode = 2
+
+[node name="MarginContainer2" type="MarginContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer" index="0" unique_id=1211150739]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 25
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2" index="0" unique_id=1034951761]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer" index="0" unique_id=1642085689]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_tvsl8")
+theme_override_font_sizes/font_size = 20
+text = "Server Profile"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer" index="1" unique_id=761116114]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HFlowContainer" type="HFlowContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer" index="0" unique_id=397316638]
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+alignment = 1
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer" index="0" unique_id=116735742]
+clip_children = 1
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+size_flags_horizontal = 0
+mouse_default_cursor_shape = 2
+theme_type_variation = &"CircleMask"
+
+[node name="PanelContainer" type="PanelContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer/PanelContainer" index="0" unique_id=259587055]
+layout_mode = 2
+
+[node name="IconPreview" type="TextureRect" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer/PanelContainer" index="1" unique_id=637227490]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_default_cursor_shape = 2
+texture = ExtResource("5_8kk5p")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer" index="1" unique_id=1850446259]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer" index="0" unique_id=820190367]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer/HBoxContainer" index="0" unique_id=1130248117]
+layout_mode = 2
+text = "Server Name"
+
+[node name="Name" type="LineEdit" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer/HBoxContainer" index="1" unique_id=2111466050]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "Server Name"
+max_length = 32
+
+[node name="PickImageButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer" index="1" unique_id=464651661]
+layout_mode = 2
+text = "Choose Image"
+icon = ExtResource("5_gm0nl")
+
+[node name="Label2" type="Label" parent="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer" index="2" unique_id=7048904]
+modulate = Color(1, 1, 1, 0.38039216)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "(server icon will be scaled down to 256x256)"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Modal/MarginContainer/VBoxContainer" index="1" unique_id=2084231837]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="CancelButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="0" unique_id=927868178]
+layout_mode = 2
+text = "Cancel"
+icon = ExtResource("7_kkgin")
+
+[node name="SaveChangesButton" type="Button" parent="Modal/MarginContainer/VBoxContainer/HBoxContainer2" index="1" unique_id=456108025]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"Button_Important"
+text = "Save Changes"
+icon = ExtResource("8_qgv8q")
+
+[node name="FileDialog" type="FileDialog" parent="." index="2" unique_id=847370775]
+title = "Open a File"
+file_mode = 0
+access = 2
+filters = PackedStringArray("*.jpg", "*.jpeg", "*.png", "*.webp", "*.bmp")
+use_native_dialog = true
+
+[connection signal="gui_input" from="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer/PanelContainer/IconPreview" to="." method="_on_icon_preview_gui_input"]
+[connection signal="text_changed" from="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer/HBoxContainer/Name" to="." method="_on_name_text_changed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HSplitContainer/PanelContainer/ScrollContainer/MarginContainer2/VBoxContainer/VBoxContainer/HFlowContainer/VBoxContainer/PickImageButton" to="." method="_on_pick_image_button_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/VBoxContainer/HBoxContainer2/SaveChangesButton" to="." method="_on_save_changes_button_pressed"]
+[connection signal="file_selected" from="FileDialog" to="." method="_on_file_dialog_file_selected"]

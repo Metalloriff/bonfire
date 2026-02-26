@@ -3,7 +3,9 @@
 [ext_resource type="PackedScene" uid="uid://bvdbogspriemp" path="res://interface/components/context_menu/context_menu_base.tscn" id="1_3t8o5"]
 [ext_resource type="Script" uid="uid://beg0tusuxvdm3" path="res://interface/components/context_menu/server_context_menu.gd" id="2_p6mro"]
 [ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="2_ssah8"]
+[ext_resource type="Texture2D" uid="uid://d3vb2bm6jy37n" path="res://icons/edit.png" id="3_3s4i8"]
 [ext_resource type="Texture2D" uid="uid://d3ickyammn2u" path="res://icons/personOff.png" id="3_p6mro"]
+[ext_resource type="Texture2D" uid="uid://cqr51vyo67pvs" path="res://icons/info.png" id="3_uv8rb"]
 
 [node name="ServerContextMenu" unique_id=319957489 instance=ExtResource("1_3t8o5")]
 script = ExtResource("2_p6mro")
@@ -17,7 +19,24 @@ layout_mode = 2
 text = "Server Name"
 horizontal_alignment = 1
 
-[node name="LeaveServerButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="1" unique_id=1983193461]
+[node name="EditButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="1" unique_id=576702497]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Edit Server"
+icon = ExtResource("3_3s4i8")
+alignment = 0
+expand_icon = true
+
+[node name="ViewRulesButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="2" unique_id=924873958]
+unique_name_in_owner = true
+layout_mode = 2
+text = "View Rules"
+icon = ExtResource("3_uv8rb")
+alignment = 0
+expand_icon = true
+
+[node name="LeaveServerButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="3" unique_id=1983193461]
 layout_mode = 2
 theme_type_variation = &"Button_Red"
 text = "Leave Server"
@@ -25,7 +44,7 @@ icon = ExtResource("3_p6mro")
 alignment = 0
 expand_icon = true
 
-[node name="LeaveServerPanel" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="2" unique_id=1261939947]
+[node name="LeaveServerPanel" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="4" unique_id=1261939947]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -57,6 +76,8 @@ theme_type_variation = &"Button_Red"
 text = "Leave"
 icon = ExtResource("3_p6mro")
 
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/EditButton" to="." method="_on_edit_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ViewRulesButton" to="." method="_on_view_rules_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/LeaveServerButton" to="." method="_on_leave_server_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/LeaveServerPanel/MarginContainer/VBoxContainer/HBoxContainer/CancelLeaveServer" to="." method="_on_cancel_leave_server_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/LeaveServerPanel/MarginContainer/VBoxContainer/HBoxContainer/ConfirmLeaveServer" to="." method="_on_confirm_leave_server_pressed"]

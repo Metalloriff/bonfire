@@ -830,6 +830,7 @@ PanelSolid/base_type = &"PanelContainer"
 PanelSolid/styles/panel = SubResource("StyleBox_wloot")
 ProgressBar/styles/background = SubResource("StyleBox_eaw1p")
 ProgressBar/styles/fill = SubResource("StyleBox_7td87")
+TabContainer/constants/icon_max_width = 20
 TabContainer/styles/panel = SubResource("StyleBox_2oyfk")
 TabContainer/styles/tab_focus = SubResource("StyleBoxFlat_0wlw2")
 TabContainer/styles/tab_hovered = SubResource("StyleBoxFlat_0wlw2")

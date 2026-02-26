@@ -32,7 +32,10 @@ func _draw() -> void:
 	
 	_button.theme_type_variation = "Button_Translucent_Important" if ChatFrame.instance.selected_channel == channel else "Button_Translucent"
 
-	_button.icon = Channel.CHANNEL_TYPE_ICONS[channel.type]
+	if channel.icon_name and ResourceLoader.exists("res://icons/%s" % channel.icon_name):
+		_button.icon = load("res://icons/%s" % channel.icon_name)
+	else:
+		_button.icon = Channel.CHANNEL_TYPE_ICONS[channel.type]
 	
 	match channel.type:
 		Channel.Type.TEXT:

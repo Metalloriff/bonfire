@@ -44,6 +44,7 @@ signal unread_count_updated()
 					return u.username if is_instance_valid(u) else "Invalid User"
 		return name
 @export var type: int = Type.TEXT
+@export var icon_name: String
 @export var is_private: bool
 @export var pm_participants: Array[Dictionary] = []
 @export var last_message_timestamp: int = -1
