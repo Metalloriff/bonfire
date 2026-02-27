@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://d1srepb6fakhm" path="res://interface/screens/main/channel_list.gd" id="1_2tc3m"]
 [ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_kevkd"]
+[ext_resource type="Script" uid="uid://d115v264nxhxr" path="res://interface/screens/main/channel_container.gd" id="2_6vmmg"]
 [ext_resource type="Texture2D" uid="uid://bv4i7gx841x8a" path="res://icons/public.png" id="2_b1kop"]
 [ext_resource type="Script" uid="uid://diw8801b53b20" path="res://interface/screens/main/private_channel_list.gd" id="2_gb521"]
 [ext_resource type="Texture2D" uid="uid://cj2t7f833etu5" path="res://icons/mailLock.png" id="3_6vmmg"]
@@ -11,12 +12,14 @@
 
 [node name="ChannelContainer" type="VBoxContainer" unique_id=271820007]
 theme = ExtResource("1_kevkd")
+script = ExtResource("2_6vmmg")
 
 [node name="TabContainer" type="TabContainer" parent="." unique_id=621000745]
 layout_mode = 2
 size_flags_vertical = 3
 tab_alignment = 1
 current_tab = 0
+clip_tabs = false
 tab_0/icon = ExtResource("2_b1kop")
 tab_1/icon = ExtResource("3_6vmmg")
 
@@ -100,5 +103,6 @@ layout_mode = 2
 icon = ExtResource("5_b1kop")
 expand_icon = true
 
+[connection signal="tab_changed" from="TabContainer" to="." method="_on_tab_container_tab_changed"]
 [connection signal="pressed" from="LocalUserContainer/MarginContainer/HBoxContainer/ProfileButton" to="LocalUserContainer" method="_on_profile_button_pressed"]
 [connection signal="pressed" from="LocalUserContainer/MarginContainer/HBoxContainer/SettingsButton" to="LocalUserContainer" method="_on_settings_button_pressed"]

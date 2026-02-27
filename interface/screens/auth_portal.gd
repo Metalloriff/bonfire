@@ -11,7 +11,7 @@ static func get_auth(server_id: String) -> Dictionary:
 	
 	return {
 		username = username,
-		password_hash = password_hash
+		password_hash = ("%s:%s" % [password_hash, server_id]).sha256_text()
 	}
 
 var sign_in: bool

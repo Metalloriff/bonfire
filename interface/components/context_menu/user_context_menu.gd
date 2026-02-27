@@ -22,7 +22,7 @@ func _ready() -> void:
 		%PrivateMessageButton.disabled = true
 		%PrivateMessageButton.tooltip_text = "Private message is not available for offline users. Wait for them to go online."
 	
-	if server.local_user.has_permission(server, Permissions.MEMBER_KICK):
+	if server.local_user.has_permission(server, Permissions.MEMBER_KICK) and user.id != server.user_id:
 		%MemberManage.show()
 		%KickMemberButton.show()
 

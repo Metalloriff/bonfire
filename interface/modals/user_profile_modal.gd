@@ -50,7 +50,7 @@ func _on_save_changes_button_pressed() -> void:
 			payload.erase("avatar_data")
 
 	for server in ServerList.servers:
-		if server.user_id == user.id:
+		if server.local_user.profile_id == user.profile_id:
 			server.send_api_message("receive_user_profile_update", payload)
 	
 	user.display_name = %DisplayName.text
@@ -59,7 +59,7 @@ func _on_save_changes_button_pressed() -> void:
 	user.bio = %Bio.text
 
 	FS.mkdir("user://local_user_profiles")
-	ResourceSaver.save(user, "user://local_user_profiles/%s.res" % user.id)
+	ResourceSaver.save(user, "user://local_user_profiles/%s.res" % user.profile_id)
 	%SaveChangesButton.disabled = true
 
 func _on_cancel_button_pressed() -> void:

@@ -19,6 +19,10 @@ var username: String:
 		
 		return name
 
+var profile_id: String:
+	get:
+		return ("%s:%s" % [name, AuthPortal.password_hash]).sha256_text()
+
 @export var member_join_date_time: String = "Invalid Date"
 
 var local_volume: float = -1.0:

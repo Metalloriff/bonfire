@@ -190,7 +190,7 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 		await Lib.seconds(1.0)
 
 		var local_user: User = server.local_stored_user
-		if is_instance_valid(server.local_user) and is_instance_valid(local_user) and server.local_user.id == local_user.id:
+		if is_instance_valid(server.local_user) and is_instance_valid(local_user) and server.local_user.profile_id == local_user.profile_id:
 			for property in ["avatar", "display_name", "tagline", "bio"]:
 				if server.local_user[property] != local_user[property]:
 					_send_user_profile_update(local_user)
