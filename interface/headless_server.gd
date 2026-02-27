@@ -272,8 +272,9 @@ func _packet_received(peer_id: int, packet: PackedByteArray) -> void:
 		match type:
 			"heartbeat":
 				last_ipc_heartbeat = Time.get_unix_time_from_system()
-		
-		prints("IPC message received:", message)
+			"stop_server":
+				print("Stopping server...")
+				get_tree().quit()
 		return
 
 	server._handle_api_message_server(message.endpoint, message, peer_id)

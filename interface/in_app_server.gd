@@ -9,6 +9,7 @@ var server_id: String
 var stdio: FileAccess
 var stderr: FileAccess
 var running: bool
+var history: Array = []
 
 @onready var ipc_private_key: String = EncryptionTools.generate_token().sha256_text()
 
@@ -42,6 +43,8 @@ func _run() -> void:
 
 	if OS.has_feature("editor"):
 		args = ["--path %s" % ProjectSettings.globalize_path("res://")] + args
+	
+	print(executable_path)
 
 	var info: Dictionary = OS.execute_with_pipe(executable_path, args)
 	
@@ -51,11 +54,11 @@ func _run() -> void:
 
 	running = true
 	
-	while stdio.is_open() and stdio.get_error() == OK:
+	while stdio.is_open() and stdio.get_error() == OK and OS.is_process_running(pid):
 		var lines: PackedStringArray = []
 		var errors: PackedStringArray = []
 
-		while stdio.get_position() < stdio.get_length():
+		while stdio.is_open() and stdio.get_position() < stdio.get_length():
 			var line: String = stdio.get_line()
 
 			if line.begins_with("IPC_SERVER_ID_SIG="):
@@ -63,17 +66,22 @@ func _run() -> void:
 
 			lines.append(line)
 		
-		while stderr.get_position() < stderr.get_length():
+		while stderr.is_open() and stderr.get_position() < stderr.get_length():
 			var line: String = stderr.get_line()
 			errors.append(line)
 
 		for line in lines:
 			if line:
 				on_std_line.emit.call_deferred(line, false)
+				history.append([line, false])
 		
 		for line in errors:
 			if line:
 				on_std_line.emit.call_deferred(line, true)
+				history.append([line, true])
+		
+		while len(history) > 50:
+			history.pop_front()
 		
 		if not len(lines) and not len(errors):
 			OS.delay_msec(100)

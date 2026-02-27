@@ -7,6 +7,16 @@
 [ext_resource type="Texture2D" uid="uid://ce363inc867qy" path="res://icons/group.png" id="4_aadew"]
 [ext_resource type="Texture2D" uid="uid://qdrusckdd544" path="res://icons/playArrow.png" id="4_baafq"]
 [ext_resource type="Texture2D" uid="uid://b0pdivrbq5lhv" path="res://icons/cancel.png" id="5_baafq"]
+[ext_resource type="Texture2D" uid="uid://cx82iqpj61hn0" path="res://icons/readMore.png" id="6_aadew"]
+
+[sub_resource type="InputEventKey" id="InputEventKey_ncowb"]
+device = -1
+ctrl_pressed = true
+keycode = 83
+unicode = 115
+
+[sub_resource type="Shortcut" id="Shortcut_l6lgs"]
+events = [SubResource("InputEventKey_ncowb")]
 
 [node name="ServerHostModal" unique_id=649999717 instance=ExtResource("1_bvwib")]
 script = ExtResource("2_tj2j0")
@@ -56,6 +66,25 @@ highlight_current_line = true
 draw_tabs = true
 draw_spaces = true
 metadata/_tab_index = 0
+
+[node name="SaveConfig" type="Button" parent="Modal/MarginContainer/HSplitContainer/VBoxContainer2/TabContainer/Config" index="5" unique_id=45120366]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -105.0
+offset_top = -45.0
+offset_right = 105.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_type_variation = &"Button_Important"
+shortcut = SubResource("Shortcut_l6lgs")
+text = "Save Config (Ctrl+S)"
+icon = ExtResource("6_aadew")
 
 [node name="Peers" type="VBoxContainer" parent="Modal/MarginContainer/HSplitContainer/VBoxContainer2/TabContainer" index="2" unique_id=374203102]
 visible = false
@@ -109,10 +138,13 @@ layout_mode = 2
 layout_mode = 2
 text = "Command: "
 
-[node name="LineEdit" type="LineEdit" parent="Modal/MarginContainer/HSplitContainer/VBoxContainer/HBoxContainer2" index="1" unique_id=349107496]
+[node name="ConsoleLine" type="LineEdit" parent="Modal/MarginContainer/HSplitContainer/VBoxContainer/HBoxContainer2" index="1" unique_id=349107496]
+unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
 placeholder_text = "Type \"help\" for list of commands."
 
+[connection signal="pressed" from="Modal/MarginContainer/HSplitContainer/VBoxContainer2/TabContainer/Config/SaveConfig" to="." method="_on_save_config_pressed"]
 [connection signal="pressed" from="Modal/MarginContainer/HSplitContainer/VBoxContainer2/HBoxContainer/StartButton" to="." method="_on_start_server_button_pressed"]
 [connection signal="pressed" from="Modal/MarginContainer/HSplitContainer/VBoxContainer2/HBoxContainer/StopButton" to="." method="_on_stop_server_button_pressed"]
+[connection signal="text_submitted" from="Modal/MarginContainer/HSplitContainer/VBoxContainer/HBoxContainer2/ConsoleLine" to="." method="_on_console_line_text_submitted"]
