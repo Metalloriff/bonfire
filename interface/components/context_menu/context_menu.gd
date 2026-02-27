@@ -30,6 +30,9 @@ static func create_menu(menu_packed_scene: PackedScene) -> ContextMenu:
 	Engine.get_main_loop().current_scene.add_child(menu)
 
 	Lib.frame.connect(func() -> void:
+		if not is_instance_valid(menu):
+			return
+		
 		menu.pivot_offset = menu.get_global_mouse_position() - menu.global_position
 		menu.scale = Vector2.ONE * 0.95
 		menu.modulate.a = 0.0
