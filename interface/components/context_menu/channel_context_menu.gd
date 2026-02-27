@@ -10,6 +10,7 @@ func _ready() -> void:
 		return
 
 	%EditButton.visible = server.local_user.has_permission(server, Permissions.CHANNEL_MANAGE)
+	%DeleteButton.visible = server.local_user.has_permission(server, Permissions.CHANNEL_MANAGE)
 	%PurgeButton.visible = server.local_user.has_permission(server, Permissions.MESSAGE_PURGE)
 
 func _on_purge_button_pressed() -> void:
