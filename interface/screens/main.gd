@@ -17,6 +17,7 @@ static var selected_server: Server:
 			ChatFrame.instance.queue_redraw()
 
 			MemberList.instance.server = selected_server
+static var in_app_server: InAppServer
 
 signal server_selected(server: Server)
 
@@ -69,6 +70,13 @@ func _ready() -> void:
 	Settings.make_setting_link("appearance", "background_blur_radius", $BackgroundImage, "material:shader_parameter/radius")
 	Settings.make_setting_link("appearance", "background_blur_x", $BackgroundImage, "material:shader_parameter/step:x")
 	Settings.make_setting_link("appearance", "background_blur_y", $BackgroundImage, "material:shader_parameter/step:y")
+
+	if FS.get_pref("in_app_server_enabled", false):
+		_init_in_app_server()
+
+func _init_in_app_server() -> void:
+	in_app_server = InAppServer.new()
+	Engine.get_main_loop().root.add_child(in_app_server)
 
 func _on_split_container_drag_ended() -> void:
 	FS.set_pref("app_split_offsets", split_container.split_offsets)

@@ -39,3 +39,6 @@ func _on_faq_pressed() -> void:
 
 func _on_donate_pressed() -> void:
 	ModalStack.open_modal("res://interface/modals/donate_modal.tscn")
+
+func _on_create_server_pressed() -> void:
+	ModalStack.open_modal("res://interface/modals/server_host_modal.tscn")

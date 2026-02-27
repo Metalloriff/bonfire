@@ -32,12 +32,33 @@ var file_server: FileServer
 var server_data_path: String = "user://server_data"
 var config_path: String = "%s/config.yml" % server_data_path
 
+var ipc_private_key: String
+var last_ipc_heartbeat: float
+
 var _password_attempts: Dictionary = {}
 
 func _ready() -> void:
 	instance = self
 	
 	for arg in OS.get_cmdline_args():
+		if arg.begins_with("--ipc-private-key="):
+			ipc_private_key = arg.split("=", false)[1]
+			last_ipc_heartbeat = Time.get_unix_time_from_system()
+
+			# Fuck, this is a stupid solution to a stupid problem.
+			# Godot, please add a PROPER way to kill a process when the main process dies.
+			# Or just let me see if a process exists.
+			var timer := Timer.new()
+			timer.wait_time = 1.0
+			timer.autostart = true
+			timer.timeout.connect(func() -> void:
+				if Time.get_unix_time_from_system() - last_ipc_heartbeat > 12.0:
+					print("IPC heartbeat timed out! Shutting down server...")
+					get_tree().quit()
+					return
+			)
+			add_child(timer)
+		
 		if arg.begins_with("--server-data-path="):
 			server_data_path = "user://" + arg.split("=", false)[1]
 			config_path = "%s/config.yml" % server_data_path
@@ -55,6 +76,9 @@ func _ready() -> void:
 	server = Server.new()
 	if FS.exists(server_data_path.path_join("server.res")):
 		server = load(server_data_path.path_join("server.res"))
+	
+	if ipc_private_key:
+		print("IPC_SERVER_ID_SIG=%s" % server.id)
 	
 	server.name = get_config_entry("profile.name")
 	server.max_file_upload_size = Lib.readable_to_bytes(get_config_entry("restrictions.max_file_upload_size"))
@@ -114,9 +138,13 @@ func _ready() -> void:
 	var peer = ENetMultiplayerPeer.new()
 	var err = peer.create_server(get_config_entry("network.port"))
 
-	if err != OK:
+	while err != OK:
 		print("Failed to create server! Error %d" % error_string(err))
-		return
+		print("Retrying in 5 seconds...")
+
+		await Lib.seconds(5.0)
+
+		err = peer.create_server(get_config_entry("network.port"))
 	
 	file_server = FileServer.new()
 	file_server.server = server
@@ -231,6 +259,21 @@ func _packet_received(peer_id: int, packet: PackedByteArray) -> void:
 	var message: Dictionary = bytes_to_var(packet)
 
 	if not "endpoint" in message:
+		return
+	
+	# This is necessary because Android cannot handle STDIN reading.
+	if message.endpoint == "ipc_msg":
+		if not ipc_private_key or not "pk" in message or message.pk != ipc_private_key:
+			print("Invalid IPC message received!")
+			return
+		
+		var type: String = message.type
+
+		match type:
+			"heartbeat":
+				last_ipc_heartbeat = Time.get_unix_time_from_system()
+		
+		prints("IPC message received:", message)
 		return
 
 	server._handle_api_message_server(message.endpoint, message, peer_id)
