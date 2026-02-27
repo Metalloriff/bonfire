@@ -49,7 +49,7 @@ var local_user: User:
 var local_stored_user_path: String:
 	get:
 		FS.mkdir("user://local_user_profiles")
-		return "user://local_user_profiles/%s.res" % local_user.profile_id
+		return "user://local_user_profiles/%s.res" % ("%s:%s" % [AuthPortal.get_auth(id).username, AuthPortal.password_hash]).sha256_text()
 var local_stored_user: User:
 	get:
 		if not is_instance_valid(local_stored_user) and ResourceLoader.exists(local_stored_user_path):
