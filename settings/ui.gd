@@ -9,15 +9,15 @@ signal interface_updated
 @onready var input_picker_modal: Control = _inst(%InputPickerModal)
 
 @onready var div_item: MarginContainer = _inst(%DivItem)
-@onready var bool_item: HBoxContainer = _inst(%BoolItem)
-@onready var flt_item: HBoxContainer = _inst(%FltItem)
-@onready var int_item: HBoxContainer = _inst(%IntItem)
-@onready var enum_item: HBoxContainer = _inst(%EnumItem)
-@onready var color_item: HBoxContainer = _inst(%ColorItem)
-@onready var str_item: HBoxContainer = _inst(%StrItem)
-@onready var file_item: HBoxContainer = _inst(%FileItem)
-@onready var avatar_item: HBoxContainer = _inst(%AvatarItem)
-@onready var bind_item: HBoxContainer = _inst(%BindItem)
+@onready var bool_item: HFlowContainer = _inst(%BoolItem)
+@onready var flt_item: HFlowContainer = _inst(%FltItem)
+@onready var int_item: HFlowContainer = _inst(%IntItem)
+@onready var enum_item: HFlowContainer = _inst(%EnumItem)
+@onready var color_item: HFlowContainer = _inst(%ColorItem)
+@onready var str_item: HFlowContainer = _inst(%StrItem)
+@onready var file_item: HFlowContainer = _inst(%FileItem)
+@onready var avatar_item: HFlowContainer = _inst(%AvatarItem)
+@onready var bind_item: HFlowContainer = _inst(%BindItem)
 @onready var note_item: RichTextLabel = _inst(%NoteItem)
 
 @onready var settings := get_parent()
@@ -53,6 +53,7 @@ func open() -> void:
 		$MarginContainer.set("theme_override_constants/margin_right", 0)
 		$MarginContainer.set("theme_override_constants/margin_top", 0)
 		$MarginContainer.set("theme_override_constants/margin_bottom", 0)
+		$MarginContainer.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	
 	show()
 	settings.visible = true
@@ -92,7 +93,16 @@ func _create_field(category: Node, item: Node, prop_name: String, setting: Dicti
 		category.get_node("MarginContainer/ScrollContainer/Items").add_child(node)
 	
 	if "meta" in setting:
-		node.tooltip_text = setting.meta
+		# node.tooltip_text = setting.meta
+		var meta_label: Label = Label.new()
+		meta_label.text = setting.meta
+		meta_label.set("theme_override_font_sizes/font_size", 10)
+		meta_label.modulate.a = 0.5
+
+		if is_instance_valid(_collapse_parent):
+			_collapse_parent.add_child(meta_label)
+		else:
+			category.get_node("MarginContainer/ScrollContainer/Items").add_child(meta_label)
 	if "disabled" in setting:
 		node.mouse_filter = MOUSE_FILTER_IGNORE
 		node.modulate.a = 0.25
@@ -137,6 +147,9 @@ func _build_interface() -> void:
 		var category_node := settings_page.duplicate()
 		tabs.add_child(category_node)
 		category_node.name = category.capitalize()
+
+		if category in settings.category_icons:
+			tabs.set_tab_icon(category_node.get_index(), load(settings.category_icons[category]))
 		
 		for child: Node in category_node.get_node("MarginContainer/ScrollContainer/Items").get_children():
 			child.queue_free()
@@ -351,3 +364,7 @@ func _build_interface() -> void:
 					field.add_child(btn)
 	tabs.current_tab = previously_selected
 	interface_updated.emit()
+
+func _on_blur_bg_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.is_pressed() and event.button_index == MOUSE_BUTTON_LEFT:
+		close()

@@ -67,13 +67,14 @@ pivot_offset_ratio = Vector2(0.5, 0.5)
 
 [node name="MarginContainer" type="MarginContainer" parent="UI" unique_id=484607331]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
 anchor_bottom = 1.0
+offset_left = -424.5
+offset_right = 424.5
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 100
-theme_override_constants/margin_right = 100
 
 [node name="TabContainer" type="TabContainer" parent="UI/MarginContainer" unique_id=740572149]
 unique_name_in_owner = true
@@ -97,6 +98,7 @@ theme_override_constants/margin_right = 50
 
 [node name="ScrollContainer" type="ScrollContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer" unique_id=1702301607]
 layout_mode = 2
+horizontal_scroll_mode = 0
 
 [node name="Items" type="VBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer" unique_id=1284973786]
 layout_mode = 2
@@ -146,25 +148,25 @@ text = "Separator"
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="BoolItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1190118251]
+[node name="BoolItem" type="HFlowContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1282079281]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/BoolItem" unique_id=9976117]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Example Bool Item"
 
 [node name="CheckButton" type="CheckButton" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/BoolItem" unique_id=625825974]
 layout_mode = 2
 
-[node name="FltItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1012475932]
+[node name="FltItem" type="HFlowContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1248561041]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/FltItem" unique_id=1093130620]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Example Float Item"
 
 [node name="HSlider" type="HSlider" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/FltItem" unique_id=167052611]
@@ -179,13 +181,13 @@ layout_mode = 2
 step = 0.01
 value = 0.1
 
-[node name="IntItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=611059624]
+[node name="IntItem" type="HFlowContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=677347971]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/IntItem" unique_id=1588311335]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Example Int Item"
 
 [node name="HSlider" type="HSlider" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/IntItem" unique_id=1904390514]
@@ -201,53 +203,56 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "0
 "
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="EnumItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=2002516961]
+[node name="EnumItem" type="HFlowContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1770327783]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/EnumItem" unique_id=1990356870]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Example Enum Item"
 
 [node name="OptionButton" type="OptionButton" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/EnumItem" unique_id=1696735096]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
+fit_to_longest_item = false
 
-[node name="ColorItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=490370965]
+[node name="ColorItem" type="HFlowContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=267355771]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/ColorItem" unique_id=2100350523]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Example Color Item"
 
 [node name="ColorPickerButton" type="ColorPickerButton" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/ColorItem" unique_id=2079852695]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 
-[node name="StrItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1836900989]
+[node name="StrItem" type="HFlowContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1623622285]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/StrItem" unique_id=85623147]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Example String Item"
 
 [node name="LineEdit" type="LineEdit" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/StrItem" unique_id=611269065]
-custom_minimum_size = Vector2(350, 0)
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 
-[node name="FileItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1440305284]
+[node name="FileItem" type="HFlowContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1425599270]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/FileItem" unique_id=1081931311]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Example File Item"
 
 [node name="ClearButton" type="Button" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/FileItem" unique_id=1784422793]
@@ -259,7 +264,7 @@ layout_mode = 2
 text = "Pick File"
 
 [node name="FileDialog" type="FileDialog" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/FileItem" unique_id=902975490]
-title = "Pick File"
+title = "Open a File"
 initial_position = 5
 size = Vector2i(876, 660)
 ok_button_text = "Open"
@@ -267,13 +272,13 @@ file_mode = 0
 access = 2
 use_native_dialog = true
 
-[node name="AvatarItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1258622813]
+[node name="AvatarItem" type="HFlowContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1923103789]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/AvatarItem" unique_id=432637695]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Example Avatar Item"
 
 [node name="TextureRect" type="TextureRect" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/AvatarItem" unique_id=1432539102]
@@ -293,13 +298,13 @@ ok_button_text = "Open"
 file_mode = 0
 access = 2
 
-[node name="BindItem" type="HBoxContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=370617442]
+[node name="BindItem" type="HFlowContainer" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items" unique_id=1367704844]
 unique_name_in_owner = true
 layout_mode = 2
 
 [node name="Label" type="Label" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/BindItem" unique_id=1219812346]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
-size_flags_horizontal = 3
 text = "Example Keybind Item"
 
 [node name="Button" type="Button" parent="UI/MarginContainer/TabContainer/SettingsPage/MarginContainer/ScrollContainer/Items/BindItem" unique_id=1596263818]
@@ -380,3 +385,5 @@ horizontal_alignment = 1
 
 [node name="ProjectSettingsManager" type="Node" parent="." unique_id=1922777472]
 script = ExtResource("4_a11k5")
+
+[connection signal="gui_input" from="UI/BlurBG" to="UI" method="_on_blur_bg_gui_input"]

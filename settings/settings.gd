@@ -10,6 +10,7 @@ signal setting_init(property_name: String, node: Control)
 
 var schema := {}
 var settings := ConfigFile.new()
+var category_icons := {}
 
 @onready var ui: SettingsUI = $UI
 
@@ -75,6 +76,10 @@ func _init_schema() -> void:
 			current_category = category.get_string(1)
 			schema[current_category] = {}
 		elif setting:
+			if setting.get_string(1) == "category_icon":
+				category_icons[current_category] = line.split("=")[1].strip_edges()
+				continue
+			
 			var split := setting.get_string(1).split("_")
 			current_setting = "_".join(split.slice(1))
 			
