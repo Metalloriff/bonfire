@@ -228,6 +228,11 @@ func request_file(auth: Dictionary, channel_id: String, media_id: String, progre
 	progress_callback.call(1.0)
 	return data
 
+func cancel_file_upload(file_path: String) -> void:
+	_cancelled_uploads.append(file_path)
+
+var _cancelled_uploads: Array[String]
+
 func upload_file(auth: Dictionary, file_path: String, channel_id: String, file_type: String, file_name: String, encryption_key: String, progress_callback: Callable) -> void:
 	var client := await send_api_message("receive_file", {
 		auth = auth,
@@ -247,6 +252,11 @@ func upload_file(auth: Dictionary, file_path: String, channel_id: String, file_t
 
 	var offset := 0
 	while offset < len(data):
+		if file_path in _cancelled_uploads:
+			client.disconnect_from_host()
+			progress_callback.call(1.0, 0.0, 0, "")
+			return
+
 		client.poll()
 
 		var block_size = 8192 * 16
@@ -259,6 +269,11 @@ func upload_file(auth: Dictionary, file_path: String, channel_id: String, file_t
 		await Lib.frame
 
 	while client.get_status() == StreamPeerTCP.STATUS_CONNECTED:
+		if file_path in _cancelled_uploads:
+			client.disconnect_from_host()
+			progress_callback.call(1.0, 0.0, 0, "")
+			return
+
 		client.poll()
 		
 		if client.get_available_bytes() > 0:

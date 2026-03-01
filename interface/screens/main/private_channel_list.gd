@@ -4,6 +4,7 @@ static var instance: PrivateChannelList
 
 var last_channel_selected: Channel
 var skip_one_for_some_reason: bool = true
+var manual_channel_change: bool
 
 func _ready() -> void:
 	instance = self
@@ -16,6 +17,10 @@ func _ready() -> void:
 	)
 
 	visibility_changed.connect(func() -> void:
+		if manual_channel_change:
+			manual_channel_change = false
+			return
+		
 		await Lib.frame
 		
 		if not is_visible_in_tree():

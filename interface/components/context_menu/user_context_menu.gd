@@ -41,6 +41,7 @@ func _on_private_message_button_pressed() -> void:
 			existing_channel = user.get_direct_message_channel(server)
 			await Lib.seconds(0.5)
 	
+	PrivateChannelList.instance.manual_channel_change = true
 	ChatFrame.instance.selected_channel = existing_channel
 
 	await Lib.frame

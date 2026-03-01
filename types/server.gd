@@ -339,6 +339,30 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 				channel_id = data.channel_id,
 				message_id = data.message_id
 			})
+		"delete_media":
+			if not "media_id" in data or not "channel_id" in data:
+				return
+			
+			if not peer_id in online_users:
+				return
+			var user_id: String = online_users[peer_id]
+
+			var channel: Channel = get_channel(data.channel_id)
+			if not is_instance_valid(channel):
+				return
+			
+			var meta: Dictionary = channel._load_media_meta_from_db(data.media_id)
+			if not meta:
+				return
+			
+			if meta.uploader_id != user_id:
+				return
+			
+			var fp: String = channel._get_media_path(data.media_id)
+			if FileAccess.file_exists(fp):
+				DirAccess.remove_absolute(fp)
+
+			channel._db.delete_rows("media", "media_id = '%s'" % data.media_id)
 		"edit_message":
 			if not "channel_id" in data or not "message_id" in data or not "content" in data:
 				return
@@ -404,6 +428,8 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 
 			private_channels.append(channel)
 			channel._initialize_messages_database()
+
+			await Lib.seconds(0.15)
 
 			var private_key: String = EncryptionTools.generate_token()
 			for pid in [peer_id, get_peer_id_by_user_id(user_b.id)]:

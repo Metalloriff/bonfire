@@ -40,5 +40,17 @@ with the provided password/key.
 The server does not have access to the
 contents of this message without the key."
 
+[node name="UnencryptedFilesWarning" type="Label" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="4" unique_id=1616057777]
+unique_name_in_owner = true
+visible = false
+modulate = Color(1, 0.27999997, 0.32799995, 1)
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "WARNING: Encrypt message must be
+enabled BEFORE uploading your files.
+If you uploaded your files before enabling
+\"Encrypt Message\", you need to remove
+the attachment and re-upload them."
+
 [connection signal="toggled" from="PanelContainer/MarginContainer/VBoxContainer/EncryptMessage" to="." method="_on_encrypt_message_toggled"]
 [connection signal="text_changed" from="PanelContainer/MarginContainer/VBoxContainer/HBoxContainer/EncryptionKey" to="." method="_on_encryption_key_text_changed"]

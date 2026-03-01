@@ -34,8 +34,6 @@ func _ready() -> void:
 			var decryption_key: String = %Password.text
 			var decrypted_file_name: String = EncryptionTools.decrypt_string(Marshalls.base64_to_raw(media.file_name), decryption_key)
 
-			prints(media.file_name, decrypted_file_name)
-
 			if "�" in decrypted_file_name or not decrypted_file_name:
 				%EncryptedContainer/ErrorText.show()
 				return
@@ -79,6 +77,8 @@ func _ready() -> void:
 								modal.image = texture_rect.texture
 								modal.file_name = %FileName.text.validate_filename()
 					)
+
+					_try_delete_cached_file()
 				else:
 					channel.get_media_file_data_then(media.media_id, func(data: PackedByteArray) -> void:
 						var file: FileAccess = FileAccess.open(cache_path, FileAccess.WRITE)
@@ -114,6 +114,7 @@ func _ready() -> void:
 					if FileAccess.file_exists(cache_path):
 						stream = stream.load_from_file(cache_path)
 						_create_audio_item(stream)
+						_try_delete_cached_file()
 					else:
 						channel.get_media_file_data_then(media.media_id, func(data: PackedByteArray) -> void:
 							var file: FileAccess = FileAccess.open(cache_path, FileAccess.WRITE)
@@ -133,6 +134,7 @@ func _ready() -> void:
 					var stream = ClassDB.instantiate("FFmpegVideoStream")
 					stream.file = cache_path
 					_create_video_item(stream)
+					_try_delete_cached_file()
 				else:
 					channel.get_media_file_data_then(media.media_id, func(data: PackedByteArray) -> void:
 						var file: FileAccess = FileAccess.open(cache_path, FileAccess.WRITE)
@@ -165,6 +167,13 @@ func _ready() -> void:
 	await Lib.frame
 	for text_chat_scroller: ScrollContainer in get_tree().get_nodes_in_group("text_chat_screen"):
 		text_chat_scroller.scroll_vertical += size.y
+
+func _try_delete_cached_file() -> void:
+	if not FileAccess.file_exists(cache_path):
+		return
+
+	if not Settings.get_value("system", "cache_files") or media.encrypted and not Settings.get_value("system", "cache_encrypted_files"):
+		DirAccess.remove_absolute(cache_path)
 
 func _create_audio_item(stream: AudioStream) -> void:
 	var audio_controls = preload("res://interface/components/chat/audio_controls.tscn").instantiate()

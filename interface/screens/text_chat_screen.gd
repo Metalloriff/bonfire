@@ -28,7 +28,7 @@ func render() -> void:
 		channel.load_messages()
 	
 	var existing_unread_div: HBoxContainer = list.get_node_or_null("UnreadDivider")
-	if existing_unread_div:
+	if existing_unread_div and Time.get_ticks_msec() - existing_unread_div.get_meta("spawned_at") > 1000:
 		existing_unread_div.free()
 	
 	var message_group: MessageGroupNode = list.get_child(-1) if list.get_child_count() > 2 else null
@@ -51,6 +51,7 @@ func render() -> void:
 			unread_div.get_node("Label").text = "%d new messages" % unread_count
 			list.add_child(unread_div)
 			unread_div.name = "UnreadDivider"
+			unread_div.set_meta("spawned_at", Time.get_ticks_msec())
 			message_group = null
 		
 		reverse_index -= 1

@@ -7,6 +7,9 @@ func _ready() -> void:
 	%EncryptMessage.button_pressed = encrypt_message_enabled
 	%EncryptionKey.text = encryption_key
 
+	if len(MainTextArea.instance.attachments) > 0:
+		%UnencryptedFilesWarning.show()
+
 func _on_encryption_key_text_changed(new_text: String) -> void:
 	encryption_key = new_text
 

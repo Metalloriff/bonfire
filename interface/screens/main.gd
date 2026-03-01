@@ -73,6 +73,33 @@ func _ready() -> void:
 
 	if FS.get_pref("in_app_server_enabled", false):
 		_init_in_app_server()
+	
+	Settings.button_pressed.connect(func(category: String, property_name: String) -> void:
+		if category == "system" and property_name == "clear_cache":
+			_clear_all_cache()
+	)
+
+	var cache_cleanup_timer: Timer = Timer.new()
+	cache_cleanup_timer.name = "CacheCleanupTimer"
+	cache_cleanup_timer.wait_time = 600.0
+	cache_cleanup_timer.autostart = true
+	cache_cleanup_timer.timeout.connect(_clean_cache)
+	add_child(cache_cleanup_timer)
+
+func _clear_all_cache() -> void:
+	for file in FS.get_files_recursive("user://cache/media", false):
+		DirAccess.remove_absolute(file)
+	NotificationDaemon.show_toast("Media cache cleared.")
+
+func _clean_cache() -> void:
+	var time_days: int = Settings.get_value("system", "cache_lifetime_days")
+	
+	for file in FS.get_files_recursive("user://cache/media", false):
+		var file_time: int = file.get_file().get_modified_time()
+		var time_difference: float = Time.get_unix_time_from_system() - float(file_time)
+		
+		if time_difference > time_days * 86400:
+			DirAccess.remove_absolute(file)
 
 func _init_in_app_server() -> void:
 	in_app_server = InAppServer.new()

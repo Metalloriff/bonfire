@@ -3,6 +3,7 @@ extends PanelContainer
 var server: Server
 var channel: Channel
 var file_path: String
+var media_id: String
 
 func _ready() -> void:
 	assert(file_path, "No file path provided")
@@ -33,7 +34,22 @@ func _ready() -> void:
 
 		if progress >= 1.0 and media_id:
 			prints("finished uploading file", media_id)
+			self.media_id = media_id
 			%ProgressBar.hide()
 
 			MainTextArea.instance.attachments.append(media_id)
 	)
+
+func _on_delete_button_pressed() -> void:
+	if %ProgressBar.visible:
+		server.com_node.file_server.cancel_file_upload(file_path)
+		await Lib.seconds(0.05)
+		queue_free()
+	else:
+		server.send_api_message("delete_media", {
+			media_id = media_id,
+			channel_id = channel.id
+		})
+
+		MainTextArea.instance.attachments.erase(media_id)
+		queue_free()

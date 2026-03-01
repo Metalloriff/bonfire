@@ -1,10 +1,13 @@
 [gd_scene format=3 uid="uid://j7wsgfkdrcp8"]
 
 [ext_resource type="Script" uid="uid://w0cro0nhb17g" path="res://interface/components/servers/file_upload_node.gd" id="1_414o3"]
+[ext_resource type="Theme" uid="uid://3q7s11gs73j1" path="res://resources/themes/nox.tres" id="1_ghmom"]
 [ext_resource type="Texture2D" uid="uid://dacxuhipb2fnq" path="res://icons/insertDriveFile.png" id="1_mtofa"]
+[ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="4_vofn7"]
 
 [node name="FileUploadNode" type="PanelContainer" unique_id=520595027]
 custom_minimum_size = Vector2(200, 0)
+theme = ExtResource("1_ghmom")
 script = ExtResource("1_414o3")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=366663601]
@@ -40,3 +43,14 @@ layout_mode = 2
 max_value = 1.0
 step = 0.001
 show_percentage = false
+
+[node name="DeleteButton" type="Button" parent="." unique_id=1870805153]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_type_variation = &"Button_Red"
+icon = ExtResource("4_vofn7")
+expand_icon = true
+
+[connection signal="pressed" from="DeleteButton" to="." method="_on_delete_button_pressed"]
