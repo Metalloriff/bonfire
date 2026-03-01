@@ -95,7 +95,7 @@ func _clean_cache() -> void:
 	var time_days: int = Settings.get_value("system", "cache_lifetime_days")
 	
 	for file in FS.get_files_recursive("user://cache/media", false):
-		var file_time: int = file.get_file().get_modified_time()
+		var file_time: int = FileAccess.get_modified_time(file)
 		var time_difference: float = Time.get_unix_time_from_system() - float(file_time)
 		
 		if time_difference > time_days * 86400:

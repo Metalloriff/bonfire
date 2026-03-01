@@ -234,6 +234,9 @@ func cancel_file_upload(file_path: String) -> void:
 var _cancelled_uploads: Array[String]
 
 func upload_file(auth: Dictionary, file_path: String, channel_id: String, file_type: String, file_name: String, encryption_key: String, progress_callback: Callable) -> void:
+	if Settings.get_value("privacy", "anonymize_file_names"):
+		file_name = Lib.create_uid(12)
+
 	var client := await send_api_message("receive_file", {
 		auth = auth,
 		channel_id = channel_id,

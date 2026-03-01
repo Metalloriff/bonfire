@@ -47,6 +47,21 @@ func _ready() -> void:
 
 func _on_text_edit_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
+		if event.keycode == KEY_V and Input.is_key_pressed(KEY_CTRL):
+			if DisplayServer.clipboard_has_image():
+				var image: Image = DisplayServer.clipboard_get_image()
+
+				if image.detect_alpha() == Image.ALPHA_NONE:
+					image.save_jpg("user://cache/clipboard_image.jpg", 0.9)
+					_on_file_dialog_files_selected(["user://cache/clipboard_image.jpg"])
+				else:
+					image.save_png("user://cache/clipboard_image.png")
+					_on_file_dialog_files_selected(["user://cache/clipboard_image.png"])
+				
+				var text: String = field.text
+				await Lib.frame
+				field.text = text
+
 		if event.keycode == KEY_ENTER and not event.is_echo() and len(field.text.strip_edges()):
 			if Input.is_key_pressed(KEY_SHIFT):
 				# insert new line where cursor is and return cursor position
