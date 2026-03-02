@@ -16,11 +16,20 @@ layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1614199623]
 layout_mode = 2
+alignment = 2
 
-[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer" unique_id=441185668]
+[node name="ImageContainer" type="PanelContainer" parent="MarginContainer/VBoxContainer" unique_id=1723036884]
+unique_name_in_owner = true
+clip_children = 1
+layout_mode = 2
+mouse_filter = 2
+theme_type_variation = &"PanelSolid"
+
+[node name="Icon" type="TextureRect" parent="MarginContainer/VBoxContainer/ImageContainer" unique_id=441185668]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(180, 100)
 layout_mode = 2
+mouse_filter = 0
 texture = ExtResource("1_dbmea")
 expand_mode = 1
 stretch_mode = 5

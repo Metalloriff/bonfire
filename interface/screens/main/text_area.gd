@@ -136,3 +136,8 @@ func _on_file_dialog_files_selected(paths: PackedStringArray) -> void:
 		file_upload_node_instance.channel = ChatFrame.instance.selected_channel
 		file_upload_node_instance.file_path = path
 		file_attachments.add_child(file_upload_node_instance)
+
+func _on_apps_button_pressed() -> void:
+	var menu: ContextMenu = ContextMenu.create_menu(load("res://interface/components/context_menu/apps_menu.tscn"))
+
+	menu.global_position = $AppsButton.global_position - Vector2((menu.get_node("PanelContainer").size.x / 2.0) - ($AppsButton.size.x / 2.0), menu.get_node("PanelContainer").size.y + 40)

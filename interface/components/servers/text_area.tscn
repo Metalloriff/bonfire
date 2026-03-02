@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://281yk0xge6fj" path="res://icons/send.png" id="2_3aqdj"]
 [ext_resource type="Texture2D" uid="uid://kuh5xg4rf2wy" path="res://icons/lock.png" id="2_wlrei"]
 [ext_resource type="Texture2D" uid="uid://dacxuhipb2fnq" path="res://icons/insertDriveFile.png" id="3_bwapj"]
+[ext_resource type="Texture2D" uid="uid://cs8jvkipdqpw8" path="res://icons/apps.png" id="4_sa81f"]
 [ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="4_tomhb"]
 
 [node name="TextAreaContainer" type="VBoxContainer" unique_id=57976039]
@@ -51,6 +52,14 @@ tooltip_text = "Attach File(s)"
 icon = ExtResource("3_bwapj")
 expand_icon = true
 
+[node name="AppsButton" type="Button" parent="TextArea" unique_id=1982553822]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 8
+tooltip_text = "Attach File(s)"
+icon = ExtResource("4_sa81f")
+expand_icon = true
+
 [node name="EncryptButton" type="Button" parent="TextArea" unique_id=1449604519]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
@@ -83,6 +92,7 @@ use_native_dialog = true
 
 [connection signal="gui_input" from="TextArea/TextEdit" to="TextArea" method="_on_text_edit_gui_input"]
 [connection signal="pressed" from="TextArea/AttachFileButton" to="TextArea" method="_on_attach_file_button_pressed"]
+[connection signal="pressed" from="TextArea/AppsButton" to="TextArea" method="_on_apps_button_pressed"]
 [connection signal="pressed" from="TextArea/EncryptButton" to="TextArea" method="_on_encrypt_button_pressed"]
 [connection signal="pressed" from="TextArea/CancelEditButton" to="TextArea" method="_on_cancel_edit_button_pressed"]
 [connection signal="pressed" from="TextArea/SendButton" to="TextArea" method="_on_send_button_pressed"]

@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://bar35aaov3b0i"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_5s4q2"]
+[ext_resource type="Script" uid="uid://dxa63pt8orupb" path="res://interface/modals/licenses_modal.gd" id="2_btfh0"]
+[ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="2_mj40x"]
+
+[node name="LicensesModal" unique_id=649999717 instance=ExtResource("1_5s4q2")]
+script = ExtResource("2_btfh0")
+
+[node name="Modal" parent="." index="1" unique_id=18995346]
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=422174247]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/ScrollContainer" index="0" unique_id=1985079274]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer" index="0" unique_id=2110774961]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_mj40x")
+theme_override_font_sizes/font_size = 22
+text = "Licenses"
+horizontal_alignment = 1

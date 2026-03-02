@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://dhjpliwhyr4hm"]
+
+[ext_resource type="PackedScene" uid="uid://bvdbogspriemp" path="res://interface/components/context_menu/context_menu_base.tscn" id="1_nxkj8"]
+[ext_resource type="Script" uid="uid://dynulhnyq5hpq" path="res://addons/qr_code/qr_code_rect.gd" id="2_m03t7"]
+[ext_resource type="Script" uid="uid://dc1mhll0y4ngr" path="res://interface/components/context_menu/qr_code_generator.gd" id="2_qd3rl"]
+
+[node name="QRCodeGenerator" unique_id=319957489 instance=ExtResource("1_nxkj8")]
+script = ExtResource("2_qd3rl")
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="0" unique_id=1116752110]
+clip_children = 1
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+theme_type_variation = &"PanelSolid"
+
+[node name="QRCodeRect" type="TextureRect" parent="PanelContainer/MarginContainer/VBoxContainer/PanelContainer" index="0" unique_id=948412331]
+unique_name_in_owner = true
+layout_mode = 2
+expand_mode = 5
+script = ExtResource("2_m03t7")
+mode = 4
+error_correction = 2
+use_eci = false
+data = PackedByteArray()
+auto_version = true
+auto_mask_pattern = true
+light_module_color = Color(0.152, 0.152, 0.19, 1)
+dark_module_color = Color(0.90999997, 0.90999997, 1, 1)
+auto_module_px_size = false
+module_px_size = 4
+quiet_zone_size = 4
+metadata/_custom_type_script = "uid://dynulhnyq5hpq"
+
+[node name="LineEdit" type="LineEdit" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="1" unique_id=844099236]
+layout_mode = 2
+
+[node name="AttachButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="2" unique_id=1555872062]
+layout_mode = 2
+text = "Attach QR Code"
+
+[connection signal="text_changed" from="PanelContainer/MarginContainer/VBoxContainer/LineEdit" to="." method="_on_line_edit_text_changed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/AttachButton" to="." method="_on_attach_button_pressed"]

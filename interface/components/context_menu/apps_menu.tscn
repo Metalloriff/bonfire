@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://dde8cq3gp67wo"]
+
+[ext_resource type="PackedScene" uid="uid://bvdbogspriemp" path="res://interface/components/context_menu/context_menu_base.tscn" id="1_l1mfb"]
+[ext_resource type="Texture2D" uid="uid://wlqfxtouvj4j" path="res://icons/voiceChat.png" id="2_7cmg0"]
+[ext_resource type="Script" uid="uid://dhhvlhrhshodj" path="res://interface/components/context_menu/apps_menu.gd" id="2_tdnpc"]
+[ext_resource type="Texture2D" uid="uid://3a7y3uyl1ku7" path="res://icons/qrCode.png" id="3_tdnpc"]
+[ext_resource type="Texture2D" uid="uid://bc0p3fgfajual" path="res://icons/paid.png" id="4_pw05i"]
+
+[node name="AppsMenu" unique_id=319957489 instance=ExtResource("1_l1mfb")]
+offset_left = 1.0
+offset_right = 1.0
+script = ExtResource("2_tdnpc")
+
+[node name="HFlowContainer" type="HFlowContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="0" unique_id=2113658999]
+custom_minimum_size = Vector2(192, 0)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VoiceMessage" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HFlowContainer" index="0" unique_id=914957304]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("2_7cmg0")
+
+[node name="QRCode" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HFlowContainer" index="1" unique_id=485055506]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("3_tdnpc")
+
+[node name="CryptoAddress" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/HFlowContainer" index="2" unique_id=1552422887]
+unique_name_in_owner = true
+layout_mode = 2
+icon = ExtResource("4_pw05i")
+
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HFlowContainer/QRCode" to="." method="_on_qr_code_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/HFlowContainer/CryptoAddress" to="." method="_on_crypto_address_pressed"]

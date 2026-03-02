@@ -67,6 +67,12 @@ func _ready() -> void:
 					texture_rect.texture = ImageTexture.create_from_image(image)
 					texture_rect.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 
+					%DownloadContainer.hide()
+
+					if OS.get_name() != "Android":
+						var ratio: float = float(image.get_height()) / float(image.get_width())
+						texture_rect.custom_minimum_size = Vector2(400, 400 * ratio)
+
 					texture_rect.gui_input.connect(func(event: InputEvent) -> void:
 						if (event is InputEventMouseButton or event is InputEventScreenTouch) and event.is_pressed():
 							if event is InputEventMouseButton and event.button_index != MOUSE_BUTTON_LEFT:

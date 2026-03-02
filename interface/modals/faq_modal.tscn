@@ -2,9 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_u8r13"]
 [ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="2_qnxpb"]
-[ext_resource type="FontFile" uid="uid://cx331ifa13k0d" path="res://resources/fonts/lexend/Lexend-Black.ttf" id="3_t5asv"]
+[ext_resource type="Script" uid="uid://b5po65keqyfnj" path="res://interface/modals/faq_modal.gd" id="2_u8r13"]
 
 [node name="FAQModal" unique_id=649999717 instance=ExtResource("1_u8r13")]
+script = ExtResource("2_u8r13")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=1525867672]
 layout_mode = 2
@@ -24,15 +25,54 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Label" type="Label" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="0" unique_id=1040014567]
+[node name="FoldableContainer" type="FoldableContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="0" unique_id=1914854969]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("3_t5asv")
-theme_override_font_sizes/font_size = 18
-text = "Example Question"
+folded = true
+title = "My server becomes unreachable after a while"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="1" unique_id=819036762]
+[node name="MarginContainer" type="MarginContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/FoldableContainer" index="0" unique_id=771667024]
+visible = false
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/FoldableContainer/MarginContainer" index="0" unique_id=819036762]
 layout_mode = 2
 bbcode_enabled = true
-text = "This is an example answer."
+text = "Your router likely has a time limit on uPnP. The best solution would be to manually port forward your server's port
+(default 26969), otherwise, please check your uPnP settings and check for a way to disable the maximum time."
+fit_content = true
+scroll_active = false
+
+[node name="FoldableContainer2" type="FoldableContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="1" unique_id=1068525767]
+layout_mode = 2
+folded = true
+title = "My server isn't accessible by my friends"
+
+[node name="MarginContainer" type="MarginContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/FoldableContainer2" index="0" unique_id=652128220]
+visible = false
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/FoldableContainer2/MarginContainer" index="0" unique_id=470721569]
+layout_mode = 2
+bbcode_enabled = true
+text = "Likely the server's port is not open. You can attempt to enable uPnP in your server's settings to avoid port forwarding entirely. If this doesn't work, you will need to manually port forward."
+fit_content = true
+scroll_active = false
+
+[node name="FoldableContainer3" type="FoldableContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer" index="2" unique_id=1481540739]
+layout_mode = 2
+folded = true
+title = "Voice chat stops when switching to a different app on mobile"
+
+[node name="MarginContainer" type="MarginContainer" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/FoldableContainer3" index="0" unique_id=841803607]
+visible = false
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Modal/MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer/FoldableContainer3/MarginContainer" index="0" unique_id=1790506771]
+layout_mode = 2
+bbcode_enabled = true
+text = "Due to power management systems on Android and iOS, apps cannot continue processing in the background.
+I've not yet found a solution to this, as I'm not a mobile developer.
+
+If anyone knows a solution, please contact me."
 fit_content = true
 scroll_active = false

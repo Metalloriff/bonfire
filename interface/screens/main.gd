@@ -75,8 +75,13 @@ func _ready() -> void:
 		_init_in_app_server()
 	
 	Settings.button_pressed.connect(func(category: String, property_name: String) -> void:
-		if category == "system" and property_name == "clear_cache":
-			_clear_all_cache()
+		if category == "system":
+			match property_name:
+				"clear_cache":
+					_clear_all_cache()
+				"open_licenses":
+					ModalStack.open_modal("res://interface/modals/licenses_modal.tscn")
+					Settings.ui.close()
 	)
 
 	var cache_cleanup_timer: Timer = Timer.new()

@@ -215,38 +215,34 @@ func create_timer(target_node: Node, callback: Callable, wait_time: float, one_s
 func bytes_to_readable(bytes: int) -> String:
 	var units := ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"]
 	var unit := 0
+	var bytes_float: float = float(bytes)
 	
-	while bytes >= 1024 and unit < units.size() - 1:
-		bytes /= 1024
+	while bytes_float >= 1024.0 and unit < units.size() - 1:
+		bytes_float /= 1024.0
 		unit += 1
 	
-	return "%.2f%s" % [bytes, units[unit]]
+	return "%.2f%s" % [bytes_float, units[unit]]
 
 func readable_to_bytes(text: String) -> int:
-	# Remove any surrounding whitespace
 	text = text.strip_edges()
 	
-	# Split number and unit (handles "5.5GB", "128 MB", "2 TB", "1024kB" etc.)
 	var regex = RegEx.new()
 	regex.compile("(?i)^([0-9,.]+)\\s*([KMGTPEZY]?i?B?)$")
 	
 	var result = regex.search(text)
 	if not result:
-		# Could also push_error() or return -1 — decide what you prefer
 		printerr("Invalid size format: " + text)
 		return 0
 	
 	var number_str: String = result.get_string(1)
 	var unit: String = result.get_string(2).to_upper()
 	
-	# Parse the number (handles both dot and comma as decimal separator)
 	number_str = number_str.replace(",", ".")
 	var value: float = float(number_str)
 	if is_nan(value) or value < 0:
 		printerr("Invalid number in size: " + text)
 		return 0
 	
-	# Normalize unit
 	match unit:
 		"B", "", "BYTE", "BYTES":
 			return int(value)

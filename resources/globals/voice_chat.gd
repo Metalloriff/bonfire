@@ -34,8 +34,10 @@ var participants: Dictionary:
 		if not is_instance_valid(active_channel):
 			return {}
 		return active_channel.server.voice_chat_participants[active_channel.id]
+var echo_cancellation_level: float
 
 var _pending_updates: bool
+var _echo_cancellation_delta: float
 @onready var soundboard: Soundboard = $Soundboard
 
 func _ready() -> void:
@@ -61,6 +63,10 @@ func _ready() -> void:
 	Settings.make_setting_link_method("voice", "output_device", func(new_device: String) -> void:
 		AudioServer.output_device = new_device
 	)
+
+	if OS.get_name() == "Android" and not FS.get_pref("has_set_echo_cancellation_default", false):
+		FS.set_pref("has_set_echo_cancellation_default", true)
+		Settings.set_value("voice", "echo_cancellation_enabled", true)
 
 	mic_capture = AudioServer.get_bus_effect(mic_bus, AudioServer.get_bus_effect_count(mic_bus) - 1)
 
@@ -315,7 +321,7 @@ func _downstream_packets(channel_id: String, user_id: int, packet, activity_leve
 		user.set_meta("speaking_activity_level", speaking_activity_level)
 		user.set_meta("activity_level", activity_level)
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if HeadlessServer.is_headless_server:
 		return
 	
@@ -332,13 +338,20 @@ func _process(_delta: float) -> void:
 
 		$Input.volume_linear = (Settings.get_value("voice", "input_device_volume") / 100.0) if not muted else 0.0
 
-		if OS.get_name() == "Android":
-			var total_user_activity_level: float = 0.0
+		if Settings.get_value("voice", "echo_cancellation_enabled"):
+			var ecl_frame: float = 0.0
 			for user_id in users:
 				if users[user_id].has_meta("speaking_activity_level"):
-					total_user_activity_level += users[user_id].get_meta("speaking_activity_level")
+					ecl_frame += users[user_id].get_meta("speaking_activity_level")
 			
-			$Input.volume_linear -= total_user_activity_level
+			if ecl_frame > 0.5:
+				echo_cancellation_level = ecl_frame
+			elif _echo_cancellation_delta > Settings.get_value("voice", "echo_cancellation_tail_length"):
+				echo_cancellation_level = 0.0
+			else:
+				_echo_cancellation_delta += delta
+
+			$Input.volume_linear -= echo_cancellation_level
 		
 		if not muted: # and activity_level > 0.00001:
 			_upstream_packets.rpc_id(1, active_channel.id, packet, activity_level, speaking_activity_level)
