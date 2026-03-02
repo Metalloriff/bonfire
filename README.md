@@ -16,33 +16,60 @@ We pay for slight conveniences, not only with our money, but with our dignity. I
 I've done everything in my power to make this project as easy as possible to host, and I hope for people to take that slight inconvenience and take back control of their privacy and data.
 
 ## Notable Features
-- No centralized servers
-- Password-protected servers
-- End-to-end encryption on private messages (DMs)
-- The ability to send password-protected messages and files
-- MCU-based voice/video chat
-- The option to purge all of your messages and files when leaving a server
-- Built in the Godot engine, so you can easily mod and customize the client and server
-- Per-server profiles, completely detaching the server's knowledge of your identity
-- The ability to download files without opening a web browser first (truly revolutionary technology)
-- Smooth animations and a responsive UI. No more freezing and lagging when interacting with the client.
-- Lightweight. While it's not the most lightweight chat client out there, it packs a punch for its small footprint, and easily runs smoother and lighter than every web-based client.
+- **No centralized servers.**
+- **No mandatory third-party network connections.**
+	- Any future third-party network connections will be 100% optional;
+	- However, there are currently no third-party network connections and none are planned at the moment.
+- **Password-protected servers.**
+- **End-to-end encryption on private messages. (DMs)**
+- **The ability to send password-protected messages and files.**
+- **MCU-based voice/video chat.**
+	- (video chat is not yet implemented)
+- **The option to purge all of your messages and files when leaving a server.**
+- **Built in the Godot engine, so you can easily mod and customize the client and server.**
+- **Per-server profiles, completely detaching the server's knowledge of your identity.**
+- **The ability to download files without opening a web browser first.**
+	- (truly revolutionary technology)
+- **Smooth animations and a responsive UI.**
+	- No more freezing and lagging when interacting with the client.
+- **Lightweight.**
+	- While it's not the most lightweight chat client out there, it packs a punch for its small footprint, and easily runs smoother and lighter than every web-based client.
+- **Per-server user IDs by default, maximizing privacy and security.**
 
 ## Missing Expected Features
-Some of the features that are missing from modern chat services, and the reasons:
-- ID verification
-	- This is a joke. It's never happening.
-- Push Notifications
+Some of the features that are missing in Bonfire but may be expected from modern chat services, and the reasons:
+- **ID verification**
+	- Because F*ck that.
+- **Push Notifications**
 	- I've not yet been able to find a way to handle push notifications in Godot, especially a privacy-friendly solution. This is a high priority feature that I'm trying to find a solution for. If you have any leads, please create an issue or pull request.
-- Account/Settings Sync
+- **Account/Settings Sync**
 	- While your account will sync on servers, if you have the same username and password, you will have to change your settings between every device, and join all of your servers for every device.
 	- There is the possibility of adding a "home server" in the future, that will sync your settings and servers across all devices. This is not a high priority currently, but please provide feedback if you would like this to be a higher priority.
+- **Proper Mobile Support**
+	- I will be fully honest, I suck at mobile development. I'm trying my best with this project, and it is a high priority, and even I plan to be using this as my exclusive chat client on my phone. If you have any suggestions, please create an issue or pull request.
+	- Currently this biggest issue is the lack of background activity. Android has very strict policies on background activity, and I'm not sure how to handle it in Godot. When the app is in the background (or locked), voice chat stops working entirely. When going back to the foreground, it may take a few seconds for your servers to reconnect. Both of these are unacceptable issues.
 
 ## Screenshots
-Nothing here.
+Coming soon.
 
 ## Server Setup
-Nothing here.
+Currently, you can start a server with `./bonfire_executable --headless --server`, or via the in-app server hosting menu. More detailed information will be added to this section soon, along with server config descriptions.
+
+# Basic Roadmap Stages
+### 🔵 Private Testing, Stage 1 (CURRENT)
+Builds are very infrequent and unstable. Anything may break at any time. Currently only accepting live testing via the Godot editor, as major changes are much more frequent than build outputs.
+
+### ⚫ Private Testing, Stage 2 (SOON)
+Builds are more frequent, still fairly unstable, but much more stable than stage 1. I plan to do days where me and my team of friends will be using Bonfire exclusively, and we will find and fix any issues that arise. Still not very usable for the general public, but major refactoring should be less common or non-existent.
+
+### ⚫ Private/Public Testing, Stage 3
+Builds are frequent and mildly stable. No major refactoring will occur, but I will not be advertising Bonfire to the public yet, but will encourage anyone who stumbles upon it to use it, along with sharing the project with more people in general.
+
+### ⚫ Public Testing, Stage 4
+Builds are frequent and mostly stable. I will be lightly advertising Bonfire to the public. By this stage, Bonfire should be me and my group's exclusive chat service.
+
+### ⚫ Release, Stage 5
+Bonfire is now public, and I will be advertising it to the public. At this stage, Bonfire should be a widely usable chat service with minimal issues. Updates will still be released frequently, but heavier internal testing will be done before major updates. Builds will also come as a release candidate version before each update.
 
 ## Security
 Please note that this is my first project of this scale, and I'm not a security expert. I have made this project as secure as possible, but there are likely some security holes. If you find any, please let me know with an issue or pull request.
