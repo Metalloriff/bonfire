@@ -45,6 +45,10 @@ func _ready() -> void:
 		_on_file_dialog_files_selected(files)
 	)
 
+func _process(_delta: float) -> void:
+	# Wowee that's not pretty to look at
+	visible = is_instance_valid(ChatFrame.instance.selected_channel) and is_instance_valid(App.instance.selected_server) and is_instance_valid(App.instance.selected_server.com_node) and App.instance.selected_server.com_node.local_multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED
+
 func _on_text_edit_gui_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
 		if event.keycode == KEY_V and Input.is_key_pressed(KEY_CTRL):

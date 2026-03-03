@@ -78,7 +78,7 @@ func _create_rich_label(text: String) -> void:
 	var label: RichTextLabel = RichTextLabel.new()
 	label.bbcode_enabled = true
 	label.fit_content = true
-	label.selection_enabled = true
+	label.selection_enabled = OS.get_name() != "Android"
 	label.text = text
 	label.meta_hover_started.connect(_on_meta_hover_started)
 	label.meta_hover_ended.connect(_on_meta_hover_ended)

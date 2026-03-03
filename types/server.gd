@@ -233,10 +233,7 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 			
 			channel._commit_message(message)
 		"fetch_messages":
-			if not "channel_id" in data or not "limit" in data or not "offset" in data:
-				return
-			
-			if data.limit > 100:
+			if not "channel_id" in data:
 				return
 			
 			var channel: Channel = get_channel(data.channel_id)
@@ -261,11 +258,12 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 					prints("User", peer_id, "tried to fetch messages from private channel", data.channel_id, "but is not allowed to.")
 					return
 
-			var messages: Array[Dictionary] = channel._load_messages_from_db(data.limit, data.offset)
+			var messages: Array[Dictionary] = channel._load_messages_from_db(50, data.last_message_id if "last_message_id" in data else -1)
 
 			HeadlessServer.send_api_message("fetch_messages_response", {
 				channel_id = data.channel_id,
-				messages = messages
+				messages = messages,
+				paginated = data.last_message_id > -1 if "last_message_id" in data else false
 			}, peer_id)
 		"receive_user_profile_update":
 			assert(peer_id in online_users, "User profile update received from an offline user")
@@ -721,6 +719,9 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			if not "channel_id" in data or not "messages" in data:
 				return
 			
+			if not "paginated" in data:
+				data.paginated = false
+			
 			var channel: Channel = get_channel(data.channel_id)
 			if not channel.messages_loading:
 				return
@@ -732,12 +733,18 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			
 			channel.messages_loading = false
 			channel.messages_loaded = true
-			channel.messages.clear()
+			
+			var messages: Array[Message] = []
 			
 			for message in data.messages:
 				if channel.is_private and channel.private_key and not message.encrypted:
 					message.content = EncryptionTools.decrypt_string(Marshalls.base64_to_raw(message.content), channel.private_key)
-				channel.messages.append(Message.new().deserialize(message))
+				messages.append(Message.new().deserialize(message))
+			
+			if data.paginated:
+				channel.messages = messages + channel.messages
+			else:
+				channel.messages = messages
 			
 			ChatFrame.instance.queue_redraw()
 		"new_message":

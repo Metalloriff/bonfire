@@ -135,18 +135,15 @@ func edit_message(message: Message, new_content: String) -> void:
 		content = new_content
 	})
 
-func load_messages(limit: int = 50, offset: int = 0) -> void:
+func load_messages(last_message_id: int = -1) -> void:
 	if messages_loaded or messages_loading or not is_instance_valid(server.com_node):
 		return
-	
-	assert(limit < 100, "Cannot load more than 100 messages at once")
 	
 	messages_loading = true
 
 	server.send_api_message("fetch_messages", {
 		channel_id = id,
-		limit = limit,
-		offset = offset
+		last_message_id = last_message_id
 	})
 
 func find_message(message_id_or_timestamp: int) -> Message:
@@ -233,7 +230,7 @@ func delete_channel() -> void:
 				channel_id = id
 			})
 
-func _load_messages_from_db(limit: int = 50, offset: int = 0) -> Array[Dictionary]:
+func _load_messages_from_db(limit: int = 50, last_message_id: int = -1) -> Array[Dictionary]:
 	# TODO implement pagination
 	if not is_instance_valid(_db):
 		return []
@@ -242,7 +239,11 @@ func _load_messages_from_db(limit: int = 50, offset: int = 0) -> Array[Dictionar
 
 	var serialized_messages: Array[Dictionary] = []
 	
-	_db.query("SELECT * FROM messages ORDER BY timestamp DESC LIMIT %d OFFSET %d" % [limit, offset])
+	if last_message_id > -1:
+		_db.query("SELECT * FROM messages WHERE timestamp < %d ORDER BY timestamp DESC LIMIT %d" % [last_message_id, limit])
+	else:
+		_db.query("SELECT * FROM messages ORDER BY timestamp DESC LIMIT %d" % limit)
+	
 	for message_result in _db.query_result:
 		serialized_messages.append(message_result)
 

@@ -15,7 +15,27 @@ func _mark_as_read() -> void:
 var _processed_messages: Array[Message] = []
 
 func _ready() -> void:
+	get_v_scroll_bar().value_changed.connect(_on_scroll)
+
 	render()
+
+func _on_scroll(value: float) -> void:
+	if not is_instance_valid(channel):
+		return
+	
+	if not channel.messages_loaded or channel.messages_loading or not len(channel.messages):
+		return
+	
+	if value <= 0.0 and len(channel.messages) % 50 == 0:
+		for child in list.get_children():
+			if not child.owner:
+				child.queue_free()
+		_processed_messages.clear()
+
+		_scroll_target = 2.0
+
+		channel.messages_loaded = false
+		channel.load_messages(channel.messages[0].timestamp)
 
 func render() -> void:
 	if not is_instance_valid(channel):
@@ -74,6 +94,8 @@ func render() -> void:
 	if new_message_count > 0:
 		_update_scrollbar.call_deferred()
 
+var _scroll_target: float
 func _update_scrollbar() -> void:
 	await Lib.frame
-	set_deferred("scroll_vertical", get_v_scroll_bar().max_value * 20.0)
+	set_deferred("scroll_vertical", _scroll_target if _scroll_target > 0.0 else get_v_scroll_bar().max_value * 20.0)
+	_scroll_target = 0.0
