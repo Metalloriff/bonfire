@@ -96,6 +96,7 @@ func render() -> void:
 
 var _scroll_target: float
 func _update_scrollbar() -> void:
+	# create_tween().tween_property(get_v_scroll_bar(), "value", _scroll_target if _scroll_target > 0.0 else get_v_scroll_bar().max_value, 0.2)
 	await Lib.frame
-	set_deferred("scroll_vertical", _scroll_target if _scroll_target > 0.0 else get_v_scroll_bar().max_value * 20.0)
+	get_v_scroll_bar().set_deferred("value", _scroll_target if _scroll_target > 0.0 else get_v_scroll_bar().max_value * 20.0)
 	_scroll_target = 0.0

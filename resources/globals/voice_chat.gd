@@ -346,6 +346,7 @@ func _process(delta: float) -> void:
 			
 			if ecl_frame > 0.5:
 				echo_cancellation_level = ecl_frame
+				_echo_cancellation_delta = 0.0
 			elif _echo_cancellation_delta > Settings.get_value("voice", "echo_cancellation_tail_length"):
 				echo_cancellation_level = 0.0
 			else:

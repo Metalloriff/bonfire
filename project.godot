@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Bonfire"
-config/version="0.6.0"
+config/version="0.6.1"
 run/main_scene="uid://cf0bj5upnbrvh"
 config/quit_on_go_back=false
 config/features=PackedStringArray("4.6", "Mobile")
@@ -46,7 +46,7 @@ window/handheld/orientation=5
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/StyleboxFancy/plugin.cfg", "res://addons/awesome_input_icons/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/material_icons_importer/plugin.cfg", "res://addons/miniyaml/plugin.cfg", "res://addons/qr_code/plugin.cfg")
+enabled=PackedStringArray("res://addons/StyleboxFancy/plugin.cfg", "res://addons/awesome_input_icons/plugin.cfg", "res://addons/godot-sqlite/plugin.cfg", "res://addons/material_icons_importer/plugin.cfg", "res://addons/miniyaml/plugin.cfg", "res://addons/packager/plugin.cfg", "res://addons/qr_code/plugin.cfg")
 
 [input_devices]
 

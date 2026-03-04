@@ -19,6 +19,16 @@ var selected_channel: Channel:
 var last_channel: Channel
 var force_text: bool
 
+func add_scroll(amount: float, instant: bool = false) -> void:
+	var text_chat_screen: TextChatScreen = get_node_or_null("TextChat")
+	if not is_instance_valid(text_chat_screen):
+		return
+	
+	if instant:
+		text_chat_screen.get_v_scroll_bar().value += amount
+	else:
+		create_tween().tween_property(text_chat_screen.get_v_scroll_bar(), "value", amount, 0.2).as_relative()
+
 func _ready() -> void:
 	instance = self
 

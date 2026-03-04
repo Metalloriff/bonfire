@@ -61,6 +61,7 @@ func _ready() -> void:
 				%FileTooLargeContainer.show()
 			else:
 				if FileAccess.file_exists(cache_path):
+					var height_before: float = size.y
 					var data: PackedByteArray = FileAccess.get_file_as_bytes(cache_path)
 					var image: Image = Image.new()
 					image["load_%s_from_buffer" % media.ext.to_lower().replace("jpeg", "jpg")].call(data)
@@ -85,6 +86,10 @@ func _ready() -> void:
 					)
 
 					_try_delete_cached_file()
+
+					await Lib.frame
+
+					ChatFrame.instance.add_scroll(size.y - height_before, true)
 				else:
 					channel.get_media_file_data_then(media.media_id, func(data: PackedByteArray) -> void:
 						var file: FileAccess = FileAccess.open(cache_path, FileAccess.WRITE)
@@ -171,8 +176,7 @@ func _ready() -> void:
 	
 	await Lib.frame
 	await Lib.frame
-	for text_chat_scroller: ScrollContainer in get_tree().get_nodes_in_group("text_chat_screen"):
-		text_chat_scroller.scroll_vertical += size.y
+	ChatFrame.instance.add_scroll(size.y, true)
 
 func _try_delete_cached_file() -> void:
 	if not FileAccess.file_exists(cache_path):
