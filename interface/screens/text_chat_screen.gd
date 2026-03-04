@@ -17,6 +17,11 @@ var _processed_messages: Array[Message] = []
 func _ready() -> void:
 	get_v_scroll_bar().value_changed.connect(_on_scroll)
 
+	if OS.get_name() == "Android":
+		%SettingsPage/MarginContainer["theme_override_constants/margin_left"] = 10
+		%SettingsPage/MarginContainer["theme_override_constants/margin_right"] = 10
+		$MarginContainer.set_anchors_and_offsets_preset(PRESET_FULL_RECT)
+
 	render()
 
 func _on_scroll(value: float) -> void:
