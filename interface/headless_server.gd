@@ -34,6 +34,7 @@ var config_path: String = "%s/config.yml" % server_data_path
 
 var ipc_private_key: String
 var last_ipc_heartbeat: float
+var is_docker_instance: bool
 
 var _password_attempts: Dictionary = {}
 
@@ -59,6 +60,9 @@ func _ready() -> void:
 			)
 			add_child(timer)
 		
+		if "--docker" in arg:
+			is_docker_instance = true
+		
 		if arg.begins_with("--server-data-path="):
 			server_data_path = "user://" + arg.split("=", false)[1]
 			config_path = "%s/config.yml" % server_data_path
@@ -68,7 +72,7 @@ func _ready() -> void:
 
 	if not FileAccess.file_exists(config_path):
 		print("No config file found! Creating a new one...")
-		config = defaults
+		config = defaults.duplicate_deep()
 		save_config()
 	
 	config = YAML.load_file(config_path)
@@ -123,7 +127,7 @@ func _ready() -> void:
 
 		server.save_to_disk(false)
 
-	if get_config_entry("network.upnp_enabled") and not "--docker" in OS.get_cmdline_user_args():
+	if get_config_entry("network.upnp_enabled") and not is_docker_instance:
 		print("Attempting to open uPnP port mapping...")
 
 		await _upnp()
@@ -288,7 +292,7 @@ func _process(_delta: float) -> void:
 		prints("MDUD: Multiplayer peer is not connected. Status:", multiplayer.multiplayer_peer.get_connection_status())
 
 func save_config() -> void:
-	YAML.save_file(config, config_path)
+	YAML.save_file(YAML.dump(config), config_path)
 
 func get_config_entry(key: String) -> Variant:
 	var split := key.split(".", false)
