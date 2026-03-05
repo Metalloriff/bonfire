@@ -1,0 +1,11 @@
+services:
+  bonfire:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "26969:26969/udp"
+      - "26969:26969/tcp"
+    volumes:
+      - ./logs:/root/.local/share/godot/app_userdata/Bonfire/logs
+      - ./server_data:/root/.local/share/godot/app_userdata/Bonfire/server_data

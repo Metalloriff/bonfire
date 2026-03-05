@@ -16,6 +16,7 @@ func _on_stop_server_button_pressed() -> void:
 		return
 	
 	_on_console_line_text_submitted("stop")
+	FS.set_pref("in_app_server_enabled", false)
 
 func _on_start_server_button_pressed() -> void:
 	if is_instance_valid(App.in_app_server) and App.in_app_server.running:

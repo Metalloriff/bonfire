@@ -123,7 +123,7 @@ func _ready() -> void:
 
 		server.save_to_disk(false)
 
-	if get_config_entry("network.upnp_enabled"):
+	if get_config_entry("network.upnp_enabled") and not "--docker" in OS.get_cmdline_args():
 		print("Attempting to open uPnP port mapping...")
 
 		await _upnp()
