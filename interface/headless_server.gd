@@ -292,7 +292,7 @@ func _process(_delta: float) -> void:
 		prints("MDUD: Multiplayer peer is not connected. Status:", multiplayer.multiplayer_peer.get_connection_status())
 
 func save_config() -> void:
-	YAML.save_file(YAML.dump(config), config_path)
+	YAML.save_file(config, config_path)
 
 func get_config_entry(key: String) -> Variant:
 	var split := key.split(".", false)
