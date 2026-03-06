@@ -40,7 +40,6 @@ func _ready() -> void:
 		player.autoplay = true
 		player.bus = "Soundboard"
 		player.finished.connect(func() -> void: player.queue_free())
-		player.volume_linear = 0.5
 
 		add_child(player)
 	)

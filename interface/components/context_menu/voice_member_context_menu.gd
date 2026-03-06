@@ -8,6 +8,7 @@ func _ready() -> void:
 	%BoostVolume.button_pressed = user.local_volume > 100.0
 	%VolumeSlider.max_value = 300.0 if %BoostVolume.button_pressed else 100.0
 	%VolumeSlider.value = user.local_volume
+	%SoundboardVolumeSlider.value = user.local_soundboard_volume
 	%Username.text = user.username
 
 func _on_volume_slider_value_changed(value: float) -> void:

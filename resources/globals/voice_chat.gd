@@ -312,7 +312,7 @@ func _downstream_packets(channel_id: String, user_id: int, packet, activity_leve
 
 	if is_soundboard:
 		# TODO add soundboard volume per user
-		user.volume_linear = (Settings.get_value("voice", "output_device_volume") / 100.0)
+		user.volume_linear = (Settings.get_value("voice", "output_device_volume") / 100.0) * (active_channel.server.get_user_by_peer_id(user_id).local_soundboard_volume / 100.0)
 
 		user.set_meta("activity_level", activity_level)
 	else:
