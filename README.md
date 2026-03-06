@@ -2,18 +2,9 @@
 ### NOTE: This page and project are work in progress. I'm currently focusing on the project itself, and only have this repo public for build testing purposes. If you wish to use Bonfire, you're absolutely free to do so, but please note that it's not ready for public testing yet.
 
 # Bonfire
-Bonfire is a privacy-based open source, cross-platform and self-hosted text and voice/video chat application with no centralized servers.
+Bonfire is a privacy-focused cross-platform and self-hostable chat application with no centralized servers.
 
 Bonfire puts the trust in the users, not a central authority. It can even be used offline on the local network. Your login data and settings are stored on your own device, and everything else is per-server.
-
-# Philosophy
-Corporations and governments have rendered privacy and security a distant dream. The days of the free internet are slipping away, and I wish to do my part in preserving it.
-
-Privacy is a fundamental human right, but corporations and governments try to take it from us and convince us otherwise. We've let them get to the point of asking for ID verification to use basic chat services. F*ck that. Give the power back to the people.
-
-We pay for slight conveniences, not only with our money, but with our dignity. In my eyes, hosting your own server is a small price to pay for peace of mind.
-
-I've done everything in my power to make this project as easy as possible to host, and I hope for people to take that slight inconvenience and take back control of their privacy and data.
 
 ## Notable Features
 - **No centralized servers.**
@@ -36,6 +27,18 @@ I've done everything in my power to make this project as easy as possible to hos
 	- While it's not the most lightweight chat client out there, it packs a punch for its small footprint, and easily runs smoother and lighter than every web-based client.
 - **Per-server user IDs by default, maximizing privacy and security.**
 
+## Screenshots
+![Main Screen](/.screenshots/main.png)
+![Login Screen](/.screenshots/login.png)
+![In App Server Hosting](/.screenshots/local_hosting.png)
+![Voice Chat](/.screenshots/vc.png)
+![Profiles](/.screenshots/profiles.png)
+![Profile Editor](/.screenshots/profile_editor.png)
+![Encrypt Message](/.screenshots/encrypt_message.png)
+![Encrypted Message](/.screenshots/encrypted_message.png)
+![Decrypted Message](/.screenshots/decrypted_message.png)
+![Private Profiles](/.screenshots/private_profile.png)
+
 ## Missing Expected Features
 Some of the features that are missing in Bonfire but may be expected from modern chat services, and the reasons:
 - **ID verification**
@@ -48,9 +51,6 @@ Some of the features that are missing in Bonfire but may be expected from modern
 - **Proper Mobile Support**
 	- I will be fully honest, I suck at mobile development. I'm trying my best with this project, and it is a high priority, and even I plan to be using this as my exclusive chat client on my phone. If you have any suggestions, please create an issue or pull request.
 	- Currently this biggest issue is the lack of background activity. Android has very strict policies on background activity, and I'm not sure how to handle it in Godot. When the app is in the background (or locked), voice chat stops working entirely. When going back to the foreground, it may take a few seconds for your servers to reconnect. Both of these are unacceptable issues.
-
-## Screenshots
-Coming soon.
 
 ## Server Setup
 Currently, you can start a server with `./bonfire_executable --headless --server`, or via the in-app server hosting menu. More detailed information will be added to this section soon, along with server config descriptions.
@@ -79,7 +79,7 @@ In general, I would recommend using this project with people you trust in its ea
 ## Donations
 If you'd like to support me, you can donate however is most convenient for you. Anything helps keep this project alive. Thank you! ❤️
 
-### XMR
+### XMR ❤️
 ```
 82qpTD6XmnKGLF9pMuJxmeBWVhkGEc76DNrPAPAKbATVPHL6TTRkV7RUvi7jD6rp27cCJKJ2oKDGiLFJSS8wxabn8CrWGgS
 ```
@@ -89,6 +89,15 @@ ltc1q3erhn0mtnwcwjatuayv0mfwq4kh9y20vn4v3mk
 ```
 ### Ko-fi
 https://ko-fi.com/metalloriff
+
+# Philosophy
+Corporations and governments have rendered privacy and security a distant dream. The days of the free internet are slipping away, and I wish to do my part in preserving it.
+
+Privacy is a fundamental human right, but corporations and governments try to take it from us and convince us otherwise. We've let them get to the point of asking for ID verification to use basic chat services. F*ck that. Give the power back to the people.
+
+We pay for slight conveniences, not only with our money, but with our dignity. In my eyes, hosting your own server is a small price to pay for peace of mind.
+
+I've done everything in my power to make this project as easy as possible to host, and I hope for people to take that slight inconvenience and take back control of their privacy and data.
 
 ## AI Usage
 Since this is a big thing for a lot of people, I wish to remain as clear as possible. >99% of the code in this project is written by me, and anything that is AI-assisted is clearly marked as such with code comments. This is **NOT** a vibe-coded project.
