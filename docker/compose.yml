@@ -9,3 +9,4 @@ services:
     volumes:
       - ./logs:/root/.local/share/godot/app_userdata/Bonfire/logs
       - ./server_data:/root/.local/share/godot/app_userdata/Bonfire/server_data
+    restart: unless-stopped

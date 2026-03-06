@@ -20,6 +20,7 @@ WORKDIR /app
 RUN curl -s ${RELEASES_URL} \
 	| grep "browser_download_url.*${ZIP_NAME}" \
 	| cut -d '"' -f 4 \
+	| head -n 1 \
 	| xargs -n 1 curl -L -o build.zip && \
 	unzip -q build.zip -d release && \
 	chmod +x release/${EXECUTABLE} && \
