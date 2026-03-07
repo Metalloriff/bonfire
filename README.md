@@ -2,15 +2,15 @@
 ### NOTE: This page and project are work in progress. I'm currently focusing on the project itself, and only have this repo public for build testing purposes. If you wish to use Bonfire, you're absolutely free to do so, but please note that it's not ready for public testing yet.
 
 # Bonfire
-Bonfire is a privacy-focused cross-platform and self-hostable chat application with no centralized servers.
+Bonfire is a place for you and your friends to chat without prying eyes. Privacy-focused, cross-platform, and self-hostable.
 
 Bonfire puts the trust in the users, not a central authority. It can even be used offline on the local network. Your login data and settings are stored on your own device, and everything else is per-server.
 
 ## Notable Features
 - **No centralized servers.**
 - **No mandatory third-party network connections.**
-	- Any future third-party network connections will be 100% optional;
-	- However, there are currently no third-party network connections and none are planned at the moment.
+	- All third-party network connections are 100% optional, and listed below.
+		- GitHub: For automatic update fetching and downloading.
 - **Password-protected servers.**
 - **End-to-end encryption on private messages. (DMs)**
 - **The ability to send password-protected messages and files.**
