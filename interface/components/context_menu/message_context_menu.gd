@@ -2,6 +2,7 @@ extends ContextMenu
 
 var message: Message
 var message_item: Control
+var url: String
 
 var _selected_text: String
 
@@ -37,6 +38,8 @@ func _ready() -> void:
 	%QuoteReplyButton.visible = len(_selected_text.strip_edges()) > 0
 	%OwnMessageContainer.visible = is_mine or can_delete
 	%EditButton.visible = not message.encrypted and is_mine
+
+	%LinkContainer.visible = len(url.strip_edges()) > 0
 
 	show()
 
@@ -81,3 +84,12 @@ func _on_confirm_delete_button_pressed() -> void:
 
 func _on_cancel_delete_button_pressed() -> void:
 	%DeleteConfirmation.hide()
+
+func _on_open_link_button_pressed() -> void:
+	OS.shell_open(url)
+	fade_free()
+
+func _on_copy_link_button_pressed() -> void:
+	DisplayServer.clipboard_set(url)
+	NotificationDaemon.show_toast("Link copied to clipboard")
+	fade_free()

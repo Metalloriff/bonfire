@@ -92,6 +92,7 @@ func _ready() -> void:
 	ContextMenu.attach_listener(self , preload("res://interface/components/context_menu/message_context_menu.tscn"), func(menu: ContextMenu) -> void:
 		menu.message = message
 		menu.message_item = self
+		menu.url = tooltip_text
 	)
 
 	for attachment_id in message.attachment_ids:
@@ -162,10 +163,10 @@ static func _process_message_content(content: String) -> String:
 
 func _on_meta_hover_started(meta: Variant) -> void:
 	if meta is String and meta.strip_edges().begins_with("https://"):
-		$TextContents.tooltip_text = meta
+		tooltip_text = meta
 
 func _on_meta_hover_ended(meta: Variant) -> void:
-	$TextContents.tooltip_text = ""
+	tooltip_text = ""
 
 func _on_meta_clicked(meta: Variant) -> void:
 	if meta is String and meta.strip_edges().begins_with("https://"):

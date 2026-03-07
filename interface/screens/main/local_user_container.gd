@@ -1,5 +1,8 @@
 class_name LocalUserContainer extends PanelContainer
 
+var NOT_SPEAKING_COLOR: Color = Color.html("#2b8fe0")
+var SPEAKING_COLOR: Color = Color.html("#e02b6a")
+
 static var instance: LocalUserContainer
 
 var server: Server
@@ -7,6 +10,7 @@ var local_user: User
 
 @onready var avatar: TextureRect = $MarginContainer/HBoxContainer/AvatarContainer/Avatar
 @onready var username: Label = $MarginContainer/HBoxContainer/Username
+@onready var status_indicator: PanelContainer = %StatusIndicator
 
 func _ready() -> void:
 	instance = self
@@ -36,6 +40,13 @@ func _draw() -> void:
 	if is_instance_valid(local_user.avatar):
 		avatar.texture = local_user.avatar
 	username.text = local_user.username
+
+func _process(delta: float) -> void:
+	if not is_instance_valid(VoiceChat.active_channel):
+		status_indicator.self_modulate = NOT_SPEAKING_COLOR
+		return
+	
+	status_indicator.self_modulate = NOT_SPEAKING_COLOR.lerp(SPEAKING_COLOR, clampf(VoiceChat.local_speaking_activity_level, 0.0, 1.0))
 
 func _on_settings_button_pressed() -> void:
 	Settings.ui.open()

@@ -28,6 +28,8 @@ func _ready() -> void:
 
 		if server.local_user.has_permission(server, Permissions.MESSAGE_PURGE):
 			%KickPurgeMessages.show()
+	
+	%VoiceOptionsButton.visible = VoiceChat.active_channel and server.get_peer_id_by_user_id(user.id) in VoiceChat.users
 
 func _on_private_message_button_pressed() -> void:
 	var existing_channel: Channel = user.get_direct_message_channel(server)
@@ -76,3 +78,10 @@ func _on_confirm_kick_pressed() -> void:
 
 func _on_cancel_cick_pressed() -> void:
 	%KickMemberPanel.hide()
+
+func _on_voice_options_button_pressed() -> void:
+	var context_menu_scene: PackedScene = preload("res://interface/components/context_menu/voice_member_context_menu.tscn")
+
+	ContextMenu.attach_listener(self , context_menu_scene, func(menu: ContextMenu) -> void:
+		menu.user = user
+	)

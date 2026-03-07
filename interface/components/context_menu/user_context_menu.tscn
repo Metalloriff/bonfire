@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://4fpdtbwcl6bf" path="res://icons/fileCopy.png" id="4_a8kb2"]
 [ext_resource type="Texture2D" uid="uid://b8hy2g1b0chg0" path="res://icons/personRemove.png" id="6_xme60"]
 [ext_resource type="Texture2D" uid="uid://8fxdu703xrgt" path="res://icons/close.png" id="7_1mq2p"]
+[ext_resource type="Texture2D" uid="uid://b8uy64f5vck0j" path="res://icons/mic.png" id="8_qksni"]
 
 [node name="UserContextMenu" unique_id=319957489 instance=ExtResource("1_0ew4m")]
 script = ExtResource("2_a8kb2")
@@ -93,9 +94,18 @@ theme_type_variation = &"Button_Red"
 text = "Kick"
 icon = ExtResource("6_xme60")
 
+[node name="VoiceOptionsButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="5" unique_id=1746365104]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Voice Options"
+icon = ExtResource("8_qksni")
+alignment = 0
+expand_icon = true
+
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ViewProfileButton" to="." method="_on_view_profile_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/PrivateMessageButton" to="." method="_on_private_message_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/CopyUserIDButton" to="." method="_on_copy_user_id_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberButton" to="." method="_on_kick_member_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberPanel/MarginContainer/VBoxContainer/HBoxContainer/CancelCick" to="." method="_on_cancel_cick_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/MemberManage/KickMemberPanel/MarginContainer/VBoxContainer/HBoxContainer/ConfirmKick" to="." method="_on_confirm_kick_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/VoiceOptionsButton" to="." method="_on_voice_options_button_pressed"]

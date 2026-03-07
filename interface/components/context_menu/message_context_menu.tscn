@@ -2,7 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://bvdbogspriemp" path="res://interface/components/context_menu/context_menu_base.tscn" id="1_hfanb"]
 [ext_resource type="Script" uid="uid://bejwsf1g4yf6x" path="res://interface/components/context_menu/message_context_menu.gd" id="2_yuyam"]
+[ext_resource type="Texture2D" uid="uid://cdkmsk2xqhu04" path="res://icons/contentCopy.png" id="3_k6xf3"]
 [ext_resource type="Texture2D" uid="uid://b3psk4rk4u5yt" path="res://icons/reply.png" id="3_p6ut8"]
+[ext_resource type="Texture2D" uid="uid://cxcegwu4gppx8" path="res://icons/openInNew.png" id="4_hs8sw"]
 [ext_resource type="Texture2D" uid="uid://bqft626bqbe8h" path="res://icons/replyAll.png" id="4_plomt"]
 [ext_resource type="Texture2D" uid="uid://d3vb2bm6jy37n" path="res://icons/edit.png" id="5_6kj3k"]
 [ext_resource type="Texture2D" uid="uid://bfykibbbwvwkg" path="res://icons/delete.png" id="6_plomt"]
@@ -16,7 +18,29 @@ layout_mode = 2
 text = "Message"
 horizontal_alignment = 1
 
-[node name="ReplyButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="1" unique_id=1628752233]
+[node name="LinkContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="1" unique_id=2053732102]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="CopyLinkButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/LinkContainer" index="0" unique_id=1728243148]
+layout_mode = 2
+text = "Copy Link"
+icon = ExtResource("3_k6xf3")
+alignment = 0
+expand_icon = true
+
+[node name="OpenLinkButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer/LinkContainer" index="1" unique_id=200960119]
+layout_mode = 2
+text = "Open Link"
+icon = ExtResource("4_hs8sw")
+alignment = 0
+expand_icon = true
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/MarginContainer/VBoxContainer/LinkContainer" index="2" unique_id=1097400305]
+layout_mode = 2
+
+[node name="ReplyButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="2" unique_id=1628752233]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Reply"
@@ -24,7 +48,7 @@ icon = ExtResource("3_p6ut8")
 alignment = 0
 expand_icon = true
 
-[node name="QuoteReplyButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="2" unique_id=613865452]
+[node name="QuoteReplyButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="3" unique_id=613865452]
 unique_name_in_owner = true
 layout_mode = 2
 text = "Quote Reply"
@@ -32,7 +56,7 @@ icon = ExtResource("4_plomt")
 alignment = 0
 expand_icon = true
 
-[node name="OwnMessageContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="3" unique_id=516349697]
+[node name="OwnMessageContainer" type="VBoxContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="4" unique_id=516349697]
 unique_name_in_owner = true
 layout_mode = 2
 
@@ -99,6 +123,8 @@ theme_type_variation = &"PanelSolid"
 [node name="MarginContainer" type="MarginContainer" parent="MessagePreviewContainer" index="0" unique_id=727410921]
 layout_mode = 2
 
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/LinkContainer/CopyLinkButton" to="." method="_on_copy_link_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/LinkContainer/OpenLinkButton" to="." method="_on_open_link_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ReplyButton" to="." method="_on_reply_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/QuoteReplyButton" to="." method="_on_quote_reply_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/OwnMessageContainer/EditButton" to="." method="_on_edit_button_pressed"]

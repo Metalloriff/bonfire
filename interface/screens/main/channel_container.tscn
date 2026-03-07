@@ -10,6 +10,17 @@
 [ext_resource type="Texture2D" uid="uid://ck1vgf7mxgkdr" path="res://icons/person.png" id="4_kevkd"]
 [ext_resource type="Texture2D" uid="uid://cml4bx5ybxqtj" path="res://icons/settings.png" id="5_b1kop"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b1kop"]
+content_margin_left = 7.0
+content_margin_top = 7.0
+content_margin_right = 7.0
+content_margin_bottom = 7.0
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 99
+corner_radius_top_right = 99
+corner_radius_bottom_right = 99
+corner_radius_bottom_left = 99
+
 [node name="ChannelContainer" type="VBoxContainer" unique_id=271820007]
 theme = ExtResource("1_kevkd")
 script = ExtResource("2_6vmmg")
@@ -85,6 +96,15 @@ layout_mode = 2
 texture = ExtResource("4_kevkd")
 expand_mode = 3
 stretch_mode = 6
+
+[node name="StatusIndicator" type="PanelContainer" parent="LocalUserContainer/MarginContainer/HBoxContainer/AvatarContainer" unique_id=1212913851]
+unique_name_in_owner = true
+self_modulate = Color(0.16862746, 0.56078434, 0.8784314, 1)
+z_index = 1
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_styles/panel = SubResource("StyleBoxFlat_b1kop")
 
 [node name="Username" type="Label" parent="LocalUserContainer/MarginContainer/HBoxContainer" unique_id=1773946513]
 layout_mode = 2
