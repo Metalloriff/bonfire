@@ -83,10 +83,12 @@ If you'd like to support me, you can donate however is most convenient for you. 
 ```
 82qpTD6XmnKGLF9pMuJxmeBWVhkGEc76DNrPAPAKbATVPHL6TTRkV7RUvi7jD6rp27cCJKJ2oKDGiLFJSS8wxabn8CrWGgS
 ```
+![XMR](/icons/donate/xmr-donate.png)
 ### LTC
 ```
 ltc1q3erhn0mtnwcwjatuayv0mfwq4kh9y20vn4v3mk
 ```
+![LTC](/icons/donate/ltc-donate.png)
 ### Ko-fi
 https://ko-fi.com/metalloriff
 
