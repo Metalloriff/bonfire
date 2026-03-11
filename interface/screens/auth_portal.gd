@@ -46,6 +46,19 @@ func _ready() -> void:
 		sign_in = true
 	else:
 		$Contents/Username/LineEdit.grab_focus()
+	
+	_do_android_test()
+
+func _do_android_test() -> void:
+	await Lib.seconds(5.0)
+	
+	if not Engine.has_singleton(&"NotificationListener"):
+		print("NotificationListener not found")
+		return
+	
+	var plugin = Engine.get_singleton(&"NotificationListener")
+	plugin.helloWorld()
+	plugin.create_fg_notification()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ENTER:
