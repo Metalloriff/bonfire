@@ -177,6 +177,7 @@ func _receive_server_info(server_info: PackedByteArray) -> void:
 
 	if not local_multiplayer.get_unique_id() in server.online_users:
 		server.send_api_message("authenticate", AuthPortal.get_auth(server.id))
+		App.instance._pn_debouncer = 0.0
 
 	if not _has_authenticated:
 		if server.rules and server.accepted_rules_hash != JSON.stringify(server.rules).sha256_text():

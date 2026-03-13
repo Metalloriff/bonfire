@@ -14,6 +14,7 @@ var defaults: Dictionary = {
 		upnp_enabled = true,
 		upnp_refresh_interval_minutes = -1,
 		port = 26969,
+		notification_port = 26970,
 		password = ""
 	},
 	profile = {
@@ -27,6 +28,7 @@ var defaults: Dictionary = {
 }
 var config: Dictionary
 var server: Server
+var notification_server: PushNotificationServer
 var file_server: FileServer
 
 var server_data_path: String = "user://server_data"
@@ -155,6 +157,11 @@ func _ready() -> void:
 	add_child(file_server)
 	file_server.host(get_config_entry("network.port"))
 
+	notification_server = PushNotificationServer.new()
+	notification_server.server = server
+	notification_server.port = get_config_entry("network.notification_port")
+	add_child(notification_server)
+
 	peer.peer_connected.connect(func(id):
 		prints("Peer connected with ID", id)
 
@@ -243,10 +250,12 @@ func _do_upnp_mapping() -> Variant:
 	var upnp := UPNP.new()
 	if upnp.discover() != OK: return err.call("UPNP.discover() called failed!")
 	var port: int = get_config_entry("network.port")
+	var notification_port: int = get_config_entry("network.notification_port")
 	
 	if upnp.get_gateway() and upnp.get_gateway().is_valid_gateway():
 		if upnp.add_port_mapping(port, port, ProjectSettings.get("application/config/name"), "UDP") != OK: return err.call("Could not map UDP port!")
 		if upnp.add_port_mapping(port, port, ProjectSettings.get("application/config/name") + " Info server", "TCP") != OK: return err.call("Could not map TCP port!")
+		if upnp.add_port_mapping(notification_port, notification_port, ProjectSettings.get("application/config/name") + " Notification server", "TCP") != OK: return err.call("Could not map Notification TCP port!")
 		
 		return upnp.query_external_address()
 	else:

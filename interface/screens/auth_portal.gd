@@ -47,18 +47,18 @@ func _ready() -> void:
 	else:
 		$Contents/Username/LineEdit.grab_focus()
 	
-	_do_android_test()
+	_create_android_fg_notification()
 
-func _do_android_test() -> void:
-	await Lib.seconds(5.0)
+func _create_android_fg_notification() -> void:
+	if OS.get_name() != "Android":
+		return
 	
 	if not Engine.has_singleton(&"NotificationListener"):
 		print("NotificationListener not found")
 		return
 	
-	var plugin = Engine.get_singleton(&"NotificationListener")
-	plugin.helloWorld()
-	plugin.create_fg_notification()
+	var notification_listener = Engine.get_singleton(&"NotificationListener")
+	notification_listener.create_fg_notification()
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ENTER:
