@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://d3vb2bm6jy37n" path="res://icons/edit.png" id="3_3s4i8"]
 [ext_resource type="Texture2D" uid="uid://d3ickyammn2u" path="res://icons/personOff.png" id="3_p6mro"]
 [ext_resource type="Texture2D" uid="uid://cqr51vyo67pvs" path="res://icons/info.png" id="3_uv8rb"]
+[ext_resource type="Texture2D" uid="uid://4qag05ebgqq0" path="res://icons/notifications.png" id="5_3s4i8"]
 
 [node name="ServerContextMenu" unique_id=319957489 instance=ExtResource("1_3t8o5")]
 script = ExtResource("2_p6mro")
@@ -36,7 +37,14 @@ icon = ExtResource("3_uv8rb")
 alignment = 0
 expand_icon = true
 
-[node name="LeaveServerButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="3" unique_id=1983193461]
+[node name="NotificationSettingsButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="3" unique_id=500123127]
+layout_mode = 2
+text = "Notification Settings"
+icon = ExtResource("5_3s4i8")
+alignment = 0
+expand_icon = true
+
+[node name="LeaveServerButton" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="4" unique_id=1983193461]
 layout_mode = 2
 theme_type_variation = &"Button_Red"
 text = "Leave Server"
@@ -44,7 +52,7 @@ icon = ExtResource("3_p6mro")
 alignment = 0
 expand_icon = true
 
-[node name="LeaveServerPanel" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="4" unique_id=1261939947]
+[node name="LeaveServerPanel" type="PanelContainer" parent="PanelContainer/MarginContainer/VBoxContainer" parent_id_path=PackedInt32Array(547925685) index="5" unique_id=1261939947]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
@@ -78,6 +86,7 @@ icon = ExtResource("3_p6mro")
 
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/EditButton" to="." method="_on_edit_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/ViewRulesButton" to="." method="_on_view_rules_button_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/NotificationSettingsButton" to="." method="_on_notification_settings_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/LeaveServerButton" to="." method="_on_leave_server_button_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/LeaveServerPanel/MarginContainer/VBoxContainer/HBoxContainer/CancelLeaveServer" to="." method="_on_cancel_leave_server_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/LeaveServerPanel/MarginContainer/VBoxContainer/HBoxContainer/ConfirmLeaveServer" to="." method="_on_confirm_leave_server_pressed"]

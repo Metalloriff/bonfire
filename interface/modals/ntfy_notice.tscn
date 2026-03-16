@@ -1,0 +1,162 @@
+[gd_scene format=3 uid="uid://dlkfch344las7"]
+
+[ext_resource type="PackedScene" uid="uid://upnbb2ag6ca3" path="res://interface/modals/modal_base.tscn" id="1_3c3ow"]
+[ext_resource type="FontFile" uid="uid://cj3w3lftl5o6m" path="res://resources/fonts/lexend/Lexend-Bold.ttf" id="2_j6fu2"]
+[ext_resource type="Script" uid="uid://xqjjvjno0y5j" path="res://interface/modals/ntfy_notice.gd" id="2_rit3w"]
+[ext_resource type="Texture2D" uid="uid://bk15bjbdfhgg3" path="res://icons/public_branding/ntfy.svg" id="3_j6fu2"]
+[ext_resource type="Texture2D" uid="uid://bgruun6y78ckn" path="res://icons/public_branding/f-droid.svg" id="5_7rhyc"]
+
+[node name="NtfyNotice" unique_id=649999717 instance=ExtResource("1_3c3ow")]
+script = ExtResource("2_rit3w")
+
+[node name="Background" parent="." index="0" unique_id=1888075823]
+offset_left = 534.0002
+offset_top = -19.999754
+offset_right = 534.00024
+offset_bottom = -19.999756
+
+[node name="Modal" parent="." index="1" unique_id=18995346]
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Modal/MarginContainer" parent_id_path=PackedInt32Array(1793144273) index="0" unique_id=621075938]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/ScrollContainer" index="0" unique_id=136610960]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 50
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer" index="0" unique_id=60346483]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="0" unique_id=819815299]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_j6fu2")
+theme_override_font_sizes/font_size = 22
+text = "Notifications"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="1" unique_id=475111347]
+modulate = Color(1, 1, 1, 0.57254905)
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Notifications are handled through ntfy.sh, completely decentralized if downloaded through F-Droid.
+You will need to subscribe to the topics you wish to receive notifications for."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxContainer" type="HFlowContainer" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="2" unique_id=528622539]
+layout_mode = 2
+alignment = 1
+
+[node name="PrivateSubButton" type="Button" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="0" unique_id=1319928273]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Personal"
+icon = ExtResource("3_j6fu2")
+
+[node name="AnnouncementsSubButton" type="Button" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="1" unique_id=1317093955]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Announcements"
+icon = ExtResource("3_j6fu2")
+
+[node name="PublicSubButton" type="Button" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer" index="2" unique_id=1558279710]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Public"
+icon = ExtResource("3_j6fu2")
+
+[node name="Label3" type="RichTextLabel" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer" index="3" unique_id=1740987579]
+layout_mode = 2
+theme_override_colors/default_color = Color(1, 1, 1, 0.4862745)
+theme_override_fonts/bold_font = ExtResource("2_j6fu2")
+bbcode_enabled = true
+text = "[color=white][b]Personal:[/b][/color] This topic will notify you for all private messages and @mentions.
+[color=#9999ff]You should always be subscribed to Personal notifications in servers you care about.[/color]
+
+[color=white][b]Announcements:[/b][/color] This topic will notify you for server announcements.
+You can subscribe to this topic even if you are not a member of the server, acting as a psuedo mailing list.
+
+[color=white][b]Public:[/b][/color] This topic will notify you for all messages sent in the server.
+[color=#ff5555]Subscribing to public is only recommended for small servers.[/color]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer" index="1" unique_id=2051592786]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label4" type="Label" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2" index="0" unique_id=1496201273]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_j6fu2")
+theme_override_font_sizes/font_size = 22
+text = "ntfy"
+horizontal_alignment = 1
+
+[node name="Label5" type="Label" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2" index="1" unique_id=1966785284]
+modulate = Color(1, 1, 1, 0.57254905)
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Bonfire uses ntfy to handle notifications. You can get ntfy from F-Droid, Google Play, and GitHub.
+F-Droid is the recommended source. More on why below."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HFlowContainer" type="HFlowContainer" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2" index="2" unique_id=190164809]
+layout_mode = 2
+alignment = 1
+
+[node name="GetFDroid" type="Button" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2/HFlowContainer" index="0" unique_id=1460372330]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Get F-Droid"
+icon = ExtResource("5_7rhyc")
+
+[node name="GetNtfy" type="Button" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2/HFlowContainer" index="1" unique_id=238320079]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Get ntfy"
+icon = ExtResource("3_j6fu2")
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer" index="2" unique_id=463146763]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label4" type="Label" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer3" index="0" unique_id=227313881]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_j6fu2")
+theme_override_font_sizes/font_size = 22
+text = "Why?"
+horizontal_alignment = 1
+
+[node name="Label6" type="Label" parent="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer3" index="1" unique_id=466418676]
+modulate = Color(1, 1, 1, 0.57254905)
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+text = "Without using an open-source app like ntfy, displaying notifications while the app is minimized or closed is nearly impossible.
+
+The only easy solution is to use Firebase FCM, ran by Google of course.
+Forwarding every message through Google defeats the purpose of Bonfire.
+
+Once you take the time to install F-Droid and ntfy, all that's needed to receive notifications for Bonfire is to press one of the three buttons above.
+Pressing each button will subscribe to that topic completely automatically, as long as ntfy is installed."
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[connection signal="pressed" from="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer/PrivateSubButton" to="." method="_on_private_sub_button_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer/AnnouncementsSubButton" to="." method="_on_announcements_sub_button_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer/HBoxContainer/PublicSubButton" to="." method="_on_public_sub_button_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2/HFlowContainer/GetFDroid" to="." method="_on_get_f_droid_pressed"]
+[connection signal="pressed" from="Modal/MarginContainer/ScrollContainer/VBoxContainer/VBoxContainer2/HFlowContainer/GetNtfy" to="." method="_on_get_ntfy_pressed"]

@@ -142,6 +142,10 @@ func _handle_api_message_server(endpoint: String, data: Dictionary, peer_id: int
 					return
 			
 			var user_id: String = (data.username + ":" + data.password_hash).sha256_text()
+			var pn_key: String = ("pn_key_" + data.username + "&" + data.password_hash).sha256_text()
+
+			if is_instance_valid(PushNotificationServer.instance):
+				PushNotificationServer.instance.update_key(user_id, pn_key)
 			
 			prints("user", peer_id, "authenticated as", user_id)
 			online_users[peer_id] = user_id

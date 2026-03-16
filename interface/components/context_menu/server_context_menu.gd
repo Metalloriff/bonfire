@@ -29,3 +29,8 @@ func _on_edit_button_pressed() -> void:
 	var modal = ModalStack.open_modal("res://interface/modals/server_settings_modal.tscn")
 	modal.server = server
 	fade_free()
+
+func _on_notification_settings_button_pressed() -> void:
+	var modal = ModalStack.open_modal("res://interface/modals/ntfy_notice.tscn")
+	modal.server = server
+	fade_free()
