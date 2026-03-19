@@ -771,12 +771,12 @@ func _handle_api_message_client(endpoint: String, data: Dictionary, peer_id: int
 			channel.message_received.emit(message)
 			channel.last_message_timestamp = message.timestamp
 
-			if channel.is_private:
-				Notifications.play_sound("ping_important")
-			elif ChatFrame.instance.selected_channel and ChatFrame.instance.selected_channel.id == data.channel_id or is_instance_valid(VoiceChat.active_channel) and VoiceChat.active_channel.id == data.channel_id:
+			if ChatFrame.instance.selected_channel and ChatFrame.instance.selected_channel.id == data.channel_id or is_instance_valid(VoiceChat.active_channel) and VoiceChat.active_channel.id == data.channel_id:
 				ChatFrame.instance.queue_redraw()
 
 				Notifications.play_sound("ping")
+			elif channel.is_private:
+				Notifications.play_sound("ping_important")
 		"receive_user_profile":
 			var user: User = get_user(data.user_id)
 			if not is_instance_valid(user):

@@ -79,8 +79,6 @@ func _initialize_auth() -> bool:
 		"add", "--role=admin", "server"
 	], output)
 
-	prints(exit_code, output)
-
 	if exit_code != 0:
 		print("ERROR: Failed to initialize ntfy server auth!")
 	OS.unset_environment("NTFY_PASSWORD")
@@ -107,14 +105,11 @@ static func send_push_notification(user_id: String, title: String, body: String)
 		"public", "all", "announcements":
 			pass
 		_:
-			channel = instance.key_db.keys[user_id]
-			
-			if not user_id in instance.key_db:
+			if not user_id in instance.key_db.keys:
+				print("ERROR: User '%s' not found in key database!" % user_id)
 				return
-	
-	print("pub -t '%s' -m '%s' -p high -u server:%s http://localhost:%d/%s" % [
-		title, body, instance.key_db.private_key, instance.port, channel
-	])
+			
+			channel = instance.key_db.keys[user_id]
 	
 	OS.execute(instance.EXECUTABLE_PATH, [
 		"pub",

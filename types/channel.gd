@@ -379,10 +379,11 @@ func _commit_message(message: Message) -> void:
 
 			var peer_id: int = server.get_peer_id_by_user_id(participant.user_id)
 			if not peer_id in server.online_users:
+				print("User %s is not online" % participant.user_id)
 				continue
 			
-			if participant.user_id == message.author_id:
-				continue
+			# if participant.user_id == message.author_id:
+			# 	continue
 			
 			HeadlessServer.send_api_message("new_message", api_message_data, peer_id)
 	else:
@@ -393,7 +394,10 @@ func _commit_message(message: Message) -> void:
 		# 	if user_id == message.author_id:
 		# 		continue
 
-		PushNotificationServer.send_push_notification("public", "%s: #%s" % [server.name, name], "%s: %s" % [server.get_user(message.author_id).username, (message.content.substr(0, 100) + "...") if len(message.content) > 100 else message.content])
+		if message.encrypted:
+			PushNotificationServer.send_push_notification("public", "%s: #%s" % [server.name, name], "%s: [ENCRYPTED]" % [server.get_user(message.author_id).username])
+		else:
+			PushNotificationServer.send_push_notification("public", "%s: #%s" % [server.name, name], "%s: %s" % [server.get_user(message.author_id).username, (message.content.substr(0, 100) + "...") if len(message.content) > 100 else message.content])
 
 	_db.insert_row("messages", serialized_message)
 
